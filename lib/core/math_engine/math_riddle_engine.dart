@@ -12,6 +12,16 @@ class MathRiddleEngine {
   }
 
   static Future<List<dynamic>> generateMixedChallenges(int count, int difficulty) async {
+    return compute(_generateMixedChallengesIsolate, {
+      'count': count,
+      'difficulty': difficulty,
+    });
+  }
+
+  static List<dynamic> _generateMixedChallengesIsolate(Map<String, dynamic> params) {
+    final int count = params['count'];
+    final int difficulty = params['difficulty'];
+    
     final List<dynamic> results = [];
     
     // Distribute question types: Arithmetic, Logic (Text), and Visual Logic
@@ -57,18 +67,8 @@ class MathRiddleEngine {
     results.addAll(generateArithmeticProblems(arithmeticCount, difficulty));
     results.addAll(generateLogicChallengesSync(logicCount, difficulty));
     
-    // Fetch visual challenges from MathVisualEngine in parallel
-    final List<Future<LogicMathChallenge>> visualFutures = [];
     for (int i = 0; i < visualCount; i++) {
-      visualFutures.add(MathVisualEngine.generateVisualLogicChallenge(difficulty));
-    }
-
-    try {
-      final visualChallenges = await Future.wait(visualFutures);
-      results.addAll(visualChallenges);
-    } catch (e) {
-      // Fallback for failed visual challenges
-      results.addAll(generateLogicChallengesSync(visualCount, difficulty));
+      results.add(MathVisualEngine.generateVisualLogicSync(difficulty));
     }
 
     return results..shuffle(_random);

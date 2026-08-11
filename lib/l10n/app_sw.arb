@@ -1,21 +1,85 @@
 {
   "@@locale": "sw",
   "appTitle": "mathlab",
+  "@appTitle": {
+    "description": "",
+    "placeholders": {}
+  },
   "home": "Nyumbani",
+  "@home": {
+    "description": "",
+    "placeholders": {}
+  },
   "campaign": "Kampeni",
+  "@campaign": {
+    "description": "",
+    "placeholders": {}
+  },
   "arcade": "Ukumbi wa Michezo",
+  "@arcade": {
+    "description": "",
+    "placeholders": {}
+  },
   "profile": "Wasifu",
+  "@profile": {
+    "description": "",
+    "placeholders": {}
+  },
   "practice": "Mazoezi",
+  "@practice": {
+    "description": "",
+    "placeholders": {}
+  },
   "startGame": "Anza Mchezo",
+  "@startGame": {
+    "description": "",
+    "placeholders": {}
+  },
   "continueGame": "Endelea",
+  "@continueGame": {
+    "description": "",
+    "placeholders": {}
+  },
   "settings": "Mipangilio",
+  "@settings": {
+    "description": "",
+    "placeholders": {}
+  },
   "theme": "Mandhari",
+  "@theme": {
+    "description": "",
+    "placeholders": {}
+  },
   "language": "Lugha",
+  "@language": {
+    "description": "",
+    "placeholders": {}
+  },
   "totalPoints": "Jumla ya Pointi",
+  "@totalPoints": {
+    "description": "",
+    "placeholders": {}
+  },
   "levelsCompleted": "Ngazi Zilizokamilika",
+  "@levelsCompleted": {
+    "description": "",
+    "placeholders": {}
+  },
   "commandCenter": "KITUO CHA AMRI",
+  "@commandCenter": {
+    "description": "",
+    "placeholders": {}
+  },
   "quickResume": "ENDELEA HARAKA",
+  "@quickResume": {
+    "description": "",
+    "placeholders": {}
+  },
   "todaysSession": "Kipindi cha Leo",
+  "@todaysSession": {
+    "description": "",
+    "placeholders": {}
+  },
   "ptsToLevel": "{pts} pointi mpaka Ngazi ya {level}",
   "@ptsToLevel": {
     "description": "",
@@ -55,214 +119,1050 @@
     }
   },
   "accuracy": "Usahihi",
+  "@accuracy": {
+    "description": "",
+    "placeholders": {}
+  },
   "completed": "Zilizokamilika",
+  "@completed": {
+    "description": "",
+    "placeholders": {}
+  },
   "victory": "USHINDI",
+  "@victory": {
+    "description": "",
+    "placeholders": {}
+  },
   "defeat": "KUSHINDWA",
+  "@defeat": {
+    "description": "",
+    "placeholders": {}
+  },
   "levelStabilized": "NGAZI IMEIMARIKA",
-  "integrityFailed": "UTENDAJI UMESHINDWA",
+  "@levelStabilized": {
+    "description": "",
+    "placeholders": {}
+  },
+  "integrityFailed": "UIMARA UMESHINDWA",
+  "@integrityFailed": {
+    "description": "",
+    "placeholders": {}
+  },
   "coreScore": "ALAMA KUU",
+  "@coreScore": {
+    "description": "",
+    "placeholders": {}
+  },
   "playAgain": "CHEZA TENA",
+  "@playAgain": {
+    "description": "",
+    "placeholders": {}
+  },
   "levelUp": "NGAZI JUU!",
+  "@levelUp": {
+    "description": "",
+    "placeholders": {}
+  },
   "rewardPoints": "POINTI ZA THAWABU",
+  "@rewardPoints": {
+    "description": "",
+    "placeholders": {}
+  },
   "timePlayed": "Muda wa Kucheza",
+  "@timePlayed": {
+    "description": "",
+    "placeholders": {}
+  },
   "addition": "Kujumlisha",
+  "@addition": {
+    "description": "",
+    "placeholders": {}
+  },
   "subtraction": "Kutoa",
+  "@subtraction": {
+    "description": "",
+    "placeholders": {}
+  },
   "multiplication": "Kuzidisha",
+  "@multiplication": {
+    "description": "",
+    "placeholders": {}
+  },
   "division": "Kugawanya",
+  "@division": {
+    "description": "",
+    "placeholders": {}
+  },
   "visualCounting": "Kuhesabu kwa Kuona",
+  "@visualCounting": {
+    "description": "",
+    "placeholders": {}
+  },
   "level": "Ngazi",
+  "@level": {
+    "description": "",
+    "placeholders": {}
+  },
   "stars": "Nyota",
+  "@stars": {
+    "description": "",
+    "placeholders": {}
+  },
   "locked": "Imefungwa",
+  "@locked": {
+    "description": "",
+    "placeholders": {}
+  },
   "unlocked": "Imefunguliwa",
+  "@unlocked": {
+    "description": "",
+    "placeholders": {}
+  },
   "score": "Pointi",
+  "@score": {
+    "description": "",
+    "placeholders": {}
+  },
   "lives": "Maisha",
+  "@lives": {
+    "description": "",
+    "placeholders": {}
+  },
   "time": "Muda",
+  "@time": {
+    "description": "",
+    "placeholders": {}
+  },
   "timeUppercase": "MUDA",
+  "@timeUppercase": {
+    "description": "",
+    "placeholders": {}
+  },
   "heat": "JOTO",
+  "@heat": {
+    "description": "",
+    "placeholders": {}
+  },
   "streakUppercase": "MFULULIZO",
+  "@streakUppercase": {
+    "description": "",
+    "placeholders": {}
+  },
   "maxStreak": "MFULULIZO BORA",
+  "@maxStreak": {
+    "description": "",
+    "placeholders": {}
+  },
   "correctAnswersLabel": "SAHIHI",
+  "@correctAnswersLabel": {
+    "description": "",
+    "placeholders": {}
+  },
   "gameOver": "Mchezo Umekwisha",
+  "@gameOver": {
+    "description": "",
+    "placeholders": {}
+  },
   "levelComplete": "Ngazi Imekamilika!",
+  "@levelComplete": {
+    "description": "",
+    "placeholders": {}
+  },
   "continueText": "ENDELEA",
+  "@continueText": {
+    "description": "",
+    "placeholders": {}
+  },
   "resume": "ENDELEA",
+  "@resume": {
+    "description": "",
+    "placeholders": {}
+  },
   "gamePaused": "Mchezo Umesimama",
+  "@gamePaused": {
+    "description": "",
+    "placeholders": {}
+  },
   "exitGame": "Toka Kwenye Mchezo?",
+  "@exitGame": {
+    "description": "",
+    "placeholders": {}
+  },
   "exitGameDesc": "Una uhakika unataka kutoka? Maendeleo ya sasa yatapotea.",
+  "@exitGameDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "correct": "Sahihi!",
+  "@correct": {
+    "description": "",
+    "placeholders": {}
+  },
   "incorrect": "Si sahihi!",
+  "@incorrect": {
+    "description": "",
+    "placeholders": {}
+  },
   "tryAgain": "Jaribu Tena",
+  "@tryAgain": {
+    "description": "",
+    "placeholders": {}
+  },
   "nextLevel": "Ngazi Inayofuata",
+  "@nextLevel": {
+    "description": "",
+    "placeholders": {}
+  },
   "backToMenu": "Rudi kwenye Menyu",
+  "@backToMenu": {
+    "description": "",
+    "placeholders": {}
+  },
   "scoreAttack": "Shambulizi la Pointi",
+  "@scoreAttack": {
+    "description": "",
+    "placeholders": {}
+  },
   "endless": "Bila Mwisho",
+  "@endless": {
+    "description": "",
+    "placeholders": {}
+  },
   "duel": "Pambano",
+  "@duel": {
+    "description": "",
+    "placeholders": {}
+  },
   "flash": "Haraka",
+  "@flash": {
+    "description": "",
+    "placeholders": {}
+  },
   "scoreAttackDesc": "Sekunde 60 kupata pointi nyingi",
+  "@scoreAttackDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "endlessDesc": "Maisha 3 - cheza muda wote",
+  "@endlessDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "duelDesc": "Pambana na AI",
+  "@duelDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "flashDesc": "Changamoto ya kukumbuka",
+  "@flashDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "simulation": "Uigaji",
+  "@simulation": {
+    "description": "",
+    "placeholders": {}
+  },
   "solar": "Solar",
+  "@solar": {
+    "description": "",
+    "placeholders": {}
+  },
   "cyber": "Cyber",
+  "@cyber": {
+    "description": "",
+    "placeholders": {}
+  },
   "selectOperation": "Chagua Operesheni",
+  "@selectOperation": {
+    "description": "",
+    "placeholders": {}
+  },
   "selectLevel": "Chagua Ngazi",
+  "@selectLevel": {
+    "description": "",
+    "placeholders": {}
+  },
   "customize": "Badilisha",
+  "@customize": {
+    "description": "",
+    "placeholders": {}
+  },
   "numberRange": "Kiwango cha Nambari",
+  "@numberRange": {
+    "description": "",
+    "placeholders": {}
+  },
   "timer": "Timer",
+  "@timer": {
+    "description": "",
+    "placeholders": {}
+  },
   "on": "Washa",
+  "@on": {
+    "description": "",
+    "placeholders": {}
+  },
   "off": "Zima",
+  "@off": {
+    "description": "",
+    "placeholders": {}
+  },
   "countTheShapes": "Hesabu maumbo!",
+  "@countTheShapes": {
+    "description": "",
+    "placeholders": {}
+  },
   "enterAnswer": "Weka jibu lako",
+  "@enterAnswer": {
+    "description": "",
+    "placeholders": {}
+  },
   "submit": "Wasilisha",
+  "@submit": {
+    "description": "",
+    "placeholders": {}
+  },
   "clear": "Futa",
+  "@clear": {
+    "description": "",
+    "placeholders": {}
+  },
   "dots": "Nukta",
+  "@dots": {
+    "description": "",
+    "placeholders": {}
+  },
   "triangles": "Pembetatu",
+  "@triangles": {
+    "description": "",
+    "placeholders": {}
+  },
   "easy": "Rahisi",
+  "@easy": {
+    "description": "",
+    "placeholders": {}
+  },
   "medium": "Wastani",
+  "@medium": {
+    "description": "",
+    "placeholders": {}
+  },
   "hard": "Ngumu",
+  "@hard": {
+    "description": "",
+    "placeholders": {}
+  },
   "minutes": "dakika",
+  "@minutes": {
+    "description": "",
+    "placeholders": {}
+  },
   "seconds": "sekunde",
+  "@seconds": {
+    "description": "",
+    "placeholders": {}
+  },
   "highScore": "Alama ya Juu",
+  "@highScore": {
+    "description": "",
+    "placeholders": {}
+  },
   "newHighScore": "Alama Mpya ya Juu!",
+  "@newHighScore": {
+    "description": "",
+    "placeholders": {}
+  },
   "avatar": "Picha ya Mtumiaji",
+  "@avatar": {
+    "description": "",
+    "placeholders": {}
+  },
   "shape": "Umbo",
+  "@shape": {
+    "description": "",
+    "placeholders": {}
+  },
   "color": "Rangi",
+  "@color": {
+    "description": "",
+    "placeholders": {}
+  },
   "customMix": "Mchanganyiko Maalum",
+  "@customMix": {
+    "description": "",
+    "placeholders": {}
+  },
   "customMixArithmetic": "Hesabu ya Mchanganyiko Maalum",
+  "@customMixArithmetic": {
+    "description": "",
+    "placeholders": {}
+  },
   "operationMatrix": "Matriksi ya Operesheni",
+  "@operationMatrix": {
+    "description": "",
+    "placeholders": {}
+  },
   "difficultyLevel": "Kiwango cha Ugumu",
+  "@difficultyLevel": {
+    "description": "",
+    "placeholders": {}
+  },
   "initiateMixSequence": "Anza Mchanganyiko",
+  "@initiateMixSequence": {
+    "description": "",
+    "placeholders": {}
+  },
   "sessionMetrics": "Vipimo vya Kipindi",
+  "@sessionMetrics": {
+    "description": "",
+    "placeholders": {}
+  },
   "gameSession": "Kipindi cha Mchezo",
+  "@gameSession": {
+    "description": "",
+    "placeholders": {}
+  },
   "configuration": "Usanidi",
+  "@configuration": {
+    "description": "",
+    "placeholders": {}
+  },
   "terminateSession": "Maliza Kipindi",
+  "@terminateSession": {
+    "description": "",
+    "placeholders": {}
+  },
   "requestHint": "Omba Kidokezo",
+  "@requestHint": {
+    "description": "",
+    "placeholders": {}
+  },
   "systemHint": "Kidokezo cha Mfumo",
+  "@systemHint": {
+    "description": "",
+    "placeholders": {}
+  },
   "acknowledge": "Kubali",
+  "@acknowledge": {
+    "description": "",
+    "placeholders": {}
+  },
   "understood": "Nimeelewa",
+  "@understood": {
+    "description": "",
+    "placeholders": {}
+  },
   "mixModeProtocol": "Itifaki ya Hali ya Mchanganyiko",
+  "@mixModeProtocol": {
+    "description": "",
+    "placeholders": {}
+  },
   "coreMetrics": "Vipimo Vikuu",
+  "@coreMetrics": {
+    "description": "",
+    "placeholders": {}
+  },
   "progressionStatus": "Hali ya Maendeleo",
+  "@progressionStatus": {
+    "description": "",
+    "placeholders": {}
+  },
   "performanceAnalytics": "Uchanganuzi wa Utendaji",
+  "@performanceAnalytics": {
+    "description": "",
+    "placeholders": {}
+  },
   "realTimePerformance": "Utendaji wa Wakati Halisi",
+  "@realTimePerformance": {
+    "description": "",
+    "placeholders": {}
+  },
   "levelCompletionStats": "Takwimu za Kukamilisha Ngazi",
+  "@levelCompletionStats": {
+    "description": "",
+    "placeholders": {}
+  },
   "reactionAnalytics": "Uchanganuzi wa Majibu",
+  "@reactionAnalytics": {
+    "description": "",
+    "placeholders": {}
+  },
   "speedMetrics": "Vipimo vya Kasi",
+  "@speedMetrics": {
+    "description": "",
+    "placeholders": {}
+  },
   "temporalInvestment": "Muda Uliotumika",
+  "@temporalInvestment": {
+    "description": "",
+    "placeholders": {}
+  },
   "realTimeAccuracy": "Usahihi wa Wakati Halisi",
+  "@realTimeAccuracy": {
+    "description": "",
+    "placeholders": {}
+  },
   "levelMastery": "Ujuzi wa Ngazi",
+  "@levelMastery": {
+    "description": "",
+    "placeholders": {}
+  },
   "achievementProgress": "Maendeleo ya Mafanikio",
+  "@achievementProgress": {
+    "description": "",
+    "placeholders": {}
+  },
   "endOfReport": "Mwisho wa Ripoti",
+  "@endOfReport": {
+    "description": "",
+    "placeholders": {}
+  },
   "welcomeBack": "Karibu Tena",
+  "@welcomeBack": {
+    "description": "",
+    "placeholders": {}
+  },
   "dashboard": "Dashibodi",
+  "@dashboard": {
+    "description": "",
+    "placeholders": {}
+  },
   "shop": "Duka",
+  "@shop": {
+    "description": "",
+    "placeholders": {}
+  },
   "stats": "Takwimu",
+  "@stats": {
+    "description": "",
+    "placeholders": {}
+  },
   "calc": "Hesabu",
+  "@calc": {
+    "description": "",
+    "placeholders": {}
+  },
   "dailyMissions": "Misheni ya Kila Siku",
+  "@dailyMissions": {
+    "description": "",
+    "placeholders": {}
+  },
   "close": "Funga",
+  "@close": {
+    "description": "",
+    "placeholders": {}
+  },
   "adventure": "Safari",
+  "@adventure": {
+    "description": "",
+    "placeholders": {}
+  },
   "gameModes": "Njia za Mchezo",
+  "@gameModes": {
+    "description": "",
+    "placeholders": {}
+  },
   "puzzleWorld": "Ulimwengu wa Mafumbo",
+  "@puzzleWorld": {
+    "description": "",
+    "placeholders": {}
+  },
   "resourcesTools": "Rasilimali na Zana",
+  "@resourcesTools": {
+    "description": "",
+    "placeholders": {}
+  },
   "logicRiddles": "Vitendawili vya Mantiki",
+  "@logicRiddles": {
+    "description": "",
+    "placeholders": {}
+  },
   "crossNumbers": "Nambari Mtambuka",
+  "@crossNumbers": {
+    "description": "",
+    "placeholders": {}
+  },
   "crossNumbersDesc": "Suluhisha mafumbo ya nambari mtambuka",
+  "@crossNumbersDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "calculator": "Kikokotoo",
+  "@calculator": {
+    "description": "",
+    "placeholders": {}
+  },
   "reports": "Ripoti",
+  "@reports": {
+    "description": "",
+    "placeholders": {}
+  },
   "avatarShop": "Duka la Avatar",
+  "@avatarShop": {
+    "description": "",
+    "placeholders": {}
+  },
   "focusMode": "Hali ya Umakini",
+  "@focusMode": {
+    "description": "",
+    "placeholders": {}
+  },
   "focusModeDesc": "Muonekano rahisi kwa umakini zaidi",
+  "@focusModeDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "performanceMode": "Hali ya Kasi",
+  "@performanceMode": {
+    "description": "",
+    "placeholders": {}
+  },
   "performanceModeDesc": "Punguza urembo kwa ajili ya kasi",
+  "@performanceModeDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "visualTheme": "Mandhari",
+  "@visualTheme": {
+    "description": "",
+    "placeholders": {}
+  },
   "audioOutput": "Sauti",
+  "@audioOutput": {
+    "description": "",
+    "placeholders": {}
+  },
   "hapticFeedback": "Mtetemo",
+  "@hapticFeedback": {
+    "description": "",
+    "placeholders": {}
+  },
   "notifications": "Arifa",
+  "@notifications": {
+    "description": "",
+    "placeholders": {}
+  },
   "arithmeticMixGenerator": "Kizalishaji cha Mchanganyiko wa Hesabu",
+  "@arithmeticMixGenerator": {
+    "description": "",
+    "placeholders": {}
+  },
   "custom": "Maalum",
+  "@custom": {
+    "description": "",
+    "placeholders": {}
+  },
   "nextQuestion": "Swali Lijalo",
+  "@nextQuestion": {
+    "description": "",
+    "placeholders": {}
+  },
   "undo": "Tendua",
+  "@undo": {
+    "description": "",
+    "placeholders": {}
+  },
   "hint": "KIDOKezo",
+  "@hint": {
+    "description": "",
+    "placeholders": {}
+  },
   "level_1": "Ngazi 1",
+  "@level_1": {
+    "description": "",
+    "placeholders": {}
+  },
   "level_2": "Ngazi 2",
+  "@level_2": {
+    "description": "",
+    "placeholders": {}
+  },
   "level_3": "Ngazi 3",
+  "@level_3": {
+    "description": "",
+    "placeholders": {}
+  },
   "level_4": "Ngazi 4",
+  "@level_4": {
+    "description": "",
+    "placeholders": {}
+  },
   "level_5": "Ngazi 5",
+  "@level_5": {
+    "description": "",
+    "placeholders": {}
+  },
   "level_6": "Ngazi 6",
+  "@level_6": {
+    "description": "",
+    "placeholders": {}
+  },
   "level_7": "Ngazi 7",
+  "@level_7": {
+    "description": "",
+    "placeholders": {}
+  },
   "level_8": "Ngazi 8",
+  "@level_8": {
+    "description": "",
+    "placeholders": {}
+  },
   "level_9": "Ngazi 9",
+  "@level_9": {
+    "description": "",
+    "placeholders": {}
+  },
   "level_10": "Ngazi 10",
+  "@level_10": {
+    "description": "",
+    "placeholders": {}
+  },
   "plus": "+",
+  "@plus": {
+    "description": "",
+    "placeholders": {}
+  },
   "minus": "-",
-  "multiply": "Ã—",
-  "divide": "Ã·",
-  "hotStreak": "ðŸ”¥ MFULULIZO MKALI!",
-  "unstoppable": "ðŸŒŸ HAIWEZI KUZUIWA!",
+  "@minus": {
+    "description": "",
+    "placeholders": {}
+  },
+  "multiply": "×",
+  "@multiply": {
+    "description": "",
+    "placeholders": {}
+  },
+  "divide": "÷",
+  "@divide": {
+    "description": "",
+    "placeholders": {}
+  },
+  "hotStreak": "🔥 MFULULIZO MKALI!",
+  "@hotStreak": {
+    "description": "",
+    "placeholders": {}
+  },
+  "unstoppable": "🌟 HAIWEZI KUZUIWA!",
+  "@unstoppable": {
+    "description": "",
+    "placeholders": {}
+  },
   "keepItUp": "âš¡ ENDELEA!",
-  "streakBroken": "ðŸ’” MFULULIZO UMEVUNJWA!",
+  "@keepItUp": {
+    "description": "",
+    "placeholders": {}
+  },
+  "streakBroken": "💔 MFULULIZO UMEVUNJWA!",
+  "@streakBroken": {
+    "description": "",
+    "placeholders": {}
+  },
   "streak": "MFULULIZO",
+  "@streak": {
+    "description": "",
+    "placeholders": {}
+  },
   "selectLanguage": "Chagua Lugha",
+  "@selectLanguage": {
+    "description": "",
+    "placeholders": {}
+  },
   "english": "Kiingereza",
+  "@english": {
+    "description": "",
+    "placeholders": {}
+  },
   "swahili": "Kiswahili",
+  "@swahili": {
+    "description": "",
+    "placeholders": {}
+  },
   "swahiliTanzania": "Kiswahili (Tanzania)",
+  "@swahiliTanzania": {
+    "description": "",
+    "placeholders": {}
+  },
   "languageChanged": "Lugha imebadilishwa",
+  "@languageChanged": {
+    "description": "",
+    "placeholders": {}
+  },
   "exportReport": "Hamisha Ripoti",
+  "@exportReport": {
+    "description": "",
+    "placeholders": {}
+  },
   "accuracyTrends": "Mwelekeo wa Usahihi",
+  "@accuracyTrends": {
+    "description": "",
+    "placeholders": {}
+  },
   "help": "MSAADA",
+  "@help": {
+    "description": "",
+    "placeholders": {}
+  },
   "refreshAnalytics": "Sasisha Takwimu",
+  "@refreshAnalytics": {
+    "description": "",
+    "placeholders": {}
+  },
   "avgSession": "Wastani wa Kipindi",
+  "@avgSession": {
+    "description": "",
+    "placeholders": {}
+  },
   "sysOp": "UENDESHAJI_MFUMO",
-  "neuralAccuracy": "USAHIHI_WA_AKILI",
+  "@sysOp": {
+    "description": "",
+    "placeholders": {}
+  },
+  "neuralAccuracy": "USAHIHI WA AKILI",
+  "@neuralAccuracy": {
+    "description": "",
+    "placeholders": {}
+  },
   "coreStars": "NYOTA_ZIKUU",
-  "unitsCleared": "VITENGO_VILIVYOKAMILIKA",
+  "@coreStars": {
+    "description": "",
+    "placeholders": {}
+  },
+  "unitsCleared": "VITENGO VILIVYOKAMILIKA",
+  "@unitsCleared": {
+    "description": "",
+    "placeholders": {}
+  },
   "status": "HALI",
-  "missionActive": "MISHE_INAENDELEA",
-  "endOfTransmission": "MWISHO_WA_MAWASILIANO",
-  "exportProtocol": "ITIFAKI_YA_KUTOA",
+  "@status": {
+    "description": "",
+    "placeholders": {}
+  },
+  "missionActive": "MISHENI INAENDELEA",
+  "@missionActive": {
+    "description": "",
+    "placeholders": {}
+  },
+  "endOfTransmission": "MWISHO WA MAWASILIANO",
+  "@endOfTransmission": {
+    "description": "",
+    "placeholders": {}
+  },
+  "exportProtocol": "ITIFAKI YA KUTOA",
+  "@exportProtocol": {
+    "description": "",
+    "placeholders": {}
+  },
   "dismiss": "ONDOA",
-  "debriefCopied": "RIPOTI_IMEKOPIWA",
+  "@dismiss": {
+    "description": "",
+    "placeholders": {}
+  },
+  "debriefCopied": "RIPOTI IMEKOPIWA",
+  "@debriefCopied": {
+    "description": "",
+    "placeholders": {}
+  },
   "copyToClipboard": "NAKILI",
-  "neuralEfficiencyIndex": "KIELEZO_CHA_UTENDAJI_AKILI",
+  "@copyToClipboard": {
+    "description": "",
+    "placeholders": {}
+  },
+  "neuralEfficiencyIndex": "Kielezo cha Ufanisi wa Mishipa ya Fahamu",
+  "@neuralEfficiencyIndex": {
+    "description": "",
+    "placeholders": {}
+  },
   "performanceScore": "Alama ya Utendaji",
+  "@performanceScore": {
+    "description": "",
+    "placeholders": {}
+  },
   "avgSpeed": "Wastani wa Kasi",
+  "@avgSpeed": {
+    "description": "",
+    "placeholders": {}
+  },
   "high": "JUU",
+  "@high": {
+    "description": "",
+    "placeholders": {}
+  },
   "med": "WASTANI",
+  "@med": {
+    "description": "",
+    "placeholders": {}
+  },
   "low": "CHINI",
-  "accuracyProgression": "MAENDELEO_YA_USAHIHI",
+  "@low": {
+    "description": "",
+    "placeholders": {}
+  },
+  "accuracyProgression": "MAENDELEO YA USAHIHI",
+  "@accuracyProgression": {
+    "description": "",
+    "placeholders": {}
+  },
   "peakAccuracy": "Usahihi wa Juu",
-  "responseAnalytics": "UCHAMBUZI_WA_MAJIBU",
+  "@peakAccuracy": {
+    "description": "",
+    "placeholders": {}
+  },
+  "responseAnalytics": "UCHAMBUZI WA MAJIBU",
+  "@responseAnalytics": {
+    "description": "",
+    "placeholders": {}
+  },
   "avgResponse": "Wastani wa Majibu",
+  "@avgResponse": {
+    "description": "",
+    "placeholders": {}
+  },
   "fastest": "Haraka Zaidi",
+  "@fastest": {
+    "description": "",
+    "placeholders": {}
+  },
   "improvement": "Uboreshaji",
-  "livePerformanceMetrics": "VIPIMO_VYA_UTENDAJI_MUBASHARA",
-  "currentAccuracy": "USAHIHI_WA_SASA",
-  "sessionTime": "MUDA_WA_KIPINDI",
-  "activeStreak": "MFULULIZO_AMILIFU",
-  "calculating": "INAWAKALIKULI...",
+  "@improvement": {
+    "description": "",
+    "placeholders": {}
+  },
+  "livePerformanceMetrics": "VIPIMO VYA UTENDAJI MUBASHARA",
+  "@livePerformanceMetrics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "currentAccuracy": "USAHIHI WA SASA",
+  "@currentAccuracy": {
+    "description": "",
+    "placeholders": {}
+  },
+  "sessionTime": "MUDA WA KIPINDI",
+  "@sessionTime": {
+    "description": "",
+    "placeholders": {}
+  },
+  "activeStreak": "MFULULIZO AMILIFU",
+  "@activeStreak": {
+    "description": "",
+    "placeholders": {}
+  },
+  "calculating": "INAKOKOTOA...",
+  "@calculating": {
+    "description": "",
+    "placeholders": {}
+  },
   "advanced": "ILIYOBORESHWA",
-  "performanceTrend": "MWELEKEO_WA_UTEND_KAJI",
+  "@advanced": {
+    "description": "",
+    "placeholders": {}
+  },
+  "performanceTrend": "MWELEKEO WA UTENDAJI",
+  "@performanceTrend": {
+    "description": "",
+    "placeholders": {}
+  },
   "reactionTimeAnalysis": "Uchambuzi wa Muda wa Kujibu",
+  "@reactionTimeAnalysis": {
+    "description": "",
+    "placeholders": {}
+  },
   "operationUsage": "Matumizi ya Operesheni",
-  "levelMasteryBreakdown": "UCHAMBUZI_WA_UJUZI",
+  "@operationUsage": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelMasteryBreakdown": "UCHAMBUZI WA UJUZI",
+  "@levelMasteryBreakdown": {
+    "description": "",
+    "placeholders": {}
+  },
   "perfectLevels": "NGAZI_KAMILIFU",
+  "@perfectLevels": {
+    "description": "",
+    "placeholders": {}
+  },
   "levelsWith35Plus": "Ngazi zenye sahihi 35+",
-  "highPerformance": "UTENDAJI_WA_JUU",
+  "@levelsWith35Plus": {
+    "description": "",
+    "placeholders": {}
+  },
+  "highPerformance": "UTENDAJI WA JUU",
+  "@highPerformance": {
+    "description": "",
+    "placeholders": {}
+  },
   "levelsWith30Plus": "Ngazi zenye sahihi 30+",
-  "goodProgress": "MAENDELEO_MAZURI",
+  "@levelsWith30Plus": {
+    "description": "",
+    "placeholders": {}
+  },
+  "goodProgress": "MAENDELEO MAZURI",
+  "@goodProgress": {
+    "description": "",
+    "placeholders": {}
+  },
   "levelsWith25Plus": "Ngazi zenye sahihi 25+",
-  "totalAttempts": "JARIBIO_ZOTE",
-  "totalLevelsAttempted": "Jumla ya ngazi",
+  "@levelsWith25Plus": {
+    "description": "",
+    "placeholders": {}
+  },
+  "totalAttempts": "MAJARIBIO YOTE",
+  "@totalAttempts": {
+    "description": "",
+    "placeholders": {}
+  },
+  "totalLevelsAttempted": "Jumla ya ngazi zilizojaribiwa",
+  "@totalLevelsAttempted": {
+    "description": "",
+    "placeholders": {}
+  },
   "player": "MCHEZAJI",
+  "@player": {
+    "description": "",
+    "placeholders": {}
+  },
   "del": "FUTA",
+  "@del": {
+    "description": "",
+    "placeholders": {}
+  },
   "mc": "MC",
+  "@mc": {
+    "description": "",
+    "placeholders": {}
+  },
   "mr": "MR",
+  "@mr": {
+    "description": "",
+    "placeholders": {}
+  },
   "divByZero": "GAWANYA NA SIFURI",
+  "@divByZero": {
+    "description": "",
+    "placeholders": {}
+  },
   "allModes": "Njia Zote",
+  "@allModes": {
+    "description": "",
+    "placeholders": {}
+  },
   "mathLearningProgress": "Maendeleo ya Kujifunza Hisabati",
+  "@mathLearningProgress": {
+    "description": "",
+    "placeholders": {}
+  },
   "preparingPdf": "Inatayarisha PDF...",
+  "@preparingPdf": {
+    "description": "",
+    "placeholders": {}
+  },
   "pdfSharedSuccessfully": "PDF imeshirikiwa kwa mafanikio!",
+  "@pdfSharedSuccessfully": {
+    "description": "",
+    "placeholders": {}
+  },
   "shareFailed": "Ushiriki umeshindwa: {error}",
   "@shareFailed": {
     "description": "",
@@ -274,33 +1174,145 @@
     }
   },
   "mymathlabProgressReport": "Ripoti Yangu ya Maendeleo ya Hisabati ya mathlab",
+  "@mymathlabProgressReport": {
+    "description": "",
+    "placeholders": {}
+  },
   "overview": "Muhtasari",
+  "@overview": {
+    "description": "",
+    "placeholders": {}
+  },
   "readyToChallenge": "ðŸŽ¯ Tayari Kupambana na Changamoto?",
+  "@readyToChallenge": {
+    "description": "",
+    "placeholders": {}
+  },
   "masterMathematicsDesc": "Boresha hesabu kupitia michezo ya kuvutia na fuatilia maendeleo yako.",
+  "@masterMathematicsDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "yourProgress": "ðŸ“Š Maendeleo Yako",
+  "@yourProgress": {
+    "description": "",
+    "placeholders": {}
+  },
   "starsEarned": "Nyota Zilizopatikana",
+  "@starsEarned": {
+    "description": "",
+    "placeholders": {}
+  },
   "quickActions": "âš¡ Vitendo vya Haraka",
+  "@quickActions": {
+    "description": "",
+    "placeholders": {}
+  },
   "dailyChallenge": "Changamoto ya Kila Siku",
+  "@dailyChallenge": {
+    "description": "",
+    "placeholders": {}
+  },
   "completeTodaysChallenge": "Kamilisha changamoto ya hesabu ya leo ili upate thawabu za ziada!",
+  "@completeTodaysChallenge": {
+    "description": "",
+    "placeholders": {}
+  },
   "challengeReward": "ðŸ”¥ Matatizo 5 â€¢ Thawabu 100 XP",
+  "@challengeReward": {
+    "description": "",
+    "placeholders": {}
+  },
   "completeLevelsProgressively": "Kamilisha ngazi hatua kwa hatua",
+  "@completeLevelsProgressively": {
+    "description": "",
+    "placeholders": {}
+  },
   "fastPacedChallenges": "Changamoto za kasi ya juu",
+  "@fastPacedChallenges": {
+    "description": "",
+    "placeholders": {}
+  },
   "improveSpecificSkills": "Boresha ujuzi maalum",
+  "@improveSpecificSkills": {
+    "description": "",
+    "placeholders": {}
+  },
   "createYourOwnChallenges": "Tengeneza changamoto zako mwenyewe",
+  "@createYourOwnChallenges": {
+    "description": "",
+    "placeholders": {}
+  },
   "goodMorning": "Habari za asubuhi",
+  "@goodMorning": {
+    "description": "",
+    "placeholders": {}
+  },
   "goodAfternoon": "Habari za mchana",
+  "@goodAfternoon": {
+    "description": "",
+    "placeholders": {}
+  },
   "goodEvening": "Habari za jioni",
+  "@goodEvening": {
+    "description": "",
+    "placeholders": {}
+  },
   "goodNight": "Habari za usiku",
+  "@goodNight": {
+    "description": "",
+    "placeholders": {}
+  },
   "welcomeTomathlab": "Karibu kwenye mathlab",
+  "@welcomeTomathlab": {
+    "description": "",
+    "placeholders": {}
+  },
   "quickStart": "Anza Haraka",
+  "@quickStart": {
+    "description": "",
+    "placeholders": {}
+  },
   "campaignMode": "Hali ya Kampeni",
+  "@campaignMode": {
+    "description": "",
+    "placeholders": {}
+  },
   "startYourMathematicalJourney": "Anza safari yako ya hisabati",
+  "@startYourMathematicalJourney": {
+    "description": "",
+    "placeholders": {}
+  },
   "practiceMode": "Hali ya Mazoezi",
+  "@practiceMode": {
+    "description": "",
+    "placeholders": {}
+  },
   "focusOnSpecificOperations": "Zingatia operesheni maalum",
+  "@focusOnSpecificOperations": {
+    "description": "",
+    "placeholders": {}
+  },
   "arcadeMode": "Hali ya Kumbi ya Michezo",
+  "@arcadeMode": {
+    "description": "",
+    "placeholders": {}
+  },
   "fastPacedGamingExperience": "Uzoefu wa michezo wa kasi ya juu",
+  "@fastPacedGamingExperience": {
+    "description": "",
+    "placeholders": {}
+  },
   "cancel": "Ghairi",
+  "@cancel": {
+    "description": "",
+    "placeholders": {}
+  },
   "chapter": "SURA",
+  "@chapter": {
+    "description": "",
+    "placeholders": {}
+  },
   "chapterStarsProgress": "{stars} / {total} NYOTA",
   "@chapterStarsProgress": {
     "description": "",
@@ -326,19 +1338,75 @@
     }
   },
   "solveLogicChallenges": "Suluhisha fumbo za akili ngumu",
+  "@solveLogicChallenges": {
+    "description": "",
+    "placeholders": {}
+  },
   "pushUpdates": "Arifa za Kushinikiza",
+  "@pushUpdates": {
+    "description": "",
+    "placeholders": {}
+  },
   "sfxAndMusic": "Sauti na Muziki",
+  "@sfxAndMusic": {
+    "description": "",
+    "placeholders": {}
+  },
   "tactileResponse": "Jibu la Kugusa",
+  "@tactileResponse": {
+    "description": "",
+    "placeholders": {}
+  },
   "noLimit": "Hakuna kikomo",
+  "@noLimit": {
+    "description": "",
+    "placeholders": {}
+  },
   "equipped": "IMEVAALIWA",
+  "@equipped": {
+    "description": "",
+    "placeholders": {}
+  },
   "achievementUnlocked": "MAFANIKIO_YAMEFUNGULIWA",
+  "@achievementUnlocked": {
+    "description": "",
+    "placeholders": {}
+  },
   "protocolInitialized": "Itifaki \"Mkusanyaji wa Nyota\" imewashwa.",
+  "@protocolInitialized": {
+    "description": "",
+    "placeholders": {}
+  },
   "newLogicNodesAvailable": "Nodi mpya za akili zinapatikana kwa usindikaji.",
+  "@newLogicNodesAvailable": {
+    "description": "",
+    "placeholders": {}
+  },
   "levelClearanceGranted": "Kibali cha ngazi 10 kimetolewa. Sekta mpya zimefunguliwa.",
+  "@levelClearanceGranted": {
+    "description": "",
+    "placeholders": {}
+  },
   "viewStreak": "Angalia Mfululizo",
+  "@viewStreak": {
+    "description": "",
+    "placeholders": {}
+  },
   "viewAchievement": "Angalia Mafanikio",
+  "@viewAchievement": {
+    "description": "",
+    "placeholders": {}
+  },
   "startMission": "Anza Utume",
+  "@startMission": {
+    "description": "",
+    "placeholders": {}
+  },
   "viewProgress": "Angalia Maendeleo",
+  "@viewProgress": {
+    "description": "",
+    "placeholders": {}
+  },
   "hoursAgo": "saa {count} zilizopita",
   "@hoursAgo": {
     "description": "",
@@ -360,76 +1428,360 @@
     }
   },
   "pleaseEnterYourName": "Tafadhali weka jina lako",
+  "@pleaseEnterYourName": {
+    "description": "",
+    "placeholders": {}
+  },
   "errorSavingProfile": "Kosa katika kuhifadhi wasifu",
+  "@errorSavingProfile": {
+    "description": "",
+    "placeholders": {}
+  },
   "welcomeExclamation": "Karibu!",
+  "@welcomeExclamation": {
+    "description": "",
+    "placeholders": {}
+  },
   "editProfile": "Hariri Wasifu",
+  "@editProfile": {
+    "description": "",
+    "placeholders": {}
+  },
   "letsSetupYourProfile": "Wacha tuanzishe wasifu wako",
+  "@letsSetupYourProfile": {
+    "description": "",
+    "placeholders": {}
+  },
   "customizeYourProfile": "Badilisha wasifu wako",
+  "@customizeYourProfile": {
+    "description": "",
+    "placeholders": {}
+  },
   "getStarted": "Anza",
+  "@getStarted": {
+    "description": "",
+    "placeholders": {}
+  },
   "yourName": "Jina Lako",
+  "@yourName": {
+    "description": "",
+    "placeholders": {}
+  },
   "enterYourName": "Weka jina lako",
+  "@enterYourName": {
+    "description": "",
+    "placeholders": {}
+  },
   "avatarShape": "Umbo la Picha",
+  "@avatarShape": {
+    "description": "",
+    "placeholders": {}
+  },
   "avatarColor": "Rangi ya Picha",
+  "@avatarColor": {
+    "description": "",
+    "placeholders": {}
+  },
   "basicMode": "Hali ya Msingi",
+  "@basicMode": {
+    "description": "",
+    "placeholders": {}
+  },
   "scientificMode": "Hali ya Kisayansi",
+  "@scientificMode": {
+    "description": "",
+    "placeholders": {}
+  },
   "calculationHistory": "Historia ya Hesabu",
+  "@calculationHistory": {
+    "description": "",
+    "placeholders": {}
+  },
   "noCalculationsYet": "Hakuna hesabu bado",
+  "@noCalculationsYet": {
+    "description": "",
+    "placeholders": {}
+  },
   "memory": "Kumbukumbu",
+  "@memory": {
+    "description": "",
+    "placeholders": {}
+  },
   "memoryIsEmpty": "Kumbukumbu ni tupu",
+  "@memoryIsEmpty": {
+    "description": "",
+    "placeholders": {}
+  },
   "switchLanguage": "Badilisha Lugha",
+  "@switchLanguage": {
+    "description": "",
+    "placeholders": {}
+  },
   "switchedTo": "Imepitishwa hadi",
+  "@switchedTo": {
+    "description": "",
+    "placeholders": {}
+  },
   "userProfile": "Wasifu wa Mtumiaji",
+  "@userProfile": {
+    "description": "",
+    "placeholders": {}
+  },
   "systemStatusActive": "Hali ya Mfumo: Amilifu",
+  "@systemStatusActive": {
+    "description": "",
+    "placeholders": {}
+  },
   "storeAndCustomization": "Duka na Ubadilishaji",
+  "@storeAndCustomization": {
+    "description": "",
+    "placeholders": {}
+  },
   "unlockNewAvatarsWithPoints": "Fungua picha mpya kwa pointi",
+  "@unlockNewAvatarsWithPoints": {
+    "description": "",
+    "placeholders": {}
+  },
   "systemSettings": "Mipangilio ya Mfumo",
+  "@systemSettings": {
+    "description": "",
+    "placeholders": {}
+  },
   "interface": "Kiolesura",
+  "@interface": {
+    "description": "",
+    "placeholders": {}
+  },
   "audioAndHaptics": "Sauti na Miguso",
+  "@audioAndHaptics": {
+    "description": "",
+    "placeholders": {}
+  },
   "builtInArithmeticTool": "Zana ya hesabu iliyojengwa ndani",
+  "@builtInArithmeticTool": {
+    "description": "",
+    "placeholders": {}
+  },
   "quickLanguageToggle": "Kubadili Lugha Haraka",
+  "@quickLanguageToggle": {
+    "description": "",
+    "placeholders": {}
+  },
   "stargazer": "Mtazamaji wa Nyota",
+  "@stargazer": {
+    "description": "",
+    "placeholders": {}
+  },
   "sharpshooter": "Mpiga Shaba",
+  "@sharpshooter": {
+    "description": "",
+    "placeholders": {}
+  },
   "timeLord": "Bwana wa Muda",
+  "@timeLord": {
+    "description": "",
+    "placeholders": {}
+  },
   "scholar": "Msomi",
+  "@scholar": {
+    "description": "",
+    "placeholders": {}
+  },
   "selectTheme": "Chagua Mandhari",
+  "@selectTheme": {
+    "description": "",
+    "placeholders": {}
+  },
   "correctAnswer": "Sahihi!",
+  "@correctAnswer": {
+    "description": "",
+    "placeholders": {}
+  },
   "wrongAnswer": "Si sahihi!",
+  "@wrongAnswer": {
+    "description": "",
+    "placeholders": {}
+  },
   "achievements": "Mafanikio",
+  "@achievements": {
+    "description": "",
+    "placeholders": {}
+  },
   "save": "Hifadhi",
+  "@save": {
+    "description": "",
+    "placeholders": {}
+  },
   "activeChallenges": "Changamoto Zinazoendelea",
+  "@activeChallenges": {
+    "description": "",
+    "placeholders": {}
+  },
   "speedDemon": "Shetani wa Kasi",
+  "@speedDemon": {
+    "description": "",
+    "placeholders": {}
+  },
   "speedDemonDesc": "Jibu haraka iwezekanavyo!",
+  "@speedDemonDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "mathMaster": "Mwalimu wa Hesabu",
+  "@mathMaster": {
+    "description": "",
+    "placeholders": {}
+  },
   "mathMasterDesc": "Pata usahihi kamili",
+  "@mathMasterDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "marathon": "Mbio za Masafa Marefu",
+  "@marathon": {
+    "description": "",
+    "placeholders": {}
+  },
   "marathonDesc": "Changamoto ya uvumilivu",
+  "@marathonDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "practiceLab": "Maabara ya Mazoezi",
+  "@practiceLab": {
+    "description": "",
+    "placeholders": {}
+  },
   "configurations": "Usanidi",
+  "@configurations": {
+    "description": "",
+    "placeholders": {}
+  },
   "visualCountingDesc": "Hesabu maumbo na vitu",
+  "@visualCountingDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "timePressure": "Shinikizo la Muda",
+  "@timePressure": {
+    "description": "",
+    "placeholders": {}
+  },
   "timePressureDesc": "Pambana na muda",
+  "@timePressureDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "adaptiveDifficulty": "Ugumu wa Kujirekebisha",
+  "@adaptiveDifficulty": {
+    "description": "",
+    "placeholders": {}
+  },
   "adaptiveDifficultyDesc": "Ugumu unarekebishwa kulingana na ujuzi wako",
+  "@adaptiveDifficultyDesc": {
+    "description": "",
+    "placeholders": {}
+  },
   "timeLimit": "Kikomo cha Muda",
+  "@timeLimit": {
+    "description": "",
+    "placeholders": {}
+  },
   "questionsCount": "Idadi ya Maswali",
+  "@questionsCount": {
+    "description": "",
+    "placeholders": {}
+  },
   "startPractice": "Anza Mazoezi",
+  "@startPractice": {
+    "description": "",
+    "placeholders": {}
+  },
   "additionProcedure": "Hali ya Kuongeza",
+  "@additionProcedure": {
+    "description": "",
+    "placeholders": {}
+  },
   "subtractionProcedure": "Hali ya Kutoa",
+  "@subtractionProcedure": {
+    "description": "",
+    "placeholders": {}
+  },
   "multiplicationProcedure": "Hali ya Kuzidisha",
+  "@multiplicationProcedure": {
+    "description": "",
+    "placeholders": {}
+  },
   "divisionProcedure": "Hali ya Kugawanya",
+  "@divisionProcedure": {
+    "description": "",
+    "placeholders": {}
+  },
   "timesUp": "Wakati Umeisha!",
+  "@timesUp": {
+    "description": "",
+    "placeholders": {}
+  },
   "yourScore": "Alama yako",
+  "@yourScore": {
+    "description": "",
+    "placeholders": {}
+  },
   "exit": "Toka",
+  "@exit": {
+    "description": "",
+    "placeholders": {}
+  },
   "operation": "Operesheni",
-  "dailyRewardClaimed": "Zawadi ya kila siku imenukuliwa!",
+  "@operation": {
+    "description": "",
+    "placeholders": {}
+  },
+  "dailyRewardClaimed": "Zawadi ya kila siku imechukuliwa!",
+  "@dailyRewardClaimed": {
+    "description": "",
+    "placeholders": {}
+  },
   "claimTodaysReward": "CHUKUA ZAWADI YA LEO",
+  "@claimTodaysReward": {
+    "description": "",
+    "placeholders": {}
+  },
   "noGameSession": "Hakuna kipindi cha mchezo",
+  "@noGameSession": {
+    "description": "",
+    "placeholders": {}
+  },
   "crossword": "Maneno Mtambuka",
+  "@crossword": {
+    "description": "",
+    "placeholders": {}
+  },
   "playerLabel": "Mchezaji",
+  "@playerLabel": {
+    "description": "",
+    "placeholders": {}
+  },
   "generatingImage": "Inatengeneza picha...",
+  "@generatingImage": {
+    "description": "",
+    "placeholders": {}
+  },
   "imageSharedSuccessfully": "Picha imeshirikiwa!",
+  "@imageSharedSuccessfully": {
+    "description": "",
+    "placeholders": {}
+  },
   "imageExportFailed": "Imeshindwa kutoa picha",
+  "@imageExportFailed": {
+    "description": "",
+    "placeholders": {}
+  },
   "preparingDocument": "Inatayarisha hati...",
+  "@preparingDocument": {
+    "description": "",
+    "placeholders": {}
+  },
   "reportSaved": "Ripoti imehifadhiwa: {path}",
   "@reportSaved": {
     "description": "",
@@ -451,25 +1803,105 @@
     }
   },
   "performanceReportTitle": "Ripoti ya Utendaji ya mathlab",
+  "@performanceReportTitle": {
+    "description": "",
+    "placeholders": {}
+  },
   "generatingPdf": "Inatengeneza PDF...",
+  "@generatingPdf": {
+    "description": "",
+    "placeholders": {}
+  },
   "abortSession": "SITISHA KIPINDI",
+  "@abortSession": {
+    "description": "",
+    "placeholders": {}
+  },
   "skip": "RUKA",
+  "@skip": {
+    "description": "",
+    "placeholders": {}
+  },
   "across": "USAWA",
+  "@across": {
+    "description": "",
+    "placeholders": {}
+  },
   "down": "CHINI",
+  "@down": {
+    "description": "",
+    "placeholders": {}
+  },
   "allChallengesComplete": "Changamoto zote zimekamilika!",
+  "@allChallengesComplete": {
+    "description": "",
+    "placeholders": {}
+  },
   "play": "Cheza",
+  "@play": {
+    "description": "",
+    "placeholders": {}
+  },
   "unlimitedTime": "Muda Usio na Kikomo",
+  "@unlimitedTime": {
+    "description": "",
+    "placeholders": {}
+  },
   "practiceWithoutPressure": "Mazoezi bila shinikizo",
+  "@practiceWithoutPressure": {
+    "description": "",
+    "placeholders": {}
+  },
   "showFeedback": "Onyesha Majibu",
+  "@showFeedback": {
+    "description": "",
+    "placeholders": {}
+  },
   "seeCorrectAnswersImmediately": "Ona majibu sahihi papo hapo",
+  "@seeCorrectAnswersImmediately": {
+    "description": "",
+    "placeholders": {}
+  },
   "answerRevealed": "Jibu limeonyeshwa!",
+  "@answerRevealed": {
+    "description": "",
+    "placeholders": {}
+  },
   "selectRiddleLevel": "CHAGUA NGAZI YA FUMBO",
+  "@selectRiddleLevel": {
+    "description": "",
+    "placeholders": {}
+  },
   "selectCrosswordLevel": "CHAGUA NGAZI YA MANENO MTAMBUKA",
+  "@selectCrosswordLevel": {
+    "description": "",
+    "placeholders": {}
+  },
   "loadingGame": "Mchezo unapakia...",
+  "@loadingGame": {
+    "description": "",
+    "placeholders": {}
+  },
   "thankYouForFeedback": "Asante kwa maoni yako!",
+  "@thankYouForFeedback": {
+    "description": "",
+    "placeholders": {}
+  },
   "notEnoughPoints": "Pointi hazitoshi! Endelea kucheza.",
+  "@notEnoughPoints": {
+    "description": "",
+    "placeholders": {}
+  },
   "avatarUnlocked": "Avatar imefunguliwa!",
+  "@avatarUnlocked": {
+    "description": "",
+    "placeholders": {}
+  },
   "documentSentToPrinter": "Hati imetumwa kwenye printa!",
+  "@documentSentToPrinter": {
+    "description": "",
+    "placeholders": {}
+  },
   "printFailed": "Imeshindwa kuchapisha: {error}",
   "@printFailed": {
     "description": "",
@@ -481,1812 +1913,246 @@
     }
   },
   "noProgressDataAvailable": "Hakuna data ya maendeleo",
-  "exportOptions": "Chaguzi za Kuhamisha",
-  "exportAsPdf": "Hamisha kama PDF",
-  "generateDetailedPdfReport": "Tengeneza na shiriki ripoti ya kina ya PDF",
-  "shareAsImage": "Shiriki kama Picha",
-  "captureHighQualityImage": "Piga picha ya ubora wa juu na ishiriki ripoti",
-  "printReport": "Chapisha Ripoti",
-  "sendReportToPrinter": "Tuma ripoti kwa printa",
-  "saveToDevice": "Hifadhi kwenye Kifaa",
-  "savePdfToDeviceStorage": "Hifadhi PDF kwenye hifadhi ya kifaa",
-  "firstSteps": "Hatua za Mwanzo",
-  "firstStepsDesc": "Jibu swali lako la kwanza kwa usahihi",
-  "speedDemonTitle": "Shetani wa Kasi",
-  "mathMasterTitle": "Mwalimu wa Hesabu",
-  "weeklyChampion": "Bingwa wa Wiki",
-  "streakMaster": "Bingwa wa Mfululizo",
-  "puzzleGenius": "Genius wa Mafumbo",
-  "timeLordTitle": "Bwana wa Muda",
-  "onFire": "Anawaka!",
-  "onFireDesc": "Pata majibu 5 sahihi mfululizo",
-  "perfectScore": "Alama Kamili",
-  "weekendMaster": "Bingwa wa Wikiendi",
-  "equip": "VAZA",
-  "coreConcept": "Dhana ya Msingi",
-  "adventureTitle": "SAFARI",
-  "campaignProgression": "Maendeleo ya Safari",
-  "challengeTitle": "CHANGAMOTO",
-  "arcadeDailyMissions": "Ukumbi + Misheni",
-  "puzzlesTitle": "MAFUMBO",
-  "crosswordsMathRiddles": "Nambari Mtambuka + Vitendawili",
-  "firstVictory": "Ushindi wa Kwanza",
-  "campaignMaster": "Bingwa wa Msafara",
-  "mathGenius": "Genius wa Hesabu",
-  "unstoppableDesc": "Pata majibu 10 sahihi mfululizo",
-  "heatIndexDesc": "Dumisha Kielezo cha Joto juu ya 2.5 kwa kipindi chote",
-  "flashCalculator": "Kikokotoo cha Haraka",
-  "flashCalculatorDesc": "Jibu maswali 50 kwa wastani wa muda chini ya sekunde 2",
-  "dedicated": "Aliyejitolea",
-  "dedicatedDesc": "Jibu maswali 500",
-  "stargazerDesc": "Pata nyota zako 10 za kwanza",
-  "centuryDesc": "Jibu maswali 100",
-  "mathGeniusDesc": "Jibu maswali 1000",
-  "perfectScoreDesc": "Pata usahihi wa 100% katika mchezo wowote",
-  "weeklyChampionDesc": "Cheza kwa siku 7 mfululizo",
-  "campaignMasterDesc": "Kamilisha ngazi zote za kampeni",
-  "duelMasterDesc": "Shinda mechi 10 za pambano",
-  "legendDesc": "Pata majibu 25 sahihi mfululizo",
-  "sharpMind": "Akili Kali",
-  "sharpMindDesc": "Fikia usahihi wa {percentage}% katika hali yoyote ya mchezo",
-  "speedRun": "Mbio za Kasi",
-  "speedRunDesc": "Jibu maswali 10 chini ya sekunde {seconds}",
-  "committed": "Aliyejitolea",
-  "committedDesc": "Cheza kwa siku 30 mfululizo",
-  "masterOfOperations": "Mwalimu wa Operesheni",
-  "masterOfOperationsDesc": "Tumia operesheni zote nne",
-  "highScorer": "Mfungaji Bora",
-  "highScorerDesc": "Pata pointi {points} katika mchezo mmoja",
-  "earlyBird": "Ndege wa Mapema",
-  "earlyBirdDesc": "Cheza mchezo wako wa kwanza wa siku kabla ya saa 2 asubuhi",
-  "precisionExpert": "Mtaalamu wa Usahihi",
-  "accuracyMaster": "Mwalimu wa Usahihi",
-  "lightningFast": "Kasi ya Umeme",
-  "lightningFastDesc": "Kamilisha ngazi chini ya sekunde {seconds}",
-  "instantReaction": "Mwitikio wa Papo hapo",
-  "comboKing": "Mfalme wa Combo",
-  "comboKingDesc": "Fikia kizidishio cha combo cha {multiplier}x",
-  "performanceMasterDesc": "Fikia usahihi wa 95% na wastani wa muda chini ya sekunde 15",
-  "consistentPlayer": "Mchezaji Thabiti",
-  "consistentPlayerDesc": "Dumisha usahihi wa {percentage}% kwa maswali {count} mfululizo",
-  "nightOwl": "Bundi wa Usiku",
-  "nightOwlDesc": "Cheza mchezo baada ya saa 4 usiku",
-  "weekendWarrior": "Shujaa wa Wikiendi",
-  "weekendWarriorDesc": "Cheza Jumamosi na Jumapili",
-  "firstPlace": "Nafasi ya Kwanza",
-  "firstPlaceDesc": "Fikia nafasi ya #1 kwenye ubao wa wanaoongoza",
-  "modeExplorer": "Mvumbuzi wa Njia",
-  "modeExplorerDesc": "Cheza njia zote za mchezo",
-  "precisionStrike": "Shambulio la Usahihi",
-  "precisionStrikeDesc": "Kamilisha ngazi yenye majibu 35+ sahihi",
-  "masterLevel": "Ngazi ya Ustadi",
-  "masterLevelDesc": "Kamilisha ngazi yenye majibu 40+ sahihi",
-  "perfectLevel": "Ngazi Kamilifu",
-  "perfectLevelDesc": "Kamilisha ngazi yenye maswali yote 45 sahihi",
-  "risingStar": "Nyota Inayochomoza",
-  "risingStarDesc": "Fungua ngazi 10 za kampeni",
-  "mathWarrior": "Shujaa wa Hesabu",
-  "mathWarriorDesc": "Fungua ngazi 25 za kampeni",
-  "campaignConqueror": "Mshindi wa Kampeni",
-  "campaignConquerorDesc": "Kamilisha ngazi zote 50 za kampeni",
-  "questionMaster": "Mwalimu wa Maswali",
-  "questionMasterDesc": "Jibu maswali 1000 katika kategoria tofauti",
-  "lightningLevel": "Ngazi ya Umeme",
-  "lightningLevelDesc": "Kamilisha ngazi ya maswali 45 chini ya sekunde 45",
-  "consistencyMaster": "Mwalimu wa Uthabiti",
-  "starCollector": "Mkusanyaji wa Nyota",
-  "stellarPerformer": "Mtendaji Bora",
-  "stellarPerformerDesc": "Pata nyota 50",
-  "celestialMaster": "Mwalimu wa Mbinguni",
-  "celestialMasterDesc": "Pata nyota 100",
-  "riddleMaster": "Mwalimu wa Vitendawili",
-  "riddleMasterDesc": "Kamilisha ngazi zote 30 za vitendawili",
-  "hintHoarder": "Mkusanyaji wa Vidokezo",
-  "hintHoarderDesc": "Pata vidokezo 50",
-  "gridExplorer": "Mvumbuzi wa Gridi",
-  "gridExplorerDesc": "Kamilisha mafumbo 5 ya Nambari Mtambuka",
-  "lightningGrid": "Gridi ya Umeme",
-  "lightningGridDesc": "Kamilisha fumbo la 7x7 la Nambari Mtambuka chini ya sekunde 90",
-  "logicArchitect": "Mbunifu wa Mantiki",
-  "logicArchitectDesc": "Kamilisha mafumbo 50 ya Nambari Mtambuka",
-  "campaignGrinder": "Mshiriki wa Kampeni",
-  "duelMaster": "Bingwa wa Pambano",
-  "endlessSurvivor": "Mshindi wa Endless",
-  "divisionExpert": "Mtaalamu wa Kugawanya",
-  "additionMastery": "Ujuzi wa Kuongeza",
-  "singleDigitAddition": "Kuongeza Nambari Moja",
-  "twoDigitAddition": "Kuongeza Nambari Mbili",
-  "threeDigitAddition": "Kuongeza Nambari Tatu",
-  "additionWithCarrying": "Kuongeza kwa Kubeba",
-  "advancedAddition": "Kuongeza ya Juu",
-  "subtractionMastery": "Ujuzi wa Kutoa",
-  "singleDigitSubtraction": "Kutoa Nambari Moja",
-  "twoDigitSubtraction": "Kutoa Nambari Mbili",
-  "threeDigitSubtraction": "Kutoa Nambari Tatu",
-  "subtractionWithBorrowing": "Kutoa kwa Kukopa",
-  "advancedSubtraction": "Kutoa ya Juu",
-  "wordProblemsSubtraction": "Matatizo ya Maneno - Kutoa",
-  "multiplicationMastery": "Ujuzi wa Kuzidisha",
-  "timesTables1to5": "Majedwali ya Kuzidisha 1-5",
-  "timesTables6to10": "Majedwali ya Kuzidisha 6-10",
-  "twoDigitMultiplication": "Kuzidisha Nambari Mbili",
-  "threeDigitMultiplication": "Kuzidisha Nambari Tatu",
-  "multiplicationWordProblems": "Matatizo ya Maneno - Kuzidisha",
-  "advancedMultiplication": "Kuzidisha ya Juu",
-  "multiplicationPatterns": "Mifumo ya Kuzidisha",
-  "divisionMastery": "Ujuzi wa Kugawanya",
-  "divisionBasics": "Misingi ya Kugawanya",
-  "divisionWithRemainders": "Kugawanya na Mabaki",
-  "twoDigitDivision": "Kugawanya Nambari Mbili",
-  "threeDigitDivision": "Kugawanya Nambari Tatu",
-  "divisionWordProblems": "Matatizo ya Maneno - Kugawanya",
-  "longDivision": "Kugawanya kwa Muda Mrefu",
-  "legend": "Hadithi",
-  "century": "Karne",
-  "mathEquationsLevelPrefix": "HESABU za MATH - NGazi",
-  "selectDifficultyLevel": "CHAGUA KIWANGO CHA UGUMU",
-  "levelPrefix": "N",
-  "performanceOverview": "Muhtasari wa Utendaji",
-  "currentSession": "Kipindi cha Sasa",
-  "realTimeStats": "Takwimu za Wakati Halisi",
-  "questions": "Maswali",
-  "bestStreak": "Mfululizo Bora",
-  "sessions": "Vipindi",
-  "gameModeDistribution": "Usambazaji wa Modi ya Mchezo",
-  "performanceInsights": "Maarifa ya Utendaji",
-  "bestAccuracy": "Usahihi Bora",
-  "averageResponseTime": "Muda wa Wastani wa Kujibu",
-  "completionRate": "Kiwango cha Ukamilishaji",
-  "engineIntensity": "NGUVU YA INJINI",
-  "averageHeat": "WASTANI WA JOTO",
-  "currentHeat": "JOTO LA SASA",
-  "maxHeat": "JOTO LA JUU",
-  "heatIndex": "Kielezo cha Joto",
-  "intensityNormal": "KAWAIDA",
-  "intensityMedium": "WASTANI",
-  "intensityHigh": "JUU",
-  "intensityCritical": "HATARI",
-  "totalScore": "JUMLA YA ALAMA",
-  "xpToLevelFull": "{xp} XP hadi NGAZI INAYOFUATA",
-  "achiever": "MFIKIAJI",
-  "avatarUnlocks": "UFUNGUAJI WA AVATAR",
-  "requiresLevelAndStars": "Inahitaji Ngazi ya {level} na nyota {stars}!",
-  "requiresStarsToUnlock": "Inahitaji nyota {stars} ili kufungua!",
-  "requiresLevelToUnlock": "Inahitaji Ngazi ya {level} ili kufungua!",
-  "unlockAvatarQuestion": "Fungua Avatar?",
-  "unlockAvatarConfirm": "Je, unataka kutumia pointi {cost} kufungua avatar ya {name}?",
-  "unlock": "Fungua",
-  "rarityCommon": "Kawaida",
-  "rarityUncommon": "Si ya Kawaida",
-  "rarityRare": "Adimu",
-  "rarityEpic": "Epic",
-  "rarityLegendary": "Hadithi",
-  "rarityMythic": "Mythic",
-  "generatedOn": "Imetolewa mnamo {date}",
-  "@appTitle": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@home": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@campaign": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@arcade": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@profile": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@practice": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@startGame": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@continueGame": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@settings": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@theme": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@language": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@totalPoints": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelsCompleted": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@commandCenter": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@quickResume": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@todaysSession": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@accuracy": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@completed": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@victory": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@defeat": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelStabilized": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@integrityFailed": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@coreScore": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@playAgain": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelUp": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@rewardPoints": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@timePlayed": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@addition": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@subtraction": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@multiplication": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@division": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@visualCounting": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@stars": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@locked": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@unlocked": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@score": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@lives": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@time": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@timeUppercase": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@heat": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@streakUppercase": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@maxStreak": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@correctAnswersLabel": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@gameOver": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelComplete": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@continueText": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@resume": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@gamePaused": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@exitGame": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@exitGameDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@correct": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@incorrect": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@tryAgain": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@nextLevel": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@backToMenu": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@scoreAttack": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@endless": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@duel": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@flash": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@scoreAttackDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@endlessDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@duelDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@flashDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@simulation": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@solar": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@cyber": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@selectOperation": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@selectLevel": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@customize": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@numberRange": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@timer": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@on": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@off": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@countTheShapes": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@enterAnswer": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@submit": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@clear": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@dots": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@triangles": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@easy": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@medium": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@hard": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@minutes": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@seconds": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@highScore": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@newHighScore": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@avatar": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@shape": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@color": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@customMix": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@customMixArithmetic": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@operationMatrix": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@difficultyLevel": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@initiateMixSequence": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@sessionMetrics": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@gameSession": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@configuration": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@terminateSession": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@requestHint": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@systemHint": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@acknowledge": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@understood": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@mixModeProtocol": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@coreMetrics": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@progressionStatus": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@performanceAnalytics": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@realTimePerformance": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelCompletionStats": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@reactionAnalytics": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@speedMetrics": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@temporalInvestment": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@realTimeAccuracy": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelMastery": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@achievementProgress": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@endOfReport": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@welcomeBack": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@dashboard": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@shop": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@stats": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@calc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@dailyMissions": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@close": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@adventure": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@gameModes": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@puzzleWorld": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@resourcesTools": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@logicRiddles": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@crossNumbers": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@crossNumbersDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@calculator": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@reports": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@avatarShop": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@focusMode": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@focusModeDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@performanceMode": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@performanceModeDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@visualTheme": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@audioOutput": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@hapticFeedback": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@notifications": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@arithmeticMixGenerator": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@custom": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@nextQuestion": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@undo": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@hint": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level_1": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level_2": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level_3": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level_4": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level_5": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level_6": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level_7": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level_8": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level_9": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@level_10": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@plus": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@minus": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@multiply": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@divide": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@hotStreak": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@unstoppable": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@keepItUp": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@streakBroken": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@streak": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@selectLanguage": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@english": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@swahili": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@swahiliTanzania": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@languageChanged": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@exportReport": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@accuracyTrends": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@help": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@refreshAnalytics": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@avgSession": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@sysOp": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@neuralAccuracy": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@coreStars": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@unitsCleared": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@status": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@missionActive": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@endOfTransmission": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@exportProtocol": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@dismiss": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@debriefCopied": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@copyToClipboard": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@neuralEfficiencyIndex": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@performanceScore": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@avgSpeed": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@high": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@med": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@low": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@accuracyProgression": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@peakAccuracy": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@responseAnalytics": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@avgResponse": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@fastest": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@improvement": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@livePerformanceMetrics": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@currentAccuracy": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@sessionTime": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@activeStreak": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@calculating": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@advanced": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@performanceTrend": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@reactionTimeAnalysis": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@operationUsage": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelMasteryBreakdown": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@perfectLevels": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelsWith35Plus": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@highPerformance": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelsWith30Plus": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@goodProgress": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelsWith25Plus": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@totalAttempts": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@totalLevelsAttempted": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@player": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@del": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@mc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@mr": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@divByZero": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@allModes": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@mathLearningProgress": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@preparingPdf": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@pdfSharedSuccessfully": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@mymathlabProgressReport": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@overview": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@readyToChallenge": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@masterMathematicsDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@yourProgress": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@starsEarned": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@quickActions": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@dailyChallenge": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@completeTodaysChallenge": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@challengeReward": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@completeLevelsProgressively": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@fastPacedChallenges": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@improveSpecificSkills": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@createYourOwnChallenges": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@goodMorning": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@goodAfternoon": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@goodEvening": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@goodNight": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@welcomeTomathlab": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@quickStart": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@campaignMode": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@startYourMathematicalJourney": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@practiceMode": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@focusOnSpecificOperations": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@arcadeMode": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@fastPacedGamingExperience": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@cancel": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@chapter": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@solveLogicChallenges": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@pushUpdates": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@sfxAndMusic": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@tactileResponse": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@noLimit": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@equipped": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@achievementUnlocked": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@protocolInitialized": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@newLogicNodesAvailable": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@levelClearanceGranted": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@viewStreak": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@viewAchievement": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@startMission": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@viewProgress": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@pleaseEnterYourName": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@errorSavingProfile": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@welcomeExclamation": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@editProfile": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@letsSetupYourProfile": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@customizeYourProfile": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@getStarted": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@yourName": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@enterYourName": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@avatarShape": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@avatarColor": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@basicMode": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@scientificMode": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@calculationHistory": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@noCalculationsYet": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@memory": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@memoryIsEmpty": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@switchLanguage": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@switchedTo": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@userProfile": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@systemStatusActive": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@storeAndCustomization": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@unlockNewAvatarsWithPoints": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@systemSettings": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@interface": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@audioAndHaptics": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@builtInArithmeticTool": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@quickLanguageToggle": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@stargazer": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@sharpshooter": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@timeLord": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@scholar": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@selectTheme": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@correctAnswer": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@wrongAnswer": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@achievements": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@save": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@activeChallenges": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@speedDemon": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@speedDemonDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@mathMaster": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@mathMasterDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@marathon": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@marathonDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@practiceLab": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@configurations": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@visualCountingDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@timePressure": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@timePressureDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@adaptiveDifficulty": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@adaptiveDifficultyDesc": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@timeLimit": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@questionsCount": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@startPractice": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@additionProcedure": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@subtractionProcedure": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@multiplicationProcedure": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@divisionProcedure": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@timesUp": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@yourScore": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@exit": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@operation": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@dailyRewardClaimed": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@claimTodaysReward": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@noGameSession": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@crossword": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@playerLabel": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@generatingImage": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@imageSharedSuccessfully": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@imageExportFailed": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@preparingDocument": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@performanceReportTitle": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@generatingPdf": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@abortSession": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@skip": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@across": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@down": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@allChallengesComplete": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@play": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@unlimitedTime": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@practiceWithoutPressure": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@showFeedback": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@seeCorrectAnswersImmediately": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@answerRevealed": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@selectRiddleLevel": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@selectCrosswordLevel": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@loadingGame": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@thankYouForFeedback": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@notEnoughPoints": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@avatarUnlocked": {
-    "description": "",
-    "placeholders": {}
-  },
-  "@documentSentToPrinter": {
-    "description": "",
-    "placeholders": {}
-  },
   "@noProgressDataAvailable": {
     "description": "",
     "placeholders": {}
   },
+  "exportOptions": "Chaguzi za Kuhamisha",
   "@exportOptions": {
     "description": "",
     "placeholders": {}
   },
+  "exportAsPdf": "Hamisha kama PDF",
   "@exportAsPdf": {
     "description": "",
     "placeholders": {}
   },
+  "generateDetailedPdfReport": "Tengeneza na shiriki ripoti ya kina ya PDF",
   "@generateDetailedPdfReport": {
     "description": "",
     "placeholders": {}
   },
+  "shareAsImage": "Shiriki kama Picha",
   "@shareAsImage": {
     "description": "",
     "placeholders": {}
   },
+  "captureHighQualityImage": "Piga picha ya ubora wa juu na ishiriki ripoti",
   "@captureHighQualityImage": {
     "description": "",
     "placeholders": {}
   },
+  "printReport": "Chapisha Ripoti",
   "@printReport": {
     "description": "",
     "placeholders": {}
   },
+  "sendReportToPrinter": "Tuma ripoti kwa printa",
   "@sendReportToPrinter": {
     "description": "",
     "placeholders": {}
   },
+  "saveToDevice": "Hifadhi kwenye Kifaa",
   "@saveToDevice": {
     "description": "",
     "placeholders": {}
   },
+  "savePdfToDeviceStorage": "Hifadhi PDF kwenye hifadhi ya kifaa",
   "@savePdfToDeviceStorage": {
     "description": "",
     "placeholders": {}
   },
+  "firstSteps": "Hatua za Mwanzo",
   "@firstSteps": {
     "description": "",
     "placeholders": {}
   },
+  "firstStepsDesc": "Jibu swali lako la kwanza kwa usahihi",
   "@firstStepsDesc": {
     "description": "",
     "placeholders": {}
   },
+  "speedDemonTitle": "Shetani wa Kasi",
   "@speedDemonTitle": {
     "description": "",
     "placeholders": {}
   },
+  "mathMasterTitle": "Mwalimu wa Hesabu",
   "@mathMasterTitle": {
     "description": "",
     "placeholders": {}
   },
+  "weeklyChampion": "Bingwa wa Wiki",
   "@weeklyChampion": {
     "description": "",
     "placeholders": {}
   },
+  "streakMaster": "Bingwa wa Mfululizo",
   "@streakMaster": {
     "description": "",
     "placeholders": {}
   },
+  "puzzleGenius": "Genius wa Mafumbo",
   "@puzzleGenius": {
     "description": "",
     "placeholders": {}
   },
+  "timeLordTitle": "Bwana wa Muda",
   "@timeLordTitle": {
     "description": "",
     "placeholders": {}
   },
+  "onFire": "Anawaka!",
   "@onFire": {
     "description": "",
     "placeholders": {}
   },
+  "onFireDesc": "Pata majibu 5 sahihi mfululizo",
   "@onFireDesc": {
     "description": "",
     "placeholders": {}
   },
+  "perfectScore": "Alama Kamili",
   "@perfectScore": {
     "description": "",
     "placeholders": {}
   },
+  "weekendMaster": "Bingwa wa Wikiendi",
   "@weekendMaster": {
     "description": "",
     "placeholders": {}
   },
+  "equip": "VAZA",
   "@equip": {
     "description": "",
     "placeholders": {}
   },
+  "coreConcept": "Dhana ya Msingi",
   "@coreConcept": {
     "description": "",
     "placeholders": {}
   },
+  "adventureTitle": "SAFARI",
   "@adventureTitle": {
     "description": "",
     "placeholders": {}
   },
+  "campaignProgression": "Maendeleo ya Safari",
   "@campaignProgression": {
     "description": "",
     "placeholders": {}
   },
+  "challengeTitle": "CHANGAMOTO",
   "@challengeTitle": {
     "description": "",
     "placeholders": {}
   },
+  "arcadeDailyMissions": "Ukumbi + Misheni",
   "@arcadeDailyMissions": {
     "description": "",
     "placeholders": {}
   },
+  "puzzlesTitle": "MAFUMBO",
   "@puzzlesTitle": {
     "description": "",
     "placeholders": {}
   },
+  "crosswordsMathRiddles": "Nambari Mtambuka + Vitendawili",
   "@crosswordsMathRiddles": {
     "description": "",
     "placeholders": {}
   },
+  "firstVictory": "Ushindi wa Kwanza",
   "@firstVictory": {
     "description": "",
     "placeholders": {}
   },
+  "campaignMaster": "Bingwa wa Msafara",
   "@campaignMaster": {
     "description": "",
     "placeholders": {}
   },
+  "mathGenius": "Genius wa Hesabu",
   "@mathGenius": {
     "description": "",
     "placeholders": {}
   },
+  "unstoppableDesc": "Pata majibu 10 sahihi mfululizo",
   "@unstoppableDesc": {
     "description": "",
     "placeholders": {}
   },
+  "heatIndexDesc": "Dumisha Kielezo cha Joto juu ya 2.5 kwa kipindi chote",
   "@heatIndexDesc": {
     "description": "",
     "placeholders": {}
   },
+  "flashCalculator": "Kikokotoo cha Haraka",
   "@flashCalculator": {
     "description": "",
     "placeholders": {}
   },
+  "flashCalculatorDesc": "Jibu maswali 50 kwa wastani wa muda chini ya sekunde 2",
   "@flashCalculatorDesc": {
     "description": "",
     "placeholders": {}
   },
+  "dedicated": "Aliyejitolea",
   "@dedicated": {
     "description": "",
     "placeholders": {}
   },
+  "dedicatedDesc": "Jibu maswali 500",
   "@dedicatedDesc": {
     "description": "",
     "placeholders": {}
   },
+  "stargazerDesc": "Pata nyota zako 10 za kwanza",
   "@stargazerDesc": {
     "description": "",
     "placeholders": {}
   },
+  "centuryDesc": "Jibu maswali 100",
   "@centuryDesc": {
     "description": "",
     "placeholders": {}
   },
+  "mathGeniusDesc": "Jibu maswali 1000",
   "@mathGeniusDesc": {
     "description": "",
     "placeholders": {}
   },
+  "perfectScoreDesc": "Pata usahihi wa 100% katika mchezo wowote",
   "@perfectScoreDesc": {
     "description": "",
     "placeholders": {}
   },
+  "weeklyChampionDesc": "Cheza kwa siku 7 mfululizo",
   "@weeklyChampionDesc": {
     "description": "",
     "placeholders": {}
   },
+  "campaignMasterDesc": "Kamilisha ngazi zote za kampeni",
   "@campaignMasterDesc": {
     "description": "",
     "placeholders": {}
   },
+  "duelMasterDesc": "Shinda mechi 10 za pambano",
   "@duelMasterDesc": {
     "description": "",
     "placeholders": {}
   },
+  "legendDesc": "Pata majibu 25 sahihi mfululizo",
   "@legendDesc": {
     "description": "",
     "placeholders": {}
   },
+  "sharpMind": "Akili Kali",
   "@sharpMind": {
     "description": "",
     "placeholders": {}
   },
+  "sharpMindDesc": "Fikia usahihi wa {percentage}% katika hali yoyote ya mchezo",
   "@sharpMindDesc": {
     "description": "",
     "placeholders": {
@@ -2296,10 +2162,12 @@
       }
     }
   },
+  "speedRun": "Mbio za Kasi",
   "@speedRun": {
     "description": "",
     "placeholders": {}
   },
+  "speedRunDesc": "Jibu maswali 10 chini ya sekunde {seconds}",
   "@speedRunDesc": {
     "description": "",
     "placeholders": {
@@ -2309,26 +2177,32 @@
       }
     }
   },
+  "committed": "Aliyejitolea",
   "@committed": {
     "description": "",
     "placeholders": {}
   },
+  "committedDesc": "Cheza kwa siku 30 mfululizo",
   "@committedDesc": {
     "description": "",
     "placeholders": {}
   },
+  "masterOfOperations": "Mwalimu wa Operesheni",
   "@masterOfOperations": {
     "description": "",
     "placeholders": {}
   },
+  "masterOfOperationsDesc": "Tumia operesheni zote nne",
   "@masterOfOperationsDesc": {
     "description": "",
     "placeholders": {}
   },
+  "highScorer": "Mfungaji Bora",
   "@highScorer": {
     "description": "",
     "placeholders": {}
   },
+  "highScorerDesc": "Pata pointi {points} katika mchezo mmoja",
   "@highScorerDesc": {
     "description": "",
     "placeholders": {
@@ -2338,26 +2212,32 @@
       }
     }
   },
+  "earlyBird": "Ndege wa Mapema",
   "@earlyBird": {
     "description": "",
     "placeholders": {}
   },
+  "earlyBirdDesc": "Cheza mchezo wako wa kwanza wa siku kabla ya saa 2 asubuhi",
   "@earlyBirdDesc": {
     "description": "",
     "placeholders": {}
   },
+  "precisionExpert": "Mtaalamu wa Usahihi",
   "@precisionExpert": {
     "description": "",
     "placeholders": {}
   },
+  "accuracyMaster": "Mwalimu wa Usahihi",
   "@accuracyMaster": {
     "description": "",
     "placeholders": {}
   },
+  "lightningFast": "Kasi ya Umeme",
   "@lightningFast": {
     "description": "",
     "placeholders": {}
   },
+  "lightningFastDesc": "Kamilisha ngazi chini ya sekunde {seconds}",
   "@lightningFastDesc": {
     "description": "",
     "placeholders": {
@@ -2367,14 +2247,17 @@
       }
     }
   },
+  "instantReaction": "Mwitikio wa Papo hapo",
   "@instantReaction": {
     "description": "",
     "placeholders": {}
   },
+  "comboKing": "Mfalme wa Combo",
   "@comboKing": {
     "description": "",
     "placeholders": {}
   },
+  "comboKingDesc": "Fikia kizidishio cha combo cha {multiplier}x",
   "@comboKingDesc": {
     "description": "",
     "placeholders": {
@@ -2384,14 +2267,17 @@
       }
     }
   },
+  "performanceMasterDesc": "Fikia usahihi wa 95% na wastani wa muda chini ya sekunde 15",
   "@performanceMasterDesc": {
     "description": "",
     "placeholders": {}
   },
+  "consistentPlayer": "Mchezaji Thabiti",
   "@consistentPlayer": {
     "description": "",
     "placeholders": {}
   },
+  "consistentPlayerDesc": "Dumisha usahihi wa {percentage}% kwa maswali {count} mfululizo",
   "@consistentPlayerDesc": {
     "description": "",
     "placeholders": {
@@ -2405,398 +2291,497 @@
       }
     }
   },
+  "nightOwl": "Bundi wa Usiku",
   "@nightOwl": {
     "description": "",
     "placeholders": {}
   },
+  "nightOwlDesc": "Cheza mchezo baada ya saa 4 usiku",
   "@nightOwlDesc": {
     "description": "",
     "placeholders": {}
   },
+  "weekendWarrior": "Shujaa wa Wikiendi",
   "@weekendWarrior": {
     "description": "",
     "placeholders": {}
   },
+  "weekendWarriorDesc": "Cheza Jumamosi na Jumapili",
   "@weekendWarriorDesc": {
     "description": "",
     "placeholders": {}
   },
+  "firstPlace": "Nafasi ya Kwanza",
   "@firstPlace": {
     "description": "",
     "placeholders": {}
   },
+  "firstPlaceDesc": "Fikia nafasi ya #1 kwenye ubao wa wanaoongoza",
   "@firstPlaceDesc": {
     "description": "",
     "placeholders": {}
   },
+  "modeExplorer": "Mvumbuzi wa Njia",
   "@modeExplorer": {
     "description": "",
     "placeholders": {}
   },
+  "modeExplorerDesc": "Cheza njia zote za mchezo",
   "@modeExplorerDesc": {
     "description": "",
     "placeholders": {}
   },
+  "precisionStrike": "Shambulio la Usahihi",
   "@precisionStrike": {
     "description": "",
     "placeholders": {}
   },
+  "precisionStrikeDesc": "Kamilisha ngazi yenye majibu 35+ sahihi",
   "@precisionStrikeDesc": {
     "description": "",
     "placeholders": {}
   },
+  "masterLevel": "Ngazi ya Ustadi",
   "@masterLevel": {
     "description": "",
     "placeholders": {}
   },
+  "masterLevelDesc": "Kamilisha ngazi yenye majibu 40+ sahihi",
   "@masterLevelDesc": {
     "description": "",
     "placeholders": {}
   },
+  "perfectLevel": "Ngazi Kamilifu",
   "@perfectLevel": {
     "description": "",
     "placeholders": {}
   },
+  "perfectLevelDesc": "Kamilisha ngazi yenye maswali yote 45 sahihi",
   "@perfectLevelDesc": {
     "description": "",
     "placeholders": {}
   },
+  "risingStar": "Nyota Inayochomoza",
   "@risingStar": {
     "description": "",
     "placeholders": {}
   },
+  "risingStarDesc": "Fungua ngazi 10 za kampeni",
   "@risingStarDesc": {
     "description": "",
     "placeholders": {}
   },
+  "mathWarrior": "Shujaa wa Hesabu",
   "@mathWarrior": {
     "description": "",
     "placeholders": {}
   },
+  "mathWarriorDesc": "Fungua ngazi 25 za kampeni",
   "@mathWarriorDesc": {
     "description": "",
     "placeholders": {}
   },
+  "campaignConqueror": "Mshindi wa Kampeni",
   "@campaignConqueror": {
     "description": "",
     "placeholders": {}
   },
+  "campaignConquerorDesc": "Kamilisha ngazi zote 50 za kampeni",
   "@campaignConquerorDesc": {
     "description": "",
     "placeholders": {}
   },
+  "questionMaster": "Mwalimu wa Maswali",
   "@questionMaster": {
     "description": "",
     "placeholders": {}
   },
+  "questionMasterDesc": "Jibu maswali 1000 katika kategoria tofauti",
   "@questionMasterDesc": {
     "description": "",
     "placeholders": {}
   },
+  "lightningLevel": "Ngazi ya Umeme",
   "@lightningLevel": {
     "description": "",
     "placeholders": {}
   },
+  "lightningLevelDesc": "Kamilisha ngazi ya maswali 45 chini ya sekunde 45",
   "@lightningLevelDesc": {
     "description": "",
     "placeholders": {}
   },
+  "consistencyMaster": "Mwalimu wa Uthabiti",
   "@consistencyMaster": {
     "description": "",
     "placeholders": {}
   },
+  "starCollector": "Mkusanyaji wa Nyota",
   "@starCollector": {
     "description": "",
     "placeholders": {}
   },
+  "stellarPerformer": "Mtendaji Bora",
   "@stellarPerformer": {
     "description": "",
     "placeholders": {}
   },
+  "stellarPerformerDesc": "Pata nyota 50",
   "@stellarPerformerDesc": {
     "description": "",
     "placeholders": {}
   },
+  "celestialMaster": "Mwalimu wa Mbinguni",
   "@celestialMaster": {
     "description": "",
     "placeholders": {}
   },
+  "celestialMasterDesc": "Pata nyota 100",
   "@celestialMasterDesc": {
     "description": "",
     "placeholders": {}
   },
+  "riddleMaster": "Mwalimu wa Vitendawili",
   "@riddleMaster": {
     "description": "",
     "placeholders": {}
   },
+  "riddleMasterDesc": "Kamilisha ngazi zote 30 za vitendawili",
   "@riddleMasterDesc": {
     "description": "",
     "placeholders": {}
   },
+  "hintHoarder": "Mkusanyaji wa Vidokezo",
   "@hintHoarder": {
     "description": "",
     "placeholders": {}
   },
+  "hintHoarderDesc": "Pata vidokezo 50",
   "@hintHoarderDesc": {
     "description": "",
     "placeholders": {}
   },
+  "gridExplorer": "Mvumbuzi wa Gridi",
   "@gridExplorer": {
     "description": "",
     "placeholders": {}
   },
+  "gridExplorerDesc": "Kamilisha mafumbo 5 ya Nambari Mtambuka",
   "@gridExplorerDesc": {
     "description": "",
     "placeholders": {}
   },
+  "lightningGrid": "Gridi ya Umeme",
   "@lightningGrid": {
     "description": "",
     "placeholders": {}
   },
+  "lightningGridDesc": "Kamilisha fumbo la 7x7 la Nambari Mtambuka chini ya sekunde 90",
   "@lightningGridDesc": {
     "description": "",
     "placeholders": {}
   },
+  "logicArchitect": "Mbunifu wa Mantiki",
   "@logicArchitect": {
     "description": "",
     "placeholders": {}
   },
+  "logicArchitectDesc": "Kamilisha mafumbo 50 ya Nambari Mtambuka",
   "@logicArchitectDesc": {
     "description": "",
     "placeholders": {}
   },
+  "campaignGrinder": "Mshiriki wa Kampeni",
   "@campaignGrinder": {
     "description": "",
     "placeholders": {}
   },
+  "duelMaster": "Bingwa wa Pambano",
   "@duelMaster": {
     "description": "",
     "placeholders": {}
   },
+  "endlessSurvivor": "Mshindi wa Endless",
   "@endlessSurvivor": {
     "description": "",
     "placeholders": {}
   },
+  "divisionExpert": "Mtaalamu wa Kugawanya",
   "@divisionExpert": {
     "description": "",
     "placeholders": {}
   },
+  "additionMastery": "Ujuzi wa Kuongeza",
   "@additionMastery": {
     "description": "",
     "placeholders": {}
   },
+  "singleDigitAddition": "Kuongeza Nambari Moja",
   "@singleDigitAddition": {
     "description": "",
     "placeholders": {}
   },
+  "twoDigitAddition": "Kuongeza Nambari Mbili",
   "@twoDigitAddition": {
     "description": "",
     "placeholders": {}
   },
+  "threeDigitAddition": "Kuongeza Nambari Tatu",
   "@threeDigitAddition": {
     "description": "",
     "placeholders": {}
   },
+  "additionWithCarrying": "Kuongeza kwa Kubeba",
   "@additionWithCarrying": {
     "description": "",
     "placeholders": {}
   },
+  "advancedAddition": "Kuongeza ya Juu",
   "@advancedAddition": {
     "description": "",
     "placeholders": {}
   },
+  "subtractionMastery": "Ujuzi wa Kutoa",
   "@subtractionMastery": {
     "description": "",
     "placeholders": {}
   },
+  "singleDigitSubtraction": "Kutoa Nambari Moja",
   "@singleDigitSubtraction": {
     "description": "",
     "placeholders": {}
   },
+  "twoDigitSubtraction": "Kutoa Nambari Mbili",
   "@twoDigitSubtraction": {
     "description": "",
     "placeholders": {}
   },
+  "threeDigitSubtraction": "Kutoa Nambari Tatu",
   "@threeDigitSubtraction": {
     "description": "",
     "placeholders": {}
   },
+  "subtractionWithBorrowing": "Kutoa kwa Kukopa",
   "@subtractionWithBorrowing": {
     "description": "",
     "placeholders": {}
   },
+  "advancedSubtraction": "Kutoa ya Juu",
   "@advancedSubtraction": {
     "description": "",
     "placeholders": {}
   },
+  "wordProblemsSubtraction": "Matatizo ya Maneno - Kutoa",
   "@wordProblemsSubtraction": {
     "description": "",
     "placeholders": {}
   },
+  "multiplicationMastery": "Ujuzi wa Kuzidisha",
   "@multiplicationMastery": {
     "description": "",
     "placeholders": {}
   },
+  "timesTables1to5": "Majedwali ya Kuzidisha 1-5",
   "@timesTables1to5": {
     "description": "",
     "placeholders": {}
   },
+  "timesTables6to10": "Majedwali ya Kuzidisha 6-10",
   "@timesTables6to10": {
     "description": "",
     "placeholders": {}
   },
+  "twoDigitMultiplication": "Kuzidisha Nambari Mbili",
   "@twoDigitMultiplication": {
     "description": "",
     "placeholders": {}
   },
+  "threeDigitMultiplication": "Kuzidisha Nambari Tatu",
   "@threeDigitMultiplication": {
     "description": "",
     "placeholders": {}
   },
+  "multiplicationWordProblems": "Matatizo ya Maneno - Kuzidisha",
   "@multiplicationWordProblems": {
     "description": "",
     "placeholders": {}
   },
+  "advancedMultiplication": "Kuzidisha ya Juu",
   "@advancedMultiplication": {
     "description": "",
     "placeholders": {}
   },
+  "multiplicationPatterns": "Mifumo ya Kuzidisha",
   "@multiplicationPatterns": {
     "description": "",
     "placeholders": {}
   },
+  "divisionMastery": "Ujuzi wa Kugawanya",
   "@divisionMastery": {
     "description": "",
     "placeholders": {}
   },
+  "divisionBasics": "Misingi ya Kugawanya",
   "@divisionBasics": {
     "description": "",
     "placeholders": {}
   },
+  "divisionWithRemainders": "Kugawanya na Mabaki",
   "@divisionWithRemainders": {
     "description": "",
     "placeholders": {}
   },
+  "twoDigitDivision": "Kugawanya Nambari Mbili",
   "@twoDigitDivision": {
     "description": "",
     "placeholders": {}
   },
+  "threeDigitDivision": "Kugawanya Nambari Tatu",
   "@threeDigitDivision": {
     "description": "",
     "placeholders": {}
   },
+  "divisionWordProblems": "Matatizo ya Maneno - Kugawanya",
   "@divisionWordProblems": {
     "description": "",
     "placeholders": {}
   },
+  "longDivision": "Kugawanya kwa Muda Mrefu",
   "@longDivision": {
     "description": "",
     "placeholders": {}
   },
+  "legend": "Hadithi",
   "@legend": {
     "description": "",
     "placeholders": {}
   },
+  "century": "Karne",
   "@century": {
     "description": "",
     "placeholders": {}
   },
+  "mathEquationsLevelPrefix": "MILINGANISHO YA MATH - NGAZI",
   "@mathEquationsLevelPrefix": {
     "description": "",
     "placeholders": {}
   },
+  "selectDifficultyLevel": "CHAGUA KIWANGO CHA UGUMU",
   "@selectDifficultyLevel": {
     "description": "",
     "placeholders": {}
   },
+  "levelPrefix": "N",
   "@levelPrefix": {
     "description": "",
     "placeholders": {}
   },
+  "performanceOverview": "Muhtasari wa Utendaji",
   "@performanceOverview": {
     "description": "",
     "placeholders": {}
   },
+  "currentSession": "Kipindi cha Sasa",
   "@currentSession": {
     "description": "",
     "placeholders": {}
   },
+  "realTimeStats": "Takwimu za Wakati Halisi",
   "@realTimeStats": {
     "description": "",
     "placeholders": {}
   },
+  "questions": "Maswali",
   "@questions": {
     "description": "",
     "placeholders": {}
   },
+  "bestStreak": "Mfululizo Bora",
   "@bestStreak": {
     "description": "",
     "placeholders": {}
   },
+  "sessions": "Vipindi",
   "@sessions": {
     "description": "",
     "placeholders": {}
   },
+  "gameModeDistribution": "Usambazaji wa Modi ya Mchezo",
   "@gameModeDistribution": {
     "description": "",
     "placeholders": {}
   },
+  "performanceInsights": "Maarifa ya Utendaji",
   "@performanceInsights": {
     "description": "",
     "placeholders": {}
   },
+  "bestAccuracy": "Usahihi Bora",
   "@bestAccuracy": {
     "description": "",
     "placeholders": {}
   },
+  "averageResponseTime": "Muda wa Wastani wa Kujibu",
   "@averageResponseTime": {
     "description": "",
     "placeholders": {}
   },
+  "completionRate": "Kiwango cha Ukamilishaji",
   "@completionRate": {
     "description": "",
     "placeholders": {}
   },
+  "engineIntensity": "NGUVU YA INJINI",
   "@engineIntensity": {
     "description": "",
     "placeholders": {}
   },
+  "averageHeat": "WASTANI WA JOTO",
   "@averageHeat": {
     "description": "",
     "placeholders": {}
   },
+  "currentHeat": "JOTO LA SASA",
   "@currentHeat": {
     "description": "",
     "placeholders": {}
   },
+  "maxHeat": "JOTO LA JUU",
   "@maxHeat": {
     "description": "",
     "placeholders": {}
   },
+  "heatIndex": "Kielezo cha Msukumo wa Joto",
   "@heatIndex": {
     "description": "",
     "placeholders": {}
   },
+  "intensityNormal": "KAWAIDA",
   "@intensityNormal": {
     "description": "",
     "placeholders": {}
   },
+  "intensityMedium": "WASTANI",
   "@intensityMedium": {
     "description": "",
     "placeholders": {}
   },
+  "intensityHigh": "JUU",
   "@intensityHigh": {
     "description": "",
     "placeholders": {}
   },
+  "intensityCritical": "HATARI",
   "@intensityCritical": {
     "description": "",
     "placeholders": {}
   },
+  "totalScore": "JUMLA YA ALAMA",
   "@totalScore": {
     "description": "",
     "placeholders": {}
   },
+  "xpToLevelFull": "{xp} XP hadi NGAZI INAYOFUATA",
   "@xpToLevelFull": {
     "description": "",
     "placeholders": {
@@ -2806,14 +2791,17 @@
       }
     }
   },
+  "achiever": "MFIKIAJI",
   "@achiever": {
     "description": "",
     "placeholders": {}
   },
+  "avatarUnlocks": "UFUNGUAJI WA AVATAR",
   "@avatarUnlocks": {
     "description": "",
     "placeholders": {}
   },
+  "requiresLevelAndStars": "Inahitaji Ngazi ya {level} na nyota {stars}!",
   "@requiresLevelAndStars": {
     "description": "",
     "placeholders": {
@@ -2827,6 +2815,7 @@
       }
     }
   },
+  "requiresStarsToUnlock": "Inahitaji nyota {stars} ili kufungua!",
   "@requiresStarsToUnlock": {
     "description": "",
     "placeholders": {
@@ -2836,6 +2825,7 @@
       }
     }
   },
+  "requiresLevelToUnlock": "Inahitaji Ngazi ya {level} ili kufungua!",
   "@requiresLevelToUnlock": {
     "description": "",
     "placeholders": {
@@ -2845,10 +2835,12 @@
       }
     }
   },
+  "unlockAvatarQuestion": "Fungua Avatar?",
   "@unlockAvatarQuestion": {
     "description": "",
     "placeholders": {}
   },
+  "unlockAvatarConfirm": "Je, unataka kutumia pointi {cost} kufungua avatar ya {name}?",
   "@unlockAvatarConfirm": {
     "description": "",
     "placeholders": {
@@ -2862,34 +2854,42 @@
       }
     }
   },
+  "unlock": "Fungua",
   "@unlock": {
     "description": "",
     "placeholders": {}
   },
+  "rarityCommon": "Kawaida",
   "@rarityCommon": {
     "description": "",
     "placeholders": {}
   },
+  "rarityUncommon": "Si ya Kawaida",
   "@rarityUncommon": {
     "description": "",
     "placeholders": {}
   },
+  "rarityRare": "Adimu",
   "@rarityRare": {
     "description": "",
     "placeholders": {}
   },
+  "rarityEpic": "Epic",
   "@rarityEpic": {
     "description": "",
     "placeholders": {}
   },
+  "rarityLegendary": "Hadithi",
   "@rarityLegendary": {
     "description": "",
     "placeholders": {}
   },
+  "rarityMythic": "Mythic",
   "@rarityMythic": {
     "description": "",
     "placeholders": {}
   },
+  "generatedOn": "Imetolewa mnamo {date}",
   "@generatedOn": {
     "description": "",
     "placeholders": {
@@ -2949,7 +2949,7 @@
     "description": "",
     "placeholders": {}
   },
-  "zenDesc": "Zen: Hali ya uwelevu bila alama, mazoezi tu.",
+  "zenDesc": "Zen: Hali ya utulivu bila alama, mazoezi tu.",
   "@zenDesc": {
     "description": "",
     "placeholders": {}
@@ -3009,9 +3009,49 @@
     "description": "",
     "placeholders": {}
   },
-  "areYouGettingFaster": "Je, unakua kwa kasi?",
+  "areYouGettingFaster": "Je, unakuwa haraka zaidi?",
   "@areYouGettingFaster": {
     "description": "",
+    "placeholders": {}
+  },
+  "colorBlindModeTitle": "Hali ya Upofu wa Rangi",
+  "@colorBlindModeTitle": {
+    "description": "Lebo ya mpangilio wa hali ya upofu wa rangi",
+    "placeholders": {}
+  },
+  "colorBlindModeNone": "Hakuna",
+  "@colorBlindModeNone": {
+    "description": "Hakuna kichujio cha upofu wa rangi",
+    "placeholders": {}
+  },
+  "colorBlindModeProtanopia": "Protanopia",
+  "@colorBlindModeProtanopia": {
+    "description": "Protanopia (Upofu wa Rangi Nyekundu)",
+    "placeholders": {}
+  },
+  "colorBlindModeDeuteranopia": "Deuteranopia",
+  "@colorBlindModeDeuteranopia": {
+    "description": "Deuteranopia (Upofu wa Rangi ya Kijani)",
+    "placeholders": {}
+  },
+  "colorBlindModeTritanopia": "Tritanopia",
+  "@colorBlindModeTritanopia": {
+    "description": "Tritanopia (Upofu wa Rangi ya Buluu)",
+    "placeholders": {}
+  },
+  "colorBlindModeDesc": "Rekebisha rangi kwa muonekano bora zaidi",
+  "@colorBlindModeDesc": {
+    "description": "Maelezo ya mpangilio wa hali ya upofu wa rangi",
+    "placeholders": {}
+  },
+  "tapToEquip": "Gusa ili Kuvaa",
+  "@tapToEquip": {
+    "description": "Maelezo ya kitufe cha kuvaa kifaa",
+    "placeholders": {}
+  },
+  "viewAll": "Tazama Zote",
+  "@viewAll": {
+    "description": "Kiungo cha kutazama vitu vyote",
     "placeholders": {}
   }
 }

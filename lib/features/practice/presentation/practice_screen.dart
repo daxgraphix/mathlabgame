@@ -300,6 +300,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   }
 
   Widget _buildToggleTile(String title, String subtitle, bool value, Function(bool) onChanged) {
+    final theme = Theme.of(context);
     return InkWell(
       onTap: () {
         HapticManager.instance.lightImpact();
@@ -328,6 +329,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
             Switch(
               value: value,
               onChanged: onChanged,
+              activeTrackColor: theme.colorScheme.primary,
             ),
           ],
         ),

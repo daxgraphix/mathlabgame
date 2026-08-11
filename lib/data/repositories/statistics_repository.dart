@@ -33,6 +33,7 @@ class StatisticsRepository {
     required int timeSpent,
     String? mode,
     String? levelKey,
+    List<String> concepts = const [],
   }) async {
     var stats = await getStatistics(null) ?? Statistics();
 
@@ -64,6 +65,7 @@ class StatisticsRepository {
       'isCorrect': isCorrect,
       'mode': mode,
       'levelKey': levelKey,
+      'concepts': concepts,
       'timestamp': DateTime.now().toIso8601String(),
     });
 
@@ -72,6 +74,19 @@ class StatisticsRepository {
       final totalOp = stats.timePerQuestion.where((q) => q['operationId'] == operationId).length;
       final correctOp = stats.timePerQuestion.where((q) => q['operationId'] == operationId && q['isCorrect'] == true).length;
       stats.accuracyByOperation[operationId] = totalOp > 0 ? (correctOp / totalOp * 100) : 0.0;
+    }
+
+    // Update accuracy by concept
+    for (final concept in concepts) {
+      final totalConcept = stats.timePerQuestion.where((q) {
+        final List? c = q['concepts'] as List?;
+        return c?.contains(concept) ?? false;
+      }).length;
+      final correctConcept = stats.timePerQuestion.where((q) {
+        final List? c = q['concepts'] as List?;
+        return (c?.contains(concept) ?? false) && q['isCorrect'] == true;
+      }).length;
+      stats.accuracyByConcept[concept] = totalConcept > 0 ? (correctConcept / totalConcept * 100) : 0.0;
     }
 
     // Update mode usage

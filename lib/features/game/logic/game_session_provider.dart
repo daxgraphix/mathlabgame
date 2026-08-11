@@ -57,12 +57,18 @@ class GameSession {
   final VisualCountingData? currentVisualData;
   final List<Map<String, dynamic>> pendingStats;
   final int? ghostScore;
+  final List<int>? ghostResponseTimes; // Recorded response times in ms
+  final List<bool>? ghostCorrectness;  // Recorded correctness
   final double heatIndex;
   final bool feverActive;
   final CustomMixMode? customMixMode;
   final int elapsedSeconds;
   final int? timeTarget;
   final DateTime? startTime;
+  final List<int> responseTimes; // Current session response times in ms
+  final List<bool> correctnessHistory; // Current session correctness
+  final int lastTimeBonus; // Most recent time bonus added
+  final Map<String, dynamic> metadata; // For extensibility (e.g., friend ID for challenges)
 
   GameSession({
     required this.mode,
@@ -94,12 +100,18 @@ class GameSession {
     this.currentVisualData,
     this.pendingStats = const [],
     this.ghostScore,
+    this.ghostResponseTimes,
+    this.ghostCorrectness,
     this.heatIndex = 1.0,
     this.feverActive = false,
     this.customMixMode,
     this.elapsedSeconds = 0,
     this.timeTarget,
     this.startTime,
+    this.responseTimes = const [],
+    this.correctnessHistory = const [],
+    this.lastTimeBonus = 0,
+    this.metadata = const {},
   });
 
   int get questionsRemaining => totalQuestions - currentQuestionIndex;
@@ -182,6 +194,10 @@ class GameSession {
     int? elapsedSeconds,
     int? timeTarget,
     DateTime? startTime,
+    List<int>? responseTimes,
+    List<bool>? correctnessHistory,
+    int? lastTimeBonus,
+    Map<String, dynamic>? metadata,
   }) {
     return GameSession(
       mode: mode ?? this.mode,
@@ -211,12 +227,60 @@ class GameSession {
       currentVisualData: currentVisualData ?? this.currentVisualData,
       pendingStats: pendingStats ?? this.pendingStats,
       ghostScore: ghostScore ?? this.ghostScore,
+      ghostResponseTimes: ghostResponseTimes ?? ghostResponseTimes,
+      ghostCorrectness: ghostCorrectness ?? ghostCorrectness,
       heatIndex: heatIndex ?? this.heatIndex,
       feverActive: feverActive ?? this.feverActive,
       customMixMode: customMixMode ?? this.customMixMode,
       elapsedSeconds: elapsedSeconds ?? this.elapsedSeconds,
       timeTarget: timeTarget ?? this.timeTarget,
       startTime: startTime ?? this.startTime,
+      responseTimes: responseTimes ?? this.responseTimes,
+      correctnessHistory: correctnessHistory ?? this.correctnessHistory,
+      lastTimeBonus: lastTimeBonus ?? this.lastTimeBonus,
+      metadata: metadata ?? this.metadata,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'mode': mode.name,
+      'operation': operation,
+      'level': level,
+      'score': score,
+      'correctAnswers': correctAnswers,
+      'totalQuestions': totalQuestions,
+      'responseTimes': responseTimes,
+      'correctnessHistory': correctnessHistory,
+      'ghostScore': score,
+      'ghostResponseTimes': responseTimes,
+      'ghostCorrectness': correctnessHistory,
+      'heatIndex': heatIndex,
+      'elapsedSeconds': elapsedSeconds,
+      'timeTarget': timeTarget,
+      'metadata': metadata,
+      'timestamp': DateTime.now().toIso8601String(),
+    };
+  }
+
+  factory GameSession.fromJson(Map<String, dynamic> json) {
+    return GameSession(
+      mode: GameMode.values.firstWhere((m) => m.name == json['mode']),
+      operation: json['operation'] as String,
+      level: json['level'] as int,
+      questions: [], 
+      score: 0,
+      correctAnswers: 0,
+      totalQuestions: json['totalQuestions'] as int,
+      responseTimes: [],
+      correctnessHistory: [],
+      ghostScore: json['ghostScore'] as int?,
+      ghostResponseTimes: List<int>.from(json['ghostResponseTimes'] ?? json['responseTimes'] ?? []),
+      ghostCorrectness: List<bool>.from(json['ghostCorrectness'] ?? json['correctnessHistory'] ?? []),
+      heatIndex: (json['heatIndex'] as num?)?.toDouble() ?? 1.0,
+      elapsedSeconds: json['elapsedSeconds'] as int? ?? 0,
+      timeTarget: json['timeTarget'] as int?,
+      metadata: json['metadata'] as Map<String, dynamic>? ?? {},
     );
   }
 }
@@ -256,9 +320,10 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
   }
 
   static int _calculateCampaignTimeTarget(int level, int totalQuestions) {
-    final baseTime = totalQuestions * 8;
-    final levelBonus = level * 2;
-    return baseTime + levelBonus;
+    // Dynamic difficulty: Target time decreases as level increases to challenge the player.
+    // Base: starts at ~7s/question, tightening to ~4s/question at higher levels.
+    double secondsPerQuestion = (7.0 - (level * 0.04)).clamp(4.0, 7.0);
+    return (totalQuestions * secondsPerQuestion).round();
   }
 
   final Ref ref;
@@ -280,6 +345,9 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     int? timeLimit,
     List<MathQuestion>? preloadedQuestions,
     CustomMixMode? customMixMode,
+    int? ghostScore,
+    List<int>? ghostResponseTimes,
+    List<bool>? ghostCorrectness,
   }) async {
     _timer?.cancel();
     _duelTimer?.cancel();
@@ -295,15 +363,15 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
       switch (customMixMode) {
         case CustomMixMode.standard:
           calculatedTotalQuestions = 20;
-          timeRemaining = 0;
+          timeRemaining = 120;
           break;
         case CustomMixMode.suddenDeath:
-          calculatedTotalQuestions = 20;
-          timeRemaining = 10;
+          calculatedTotalQuestions = 50;
+          timeRemaining = 45;
           break;
         case CustomMixMode.zen:
           calculatedTotalQuestions = 30;
-          timeRemaining = 0;
+          timeRemaining = 30;
           break;
         case CustomMixMode.timeAttack:
           calculatedTotalQuestions = 100;
@@ -311,7 +379,7 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
           break;
         case null:
           calculatedTotalQuestions = 20;
-          timeRemaining = 0;
+          timeRemaining = 120;
           break;
       }
     } else {
@@ -324,14 +392,15 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
         isBossLevel = true;
       }
     } else if (mode == GameMode.scoreAttack) {
-        timeRemaining = (90 + (level - 1) * 1.5).round().clamp(90, 240);
-        calculatedTotalQuestions = (200 * (1 + level * 0.05)).toInt();
+        // Balanced scaling for Arcade: More questions, but tighter base time
+        timeRemaining = (60 + (level - 1) * 2.0).round().clamp(60, 180);
+        calculatedTotalQuestions = 500; // Effectively endless for the duration
       } else if (mode == GameMode.speedDemon) {
-        timeRemaining = (45 + (level - 1) * 0.5).round().clamp(45, 90);
-        calculatedTotalQuestions = (40 * (1 + level * 0.05)).toInt();
+        timeRemaining = (30 + (level - 1) * 1.0).round().clamp(30, 60);
+        calculatedTotalQuestions = 500;
       } else if (mode == GameMode.endless) {
         timeRemaining = 0;
-        calculatedTotalQuestions = 1000; // Effectively endless
+        calculatedTotalQuestions = 2000; 
         lives = 3;
       } else if (mode == GameMode.mathMaster) {
         timeRemaining = 0;
@@ -339,14 +408,14 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
         lives = 999;
       } else if (mode == GameMode.marathon) {
         timeRemaining = 0;
-        calculatedTotalQuestions = 500;
+        calculatedTotalQuestions = 1000;
         lives = 999;
       } else if (mode == GameMode.duel) {
         timeRemaining = 0;
         calculatedTotalQuestions = 50;
       } else if (mode == GameMode.flash) {
-        timeRemaining = (60 + (level - 1) * 0.6).round().clamp(60, 120);
-        calculatedTotalQuestions = (50 * (1 + level * 0.05)).toInt();
+        timeRemaining = (45 + (level - 1) * 1.0).round().clamp(45, 120);
+        calculatedTotalQuestions = (60 * (1 + level * 0.05)).toInt();
       }
     }
 
@@ -430,6 +499,8 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
       isBossLevel: isBossLevel,
       currentVisualData: isVisualCounting ? _generateVisualCountingData(level) : null,
       ghostScore: (ghostScore ?? 0) > 0 ? ghostScore : null,
+      ghostResponseTimes: ghostResponseTimes,
+      ghostCorrectness: ghostCorrectness,
       heatIndex: user?.lastHeatIndex ?? 1.0,
       customMixMode: customMixMode,
       elapsedSeconds: 0,
@@ -455,12 +526,13 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (state == null) return;
 
-      if (state!.timeRemaining > 0) {
-        double newHeat = state!.heatIndex;
-        if (state!.timeRemaining % 3 == 0) {
-          newHeat = (newHeat - 0.05).clamp(1.0, 4.0);
-        }
+      double newHeat = state!.heatIndex;
+      // Periodic decay: reduce heat slightly every 4 seconds to balance difficulty
+      if (state!.elapsedSeconds > 0 && state!.elapsedSeconds % 4 == 0) {
+        newHeat = (newHeat - 0.06).clamp(1.0, 4.0);
+      }
 
+      if (state!.timeRemaining > 0) {
         state = state!.copyWith(
           timeRemaining: state!.timeRemaining - 1,
           heatIndex: newHeat,
@@ -496,16 +568,25 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     }
 
     _duelAnswered = false;
-    final aiTime = MathEngine.getAIAnswerTime(state!.operation, state!.level);
+    
+    // Check if we have ghost data for this question index
+    final int? ghostTime = (state!.ghostResponseTimes != null && state!.ghostResponseTimes!.length > state!.currentQuestionIndex)
+        ? state!.ghostResponseTimes![state!.currentQuestionIndex]
+        : null;
+    final bool? ghostCorrect = (state!.ghostCorrectness != null && state!.ghostCorrectness!.length > state!.currentQuestionIndex)
+        ? state!.ghostCorrectness![state!.currentQuestionIndex]
+        : null;
+
+    final aiTime = ghostTime ?? MathEngine.getAIAnswerTime(state!.operation, state!.level);
 
     _duelTimer = Timer(Duration(milliseconds: aiTime), () {
       if (_duelAnswered || state == null) return;
 
-      final aiCorrect = _random.nextDouble() < _getAIAccuracy();
+      final bool isCorrect = ghostCorrect ?? (_random.nextDouble() < _getAIAccuracy());
       int newAiScore = state!.aiScore ?? 0;
       int newAiCorrect = state!.aiCorrectAnswers ?? 0;
 
-      if (aiCorrect) {
+      if (isCorrect) {
         newAiScore += 10;
         newAiCorrect++;
       }
@@ -537,13 +618,17 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     
     // Performance improvement: track stats early
     final now = DateTime.now();
-    final timeSpent = now.difference(state!.lastAnswerTime!).inSeconds.clamp(1, 300);
+    final timeSpent = now.difference(state!.lastAnswerTime!).inMilliseconds.clamp(1, 300000);
+    final timeSpentSeconds = (timeSpent / 1000).ceil().clamp(1, 300);
 
     int newScore = state!.score;
     int newCorrect = state!.correctAnswers;
     int newLives = state!.lives;
     int newStreak = isCorrect ? state!.currentStreak + 1 : 0;
     int newBestStreak = max(state!.bestStreak, newStreak);
+
+    final newResponseTimes = List<int>.from(state!.responseTimes)..add(timeSpent);
+    final newCorrectnessHistory = List<bool>.from(state!.correctnessHistory)..add(isCorrect);
 
     final hintUsed = state!.hintsUsed[state!.currentQuestionIndex] ?? false;
     final challengeNotifier = ref.read(dailyChallengeProvider.notifier);
@@ -582,13 +667,17 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
       newScore += questionScore;
       newCorrect++;
 
-      // Time Bonus for Score Attack, Speed Demon, and Time Attack
+      // Dynamic Time Bonuses: Rewarding high Heat and rapid responses
       if (state!.mode == GameMode.scoreAttack) {
-        bonusSeconds = 2 + (multiplier ~/ 2);
+        // High heat + fast combo = more time survival
+        int heatBonus = state!.heatIndex > 2.0 ? 1 : 0;
+        int speedBonus = timeSpent < 2000 ? 2 : (timeSpent < 3500 ? 1 : 0);
+        bonusSeconds = 1 + heatBonus + speedBonus;
       } else if (state!.mode == GameMode.speedDemon) {
-        bonusSeconds = 1 + (newFever ? 1 : 0);
+        // Speed demon is stingy: only rewards sub-1.5s answers
+        bonusSeconds = timeSpent < 1500 ? 1 : 0;
       } else if (state!.mode == GameMode.customMix && state!.customMixMode == CustomMixMode.timeAttack) {
-        bonusSeconds = 3;
+        bonusSeconds = timeSpent < 2500 ? 3 : 1;
       }
 
       if (newCombo == 5) {
@@ -640,23 +729,26 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
       'score': questionScore,
       'mode': state!.mode.name,
       'levelKey': '${state!.operation}_${state!.level}',
+      'concepts': state!.currentQuestion?.concepts ?? [],
     });
 
     // Calculate Heat Index: increases if answering quickly and correctly
     double newHeat = state!.heatIndex;
     if (isCorrect) {
-      if (timeSpent <= 3) {
-        newHeat += 0.15; // Increased heat gain
-      } else if (timeSpent <= 5) {
-        newHeat += 0.08;
+      if (timeSpent <= 2500) { // Under 2.5s
+        newHeat += 0.12; 
+      } else if (timeSpent <= 4000) { // 2.5s - 4s
+        newHeat += 0.05;
+      } else if (timeSpent > 7000) { // Over 7s: Slight decay even if correct
+        newHeat -= 0.05;
       }
     } else {
-      newHeat = (newHeat - 0.25).clamp(1.0, 4.0);
+      newHeat = (newHeat - 0.30).clamp(1.0, 4.0); // Sharper drop on error
     }
     
-    // Endless mode makes heat increase faster over time
-    if (state!.mode == GameMode.endless) {
-       newHeat += 0.02;
+    // Endless mode makes heat increase gradually over time to ensure progression
+    if (state!.mode == GameMode.endless && isCorrect) {
+       newHeat += 0.01;
     }
     
     newHeat = newHeat.clamp(1.0, 4.0);
@@ -667,14 +759,33 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
        final user = ref.read(userSessionProvider);
        final skillRating = user?.skillRating ?? 1000;
        
-       final toughQuestion = MathEngine.generateQuestion(
-         state!.operation,
-         state!.level,
-         isArcade: state!.mode != GameMode.campaign,
-         skillRating: skillRating,
-         heatIndex: newHeat,
-       );
-       updatedQuestions[state!.currentQuestionIndex + 1] = toughQuestion;
+       // Optimization: generate next few questions in batch if we are at high heat to avoid frequent injections
+       final injectionCount = (newHeat > 2.5) ? 3 : 1;
+       final startIndex = state!.currentQuestionIndex + 1;
+       final remainingInBatch = state!.totalQuestions - startIndex;
+       final count = min(injectionCount, remainingInBatch);
+
+       if (count > 0) {
+         // Using future to not block current answer processing, though generateQuestionsBatch handles isolate for small batches too now
+         MathEngine.generateQuestionsBatch(
+           state!.operation,
+           state!.level,
+           count,
+           isArcade: state!.mode != GameMode.campaign,
+           skillRating: skillRating,
+           heatIndex: newHeat,
+         ).then((newBatch) {
+            if (state != null) {
+              final currentQuestions = List<MathQuestion>.from(state!.questions);
+              for (int i = 0; i < newBatch.length; i++) {
+                if (startIndex + i < currentQuestions.length) {
+                  currentQuestions[startIndex + i] = newBatch[i];
+                }
+              }
+              state = state!.copyWith(questions: currentQuestions);
+            }
+         });
+       }
     }
 
 
@@ -686,7 +797,7 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
       bestStreak: max(state!.bestStreak, newBestStreak),
       lives: newLives,
       timeRemaining: state!.mode == GameMode.customMix && state!.customMixMode == CustomMixMode.suddenDeath && isCorrect
-          ? 10
+          ? 7 // Tighter window for sudden death (7 seconds to answer)
           : state!.timeRemaining + bonusSeconds,
       userAnswers: newUserAnswers,
       comboMultiplier: newCombo,
@@ -695,6 +806,9 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
       pendingStats: newPendingStats,
       heatIndex: newHeat,
       questions: updatedQuestions,
+      responseTimes: newResponseTimes,
+      correctnessHistory: newCorrectnessHistory,
+      lastTimeBonus: bonusSeconds,
     );
     ref.read(soundManagerProvider).updateHeat(newHeat);
 
@@ -702,7 +816,7 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     ref.read(sessionStatsProvider.notifier).recordAnswer(
       state!.operation,
       isCorrect,
-      timeSpent,
+      timeSpentSeconds,
       hintUsed,
     );
 
@@ -710,8 +824,9 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     ref.read(playerPerformanceProvider.notifier).recordAnswer(
       operation: state!.operation,
       isCorrect: isCorrect,
-      responseTimeMs: timeSpent * 1000,
+      responseTimeMs: timeSpent,
       hintsUsed: hintUsed ? 1 : 0,
+      concepts: state!.currentQuestion?.concepts ?? [],
     );
     ref.read(difficulty.dynamicDifficultyProvider.notifier).recordAssessment(isCorrect: isCorrect);
 
@@ -840,12 +955,16 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     if (state == null || state!.currentVisualData == null) return;
 
     final now = DateTime.now();
-    final timeSpent = now.difference(state!.lastAnswerTime!).inSeconds.clamp(1, 300);
+    final timeSpent = now.difference(state!.lastAnswerTime!).inMilliseconds.clamp(1, 300000);
+    final timeSpentSeconds = (timeSpent / 1000).ceil().clamp(1, 300);
 
     final isCorrect = answer == state!.currentVisualData!.targetCount;
     int newScore = state!.score;
     int newCorrect = state!.correctAnswers;
     int newLives = state!.lives;
+    
+    final newResponseTimes = List<int>.from(state!.responseTimes)..add(timeSpent);
+    final newCorrectnessHistory = List<bool>.from(state!.correctnessHistory)..add(isCorrect);
 
     if (isCorrect) {
       ref.read(soundManagerProvider).playCorrect();
@@ -862,7 +981,7 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     newPendingStats.add({
       'operationId': 'visual_counting',
       'isCorrect': isCorrect,
-      'timeSpent': timeSpent,
+      'timeSpent': timeSpentSeconds,
     });
 
     state = state!.copyWith(
@@ -871,13 +990,15 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
       lives: newLives,
       pendingStats: newPendingStats,
       lastAnswerTime: now,
+      responseTimes: newResponseTimes,
+      correctnessHistory: newCorrectnessHistory,
     );
 
     // Record per-answer session stats
     ref.read(sessionStatsProvider.notifier).recordAnswer(
       'visual_counting',
       isCorrect,
-      timeSpent,
+      timeSpentSeconds,
       false,
     );
 
@@ -885,7 +1006,7 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     ref.read(playerPerformanceProvider.notifier).recordAnswer(
       operation: 'visual_counting',
       isCorrect: isCorrect,
-      responseTimeMs: timeSpent * 1000,
+      responseTimeMs: timeSpent,
       hintsUsed: 0,
     );
     ref.read(difficulty.dynamicDifficultyProvider.notifier).recordAssessment(isCorrect: isCorrect);
@@ -1006,6 +1127,7 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
           timeSpent: stat['timeSpent'] as int,
           mode: stat['mode'] as String?,
           levelKey: stat['levelKey'] as String?,
+          concepts: (stat['concepts'] as List<dynamic>?)?.cast<String>() ?? [],
         );
       }
 
@@ -1256,7 +1378,13 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
   void resumeGame() {
     if (state != null) {
       state = state!.copyWith(state: GameState.playing);
-      if (state!.mode == GameMode.scoreAttack) {
+      if (state!.mode == GameMode.scoreAttack ||
+          state!.mode == GameMode.speedDemon ||
+          state!.mode == GameMode.flash ||
+          state!.mode == GameMode.campaign ||
+          state!.mode == GameMode.practice ||
+          (state!.mode == GameMode.customMix && state!.timeRemaining > 0) ||
+          (state!.mode == GameMode.customMix && state!.customMixMode == CustomMixMode.zen)) {
         _startTimer();
       } else if (state!.mode == GameMode.duel) {
         _processDuelTurn();

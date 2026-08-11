@@ -28,10 +28,10 @@ class MathVisualEngine {
   static Future<LogicMathChallenge> generateVisualLogicChallenge(
     int difficulty,
   ) async {
-    return await compute(_generateInternal, difficulty);
+    return await compute(generateVisualLogicSync, difficulty);
   }
 
-  static LogicMathChallenge _generateInternal(int difficulty) {
+  static LogicMathChallenge generateVisualLogicSync(int difficulty) {
     // Pick a generator type based on difficulty and randomness
     final type = _random.nextInt(100);
 

@@ -1,94 +1,118 @@
-# mathlab: Gamified Arithmetic & Analytics System 🚀
+# mathlab: The Ultimate Arithmetic & Analytics Platform 🚀
 
-**mathlab** is a premium, high-performance mental mathematics training platform built with Flutter. It transcends traditional educational software by merging rigorous arithmetic exercises with advanced data analytics and a deep, RPG-inspired gamification layer.
+**mathlab** is a premium, high-performance mental mathematics training ecosystem built with Flutter. It merges rigorous cognitive training with advanced data analytics and a deep, neon-cyberpunk gamification layer.
 
 ---
 
 ## 🌟 Vision & Impact
-In an era of digital distractions, mathlab aims to turn cognitive development into an addictive, rewarding experience.
-- **Cognitive Growth**: Focuses on improving subitizing, mental calculation speed, and working memory.
-- **The Flow State**: Uses a proprietary **Heat Index** and **Dynamic Difficulty Adjustment (DDA)** to keep users in the "sweet spot" between boredom and frustration.
-- **Educational Equity**: Provides a "Professional Grade" tool for everyone, from students to professionals looking to sharpen their mental acuity.
+In an era of digital distractions, **mathlab** transforms brain training into an addictive, rewarding experience.
+- **Cognitive Optimization**: Engineered to improve subitizing, mental calculation speed, and working memory.
+- **The Flow State**: Employs a proprietary **Heat Index** and **Dynamic Difficulty Adjustment (DDA)** to maintain the optimal challenge level.
+- **Accessibility First**: Includes specialized **Color-Blind Modes** (Protanopia, Deuteranopia, Tritanopia) and a **Focus Mode** for distraction-free learning.
 
 ---
 
-## 🎮 Core Gameplay & Features
+## 🎮 Game Modes & Features
 
-### 1. The Mastery Campaign
-- **Linear Progression**: 100+ handcrafted levels across Addition, Subtraction, Multiplication, and Division.
-- **Milestone Bosses**: High-pressure "Boss" levels every 10 levels with unique visual effects and tighter time constraints.
-- **Adaptive Scoring**: Stars are awarded based on a combination of accuracy, speed, and the **Heat Index** maintained during the session.
+### 1. Mastery Campaign
+- **100+ Levels**: Progress through chapters with increasing complexity across Addition, Subtraction, Multiplication, and Division.
+- **Star System**: Earn up to 3 stars per level based on accuracy and speed.
+- **Boss Nodes**: Specialized high-stakes levels that unlock new chapters and provide massive XP boosts.
 
-### 2. The Arcade Arena
-- **Score Attack**: 90-second sprints to maximize points.
-- **Speed Demon**: Ultra-fast intervals—one mistake ends the session.
-- **Flash Math**: High-speed visual recognition of numbers and operators.
-- **Endless Mode**: Complexity scales infinitely as long as the player remains accurate.
-- **Duel Mode**: Race against an AI "Ghost" that mimics your previous best performance or a target skill rating.
+### 2. Arcade Arena
+- **Time Attack**: 60-90 second sprints to maximize points.
+- **Sudden Death**: One mistake and the session terminates—pure precision training.
+- **Zen Mode**: Stress-free practice without timers or scoring for relaxed learning.
+- **Endless Mode**: Complexity scales infinitely as long as your accuracy holds.
+- **Flash Math**: Rapid-fire visual challenges focusing on number and operator recognition.
 
-### 3. Advanced Puzzles
-- **Cross Numbers**: A hybrid of Crosswords and Sudoku. Users must fill a grid so that every intersecting equation is mathematically valid.
-- **Logic Riddles**: Non-standard arithmetic problems that require lateral thinking and pattern recognition.
-- **Visual Counting**: A mode designed to improve subitizing (instantly recognizing the number of objects without counting).
+### 3. Puzzles & Logic
+- **Cross Numbers**: Mathematical crossword puzzles where every intersecting equation must be balanced correctly.
+- **Logic Riddles**: Lateral thinking math problems that challenge your reasoning beyond simple calculation.
+- **Visual Counting**: Improving subitizing by rapidly counting shapes and patterns.
 
-### 4. Innovation: The Heat System
-- **Heat Index**: A real-time "intensity" meter that grows as you answer correctly and decays over time. Higher Heat increases points but reduces the window for "Fever Mode."
-- **Fever Mode**: Triggered at maximum Heat, doubling all points and providing explosive visual feedback (UI color shifts and particle effects).
-
-### 5. Challenge & Reward Ecosystem
-- **Daily & Weekly Challenges**: Procedurally generated tasks (e.g., "Solve 25 Multiplications in under 2 minutes") that reward "Math Points."
-- **Avatar Shop**: Spend earned points to unlock new shapes (Diamond, Hexagon, Star) and premium neon colors for your profile.
+### 4. Practice Lab & Custom Mix
+- **Practice Mode**: Target specific skills with adjustable number ranges and operation types.
+- **Custom Mix Generator**: A procedural challenge engine. Define your own operation matrix, difficulty level, and session duration.
+- **Built-in Calculator**: A comprehensive arithmetic tool featuring both Basic and Scientific modes with a persistent calculation history.
 
 ---
 
-## 📱 Detailed Screen Breakdown
+## 🚀 Key Systems: How It Works
 
-| Screen | Description |
-| :--- | :--- |
-| **The Command Center (Home)** | The central hub featuring the **Quick Resume** module, Daily Challenge progress, and a snapshot of player level/XP. |
-| **The Lab (Game Screen)** | The primary interface for sessions. Features a glassmorphic numpad, real-time Heat Meter, and "Fever" overlays. |
-| **Campaign Map** | A vertical scrolling journey showing progress through chapters and star completion rates. |
-| **Arcade Arena** | A selection screen for high-intensity modes, showing personal high scores for each sub-mode. |
-| **Intelligence Center (Reports)** | A data-heavy dashboard showing accuracy heatmaps, operation-specific performance, and time-spent analytics via `fl_chart`. |
-| **Daily Challenges** | A dedicated view for tracking Daily and Weekly goals with "Claim Reward" functionality. |
-| **Avatar Shop** | A gamified marketplace where users spend "Math Points" to unlock premium assets. |
-| **Settings & Accessibility** | Full control over Haptics, Sound FX, Language (English/Swahili), and **Focus Mode** (removes UI clutter for better concentration). |
+### The Heat & Fever System
+- **Real-Time Intensity**: The UI reacts to your performance. Correct answers increase the **Heat Index**, while idle time or errors cause it to decay.
+- **Fever Mode**: Reaching maximum Heat triggers "Fever Mode," doubling points and XP, and activating explosive neon visual effects and particle systems.
+- **Engine Intensity**: As the Heat Index climbs, the "Engine Intensity" shifts from Normal to Critical, providing visceral feedback on your performance.
+
+### Intelligence Center (Analytics)
+- **Neural Efficiency Index (NEI)**: A proprietary metric that analyzes the relationship between your accuracy and response speed.
+- **Deep Metrics**: Track your performance trends through interactive charts, covering session history, operation mastery, and speed analytics.
+- **Export Protocols**: Generate professional **PDF Progress Reports** or share high-quality **Performance Snapshots** to document your mathematical journey.
+
+### Gamification & RPG Layer
+- **Avatar Shop**: Spend "Math Points" to unlock and equip rare, epic, and legendary avatars with distinct cyberpunk designs.
+- **XP & Leveling**: A full progression system where every session contributes to your global Math Level.
+- **Achievement System**: 50+ unique achievements (e.g., "Speed Demon", "Math Master", "Grid Explorer") with tiered rewards.
+- **Daily Missions**: Procedurally generated daily and weekly tasks to keep your training consistent.
 
 ---
 
 ## 🛠 Technical Architecture
 
-### State Management: Riverpod
-The app uses **Riverpod** for a completely reactive and testable architecture:
-- `UserSessionProvider`: Manages global user state, XP progression, and profile persistence.
-- `GameSessionProvider`: A high-frequency notifier handling the game loop, timers, and scoring.
-- `DailyChallengeNotifier`: Manages complex reset logic and persistence for daily/weekly cycles.
-- `DynamicDifficultyProvider`: Analyzes real-time performance to adjust the difficulty of the next question.
+### Tech Stack
+- **Framework**: Flutter (Optimized for 60/120 FPS)
+- **State Management**: Riverpod (Highly reactive, modular architecture)
+- **Persistence**: SQLite (Local storage for session history, level progress, and profile data)
+- **Charts**: `fl_chart` for high-performance data visualization
+- **Animations**: `flutter_animate` and custom `Canvas` particle systems
+- **Localization**: Full English & Swahili support with dynamic language switching
 
-### Data & Persistence
-- **Local Database (SQLite)**: Manages detailed level progress and historical session data for offline-first analytics.
-- **Repositories**: Abstracted data layer for Math Riddles, User Settings, and Level Stats.
-- **Math Engine**: A custom algorithmic generator that ensures every equation (including Cross Numbers) is solvable and difficulty-balanced.
-
-### UI/UX Excellence
-- **Glassmorphism**: Premium "frosted glass" UI style using `BackdropFilter` and custom layering.
-- **Fluid Animations**: Leveraging `flutter_animate` for non-blocking, performant UI transitions (targeting 60-120 FPS).
-- **Localization (i18n)**: Fully localized in English and Swahili with support for dynamic language switching.
+### Project Structure
+```text
+lib/
+├── core/                   # Core utilities, theme, and shared components
+│   ├── components/         # Reusable UI widgets (Glassmorphic cards, Neon buttons)
+│   ├── theme/              # Neon-Cyberpunk & Solar theme configurations
+│   └── utils/              # Game engines, flow optimizers, and math generators
+├── features/               # Feature-based modular architecture
+│   ├── arcade/             # Arcade mode logic and session handling
+│   ├── campaign/           # Level progression map and milestone logic
+│   ├── calculator/         # Basic & Scientific calculator implementation
+│   ├── custom_mix/         # Procedural challenge generator
+│   ├── home/               # Central dashboard and navigation hub
+│   ├── practice/           # Focused training lab
+│   ├── profile/            # User settings, avatars, and shop system
+│   ├── puzzles/            # Cross-numbers and logic riddle engines
+│   └── reports/            # Data analytics visualization and PDF/Image export
+├── l10n/                   # Localization (ARB files)
+└── main.dart               # App entry point and global providers
+```
 
 ---
 
-## 💼 Business & Growth Value
-- **High Retention**: Multiple feedback loops (Login Streaks, XP Progress, Global Achievements) drive long-term engagement.
-- **Monetization Ready**: The "Avatar Shop" and "Points" system are primed for IAP integration.
-- **Performance Analytics**: The deep-dive reporting makes it an essential tool for parents and educators to track student growth.
+## 🎨 UI/UX Philosophy
+- **Glassmorphism**: Premium "frosted glass" interfaces with deep blur effects and vibrant accents.
+- **Haptic Engineering**: Precise tactile feedback for every keypress and milestone, creating a "mechanical" feel.
+- **Dual Visual Modes**: Seamlessly switch between the **Cyber** (Neon Dark) and **Solar** (Clean Light) visual themes.
 
 ---
 
 ## 🚀 Getting Started
 
-1.  **Clone & Install**: `flutter pub get`
-2.  **Generate Code**: `flutter gen-l10n` (for localization)
-3.  **Run**: `flutter run --release` (recommended to experience full 60FPS animations)
+1.  **Environment**: Ensure you have Flutter 3.x installed.
+2.  **Dependencies**:
+    ```bash
+    flutter pub get
+    ```
+3.  **Localization**: Generate the localized code before running.
+    ```bash
+    flutter gen-l10n
+    ```
+4.  **Run**:
+    ```bash
+    flutter run --release
+    ```
 
 ---
 Developed by **mathlab Team** – *Quantifying Intelligence, One Equation at a Time.*

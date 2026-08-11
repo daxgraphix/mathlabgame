@@ -65,8 +65,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final sessionStats = ref.watch(sessionStatsProvider);
 
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      extendBody: true,
+      backgroundColor: Colors.transparent, // Let MainNavigationScaffold handle background
       body: _buildAdvancedBody(
         theme, 
         user, 
@@ -78,6 +77,147 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         l10n,
       ),
     );
+  }
+
+  Widget _buildChallengeSection(ThemeData theme, AppLocalizations l10n) {
+    return Consumer(
+      builder: (context, ref, child) {
+        final allChallenges = ref.watch(dailyChallengeProvider);
+        final dailyChallenges = allChallenges.where((c) => !c.isWeekly).toList();
+        final weeklyChallenges = allChallenges.where((c) => c.isWeekly).toList();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  l10n.dailyChallenge,
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: theme.colorScheme.onSurface,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => _navigateToScreen(const EnhancedChallengeScreen()),
+                  child: Text(l10n.viewAll),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            if (dailyChallenges.isNotEmpty)
+              _buildChallengeCard(dailyChallenges.first, theme, l10n),
+            if (weeklyChallenges.isNotEmpty) ...[
+              const SizedBox(height: 24),
+              Text(
+                l10n.weeklyChallenges,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.onSurface,
+                ),
+              ),
+              const SizedBox(height: 16),
+              _buildChallengeCard(weeklyChallenges.first, theme, l10n, isWeekly: true),
+            ],
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildChallengeCard(DailyChallenge challenge, ThemeData theme, AppLocalizations l10n, {bool isWeekly = false}) {
+    final hoursLeft = challenge.expiresAt.difference(DateTime.now()).inHours;
+    final minutesLeft = challenge.expiresAt.difference(DateTime.now()).inMinutes % 60;
+    final color = isWeekly ? theme.colorScheme.secondary : theme.colorScheme.tertiary;
+
+    return PremiumCard(
+      padding: const EdgeInsets.all(20),
+      borderColor: color.withValues(alpha: 0.4),
+      onTap: () => _navigateToScreen(const EnhancedChallengeScreen()),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      isWeekly ? Icons.auto_awesome : Icons.calendar_today,
+                      color: color,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      isWeekly ? l10n.weeklyChallenges : l10n.dailyChallenge,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        fontWeight: FontWeight.w900,
+                        color: color,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  challenge.title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  challenge.description,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: LinearProgressIndicator(
+                    value: challenge.progress,
+                    minHeight: 6,
+                    backgroundColor: color.withValues(alpha: 0.1),
+                    valueColor: AlwaysStoppedAnimation(color),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${challenge.currentValue}/${challenge.targetValue}',
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      isWeekly 
+                        ? l10n.timeLeftShort(hoursLeft ~/ 24, hoursLeft % 24)
+                        : l10n.timeLeftShort(hoursLeft, minutesLeft),
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 20),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(Icons.chevron_right, color: color),
+          ),
+        ],
+      ),
+    ).animate().fadeIn(duration: 600.ms).slideX(begin: 0.1, end: 0);
   }
 
   Widget _buildStreakIndicator(ThemeData theme) {
@@ -164,106 +304,95 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     AppLocalizations l10n,
   ) {
     final isMobile = ResponsiveUtils.isMobile(context);
+    final topPadding = MediaQuery.of(context).padding.top;
+    
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
-        SliverAppBar(
-          expandedHeight: 120,
-          floating: true,
-          pinned: true,
-          elevation: 0,
-          backgroundColor: theme.scaffoldBackgroundColor,
-          flexibleSpace: FlexibleSpaceBar(
-            background: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    theme.colorScheme.primary.withValues(alpha: 0.1),
-                    theme.colorScheme.secondary.withValues(alpha: 0.05),
-                  ],
-                ),
-              ),
-            ),
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(
-                    Icons.bolt_rounded,
-                    color: theme.colorScheme.primary,
-                    size: 16,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      l10n.commandCenter,
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 2,
-                        color: theme.colorScheme.primary,
-                        fontSize: 10,
-                      ),
-                    ),
-                    Text(
-                      l10n.welcomeBack,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            titlePadding: const EdgeInsetsDirectional.only(start: 16, bottom: 16),
-          ),
-          actions: [
-            _buildStreakIndicator(theme),
-            const SizedBox(width: 8),
-            _buildLanguageToggle(theme, l10n),
-            const SizedBox(width: 16),
-          ],
-        ),
         SliverToBoxAdapter(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              isMobile ? 16 : 24,
-              20,
-              isMobile ? 16 : 24,
-              120, // Reduced padding as we have global nav now
+              isMobile ? 16 : 32,
+              topPadding + 20,
+              isMobile ? 16 : 32,
+              120,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildWelcomeSection(theme, l10n),
-                const SizedBox(height: 24),
-                _buildQuickResumeModule(theme, l10n),
-                const SizedBox(height: 32),
-                _buildDailyChallenge(theme, l10n),
-                const SizedBox(height: 40),
-                _buildGameModesGrid(theme, l10n),
-                const SizedBox(height: 40),
-                _buildSessionStats(theme, sessionStats, l10n),
-                const SizedBox(height: 32),
-                _buildQuickActions(theme, l10n),
-              ],
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildTopBar(theme, l10n),
+                    const SizedBox(height: 24),
+                    _buildWelcomeSection(theme, l10n),
+                    const SizedBox(height: 32),
+                    _buildQuickResumeModule(theme, l10n),
+                    const SizedBox(height: 40),
+                    _buildChallengeSection(theme, l10n),
+                    const SizedBox(height: 40),
+                    _buildGameModesGrid(theme, l10n),
+                    const SizedBox(height: 40),
+                    _buildSessionStats(theme, sessionStats, l10n),
+                    const SizedBox(height: 32),
+                    _buildQuickActions(theme, l10n),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
       ],
     );
   }
+
+  Widget _buildTopBar(ThemeData theme, AppLocalizations l10n) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Icon(
+            Icons.bolt_rounded,
+            color: theme.colorScheme.primary,
+            size: 20,
+          ),
+        ),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                l10n.commandCenter,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 2,
+                  color: theme.colorScheme.primary,
+                  fontSize: 10,
+                ),
+              ),
+              Text(
+                l10n.welcomeBack,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.onSurface,
+                ),
+              ),
+            ],
+          ),
+        ),
+        _buildStreakIndicator(theme),
+        const SizedBox(width: 8),
+        _buildLanguageToggle(theme, l10n),
+      ],
+    );
+  }
+
 
   Widget _buildQuickResumeModule(ThemeData theme, AppLocalizations l10n) {
     return Consumer(
@@ -886,169 +1015,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         .slideY(begin: 0.2, end: 0);
   }
 
-  Widget _buildDailyChallenge(ThemeData theme, AppLocalizations l10n) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final dailyChallenges = ref.watch(dailyChallengeProvider);
-        final challenge = dailyChallenges.isNotEmpty 
-            ? dailyChallenges.first 
-            : null;
-        
-        if (challenge == null) {
-          return const SizedBox.shrink();
-        }
-        
-        final hoursLeft = challenge.expiresAt.difference(DateTime.now()).inHours;
-        final minutesLeft = challenge.expiresAt.difference(DateTime.now()).inMinutes % 60;
-
-        return InkWell(
-          onTap: () {
-            HapticManager.instance.selectionClick();
-            ref.read(soundManagerProvider).playEffect('click');
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const EnhancedChallengeScreen()),
-            );
-          },
-          borderRadius: BorderRadius.circular(20),
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  theme.colorScheme.tertiaryContainer.withValues(alpha: 0.8),
-                  theme.colorScheme.surface.withValues(alpha: 0.9),
-                ],
-              ),
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: theme.colorScheme.tertiary.withValues(alpha: 0.2),
-                  blurRadius: 16,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-              border: Border.all(
-                color: theme.colorScheme.tertiary.withValues(alpha: 0.3),
-                width: 1,
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.calendar_today,
-                            color: theme.colorScheme.tertiary,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            l10n.dailyChallenge,
-                            style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onTertiaryContainer,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        challenge.title,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.onTertiaryContainer,
-                        ),
-                      ),
-                      Text(
-                        challenge.description,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onTertiaryContainer.withValues(alpha: 0.8),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.tertiary.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.star,
-                                  size: 14,
-                                  color: Colors.amber,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  '+${challenge.rewardPoints}',
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: theme.colorScheme.onTertiaryContainer,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            l10n.timeLeftShort(hoursLeft, minutesLeft),
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onTertiaryContainer.withValues(alpha: 0.7),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      LinearProgressIndicator(
-                        value: challenge.progress,
-                        backgroundColor: theme.colorScheme.tertiary.withValues(alpha: 0.3),
-                        valueColor: AlwaysStoppedAnimation(theme.colorScheme.tertiary),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '${challenge.currentValue}/${challenge.targetValue}',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onTertiaryContainer.withValues(alpha: 0.7),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.tertiary.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Icon(
-                    Icons.play_arrow,
-                    color: theme.colorScheme.tertiary,
-                    size: 28,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ).animate()
-            .fadeIn(duration: 700.ms)
-            .slideX(begin: 0.2, end: 0);
-      },
-    );
-  }
-
   Widget _buildGameModesGrid(ThemeData theme, AppLocalizations l10n) {
+    final isMobile = ResponsiveUtils.isMobile(context);
     final crossAxisCount = ResponsiveUtils.getResponsiveGridColumns(context);
+    final double childAspectRatio = isMobile ? 1.2 : 1.5;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1067,7 +1038,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             crossAxisCount: crossAxisCount,
             mainAxisSpacing: 16,
             crossAxisSpacing: 16,
-            childAspectRatio: 1.2,
+            childAspectRatio: childAspectRatio,
           ),
           itemCount: 6,
           itemBuilder: (context, index) {

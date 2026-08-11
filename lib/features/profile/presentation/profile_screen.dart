@@ -42,42 +42,49 @@ class ProfileScreen extends ConsumerWidget {
       backgroundColor: Colors.transparent,
       body: SafeArea(
         child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(
-              child: _buildHeader(context, ref, user, theme, l10n),
-            ),
-            SliverToBoxAdapter(
-              child: _buildStats(
-                totalStars,
-                completedLevels,
-                totalTime,
-                accuracy,
-                theme,
-                l10n,
+              child: Center(
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: ResponsiveUtils.isMobile(context) ? 0 : 20,
+                  ),
+                  child: Column(
+                    children: [
+                      _buildHeader(context, ref, user, theme, l10n),
+                      _buildStats(
+                        totalStars,
+                        completedLevels,
+                        totalTime,
+                        accuracy,
+                        theme,
+                        l10n,
+                      ),
+                      _buildMenuSection(
+                        context,
+                        ref,
+                        theme,
+                        user,
+                        currentLocale,
+                        currentTheme,
+                        settings,
+                        l10n,
+                      ),
+                      _buildAchievementsSection(
+                        theme,
+                        totalStars,
+                        accuracy,
+                        totalTime,
+                        l10n,
+                      ),
+                      const SizedBox(height: 100),
+                    ],
+                  ),
+                ),
               ),
             ),
-            SliverToBoxAdapter(
-                child: _buildMenuSection(
-                  context,
-                  ref,
-                  theme,
-                  user,
-                  currentLocale,
-                  currentTheme,
-                  settings,
-                  l10n,
-                ),
-            ),
-          SliverToBoxAdapter(
-            child: _buildAchievementsSection(
-              theme,
-              totalStars,
-              accuracy,
-              totalTime,
-              l10n,
-            ),
-          ),
-            const SliverToBoxAdapter(child: SizedBox(height: 100)),
           ],
         ),
       ),
@@ -91,13 +98,14 @@ class ProfileScreen extends ConsumerWidget {
     ThemeData theme,
     AppLocalizations l10n,
   ) {
-    return Container(
-      padding: const EdgeInsets.all(24),
+    final isMobile = ResponsiveUtils.isMobile(context);
+    return Padding(
+      padding: EdgeInsets.all(isMobile ? 24 : 32),
       child: Column(
         children: [
           Row(
             children: [
-              const SizedBox(width: 48), // Spacer to balance the edit button if no back button
+              const SizedBox(width: 48), // Spacer to balance the edit button
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,7 +137,7 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   );
                 },
-                icon: GlassmorphicContainer(
+                icon: PremiumGlassOverlay(
                   padding: const EdgeInsets.all(8),
                   borderRadius: 12,
                   child: Icon(
@@ -146,18 +154,31 @@ class ProfileScreen extends ConsumerWidget {
             alignment: Alignment.center,
             children: [
               Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: theme.colorScheme.primary.withValues(alpha: 0.2),
-                        width: 2,
-                      ),
-                    ),
-                  )
-                  .animate(onPlay: (controller) => controller.repeat())
-                  .rotate(duration: const Duration(seconds: 10)),
+                width: 140,
+                height: 140,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                    width: 1,
+                  ),
+                ),
+              )
+              .animate(onPlay: (controller) => controller.repeat())
+              .rotate(duration: 20.seconds),
+              Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: theme.colorScheme.primary.withValues(alpha: 0.2),
+                    width: 2,
+                  ),
+                ),
+              )
+              .animate(onPlay: (controller) => controller.repeat())
+              .rotate(duration: 10.seconds),
               Container(
                 width: 100,
                 height: 100,
@@ -193,7 +214,7 @@ class ProfileScreen extends ConsumerWidget {
               letterSpacing: 4,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -207,21 +228,23 @@ class ProfileScreen extends ConsumerWidget {
               ),
               const SizedBox(width: 12),
               SizedBox(
-                width: 100,
-                height: 4,
-                child: LinearProgressIndicator(
-                  value: user?.levelProgress ?? 0,
-                  backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  valueColor: AlwaysStoppedAnimation(theme.colorScheme.primary),
-                  borderRadius: BorderRadius.circular(2),
+                width: 120,
+                height: 6,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(3),
+                  child: LinearProgressIndicator(
+                    value: user?.levelProgress ?? 0,
+                    backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.1),
+                    valueColor: AlwaysStoppedAnimation(theme.colorScheme.primary),
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          GlassmorphicContainer(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            borderRadius: 20,
+          const SizedBox(height: 16),
+          PremiumGlassOverlay(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            borderRadius: 24,
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -230,7 +253,7 @@ class ProfileScreen extends ConsumerWidget {
                   color: theme.colorScheme.tertiary,
                   size: 20,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 10),
                 Text(
                   '${user?.totalPoints ?? 0} PTS',
                   style: theme.textTheme.titleMedium?.copyWith(
@@ -256,38 +279,38 @@ class ProfileScreen extends ConsumerWidget {
     AppLocalizations l10n,
   ) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: PremiumCard(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         borderRadius: AppDesignTokens.radiusMedium,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildStatItem(
-                l10n.stars,
+              l10n.stars,
               '$totalStars',
-              Icons.star,
+              Icons.star_rounded,
               theme.colorScheme.tertiary,
               theme,
             ),
             _buildStatItem(
-                l10n.level,
+              l10n.level,
               '$completedLevels',
-              Icons.check_circle,
+              Icons.task_alt_rounded,
               theme.colorScheme.primary,
               theme,
             ),
             _buildStatItem(
-                l10n.time,
+              l10n.time,
               '${totalTime}m',
-              Icons.timer,
+              Icons.timer_outlined,
               theme.colorScheme.primary,
               theme,
             ),
             _buildStatItem(
-                l10n.accuracy,
+              l10n.accuracy,
               '${accuracy.toStringAsFixed(0)}%',
-              Icons.analytics,
+              Icons.analytics_outlined,
               theme.colorScheme.secondary,
               theme,
             ),
@@ -304,31 +327,42 @@ class ProfileScreen extends ConsumerWidget {
     Color color,
     ThemeData theme,
   ) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, color: color.withValues(alpha: 0.6), size: 20),
-        const SizedBox(height: 8),
-        Text(
-          value,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w900,
-            color: theme.colorScheme.onSurface,
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 20),
           ),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        ),
-        Text(
-          label,
-          style: theme.textTheme.labelSmall?.copyWith(
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
-            fontSize: 9,
-            letterSpacing: 1,
+          const SizedBox(height: 12),
+          Text(
+            value,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w900,
+              color: theme.colorScheme.onSurface,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        ),
-      ],
+          const SizedBox(height: 2),
+          Text(
+            label.toUpperCase(),
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+              fontSize: 8,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 1,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ],
+      ),
     );
   }
 
@@ -344,7 +378,7 @@ class ProfileScreen extends ConsumerWidget {
   ) {
     final isMobile = ResponsiveUtils.isMobile(context);
     return Padding(
-      padding: EdgeInsets.all(isMobile ? 12 : 16),
+      padding: EdgeInsets.all(isMobile ? 20 : 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -382,22 +416,6 @@ class ProfileScreen extends ConsumerWidget {
             color: theme.colorScheme.primary,
             theme: theme,
             onTap: () => _showLanguageDialog(context, ref, currentLocale),
-            trailing: IconButton(
-              icon: const Icon(Icons.swap_horiz_outlined, size: 20),
-              onPressed: () {
-                ref.read(localeProvider.notifier).toggleLanguage();
-                final newLocale = ref.read(localeProvider);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                        '${AppLocalizations.of(context)?.switchedTo ?? 'Switched to'} ${newLocale.name}'),
-                    duration: const Duration(seconds: 1),
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                  ),
-                );
-              },
-              tooltip: l10n.quickLanguageToggle,
-            ),
           ),
           _buildMenuCard(
             icon: Icons.visibility_outlined,
@@ -434,9 +452,18 @@ class ProfileScreen extends ConsumerWidget {
                         .read(accessibilitySettingsProvider.notifier)
                         .setReduceTransparency(value);
                   },
+                  activeThumbColor: theme.colorScheme.primary,
                 );
               },
             ),
+          ),
+          _buildMenuCard(
+            icon: Icons.remove_red_eye_outlined,
+            title: l10n.colorBlindModeTitle,
+            subtitle: l10n.colorBlindModeDesc,
+            color: theme.colorScheme.primary,
+            theme: theme,
+            onTap: () => _showColorBlindDialog(context, ref, theme, l10n),
           ),
           const SizedBox(height: 32),
           _buildSectionHeader(l10n.audioAndHaptics, theme),
@@ -521,7 +548,7 @@ class ProfileScreen extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 4, bottom: 8),
       child: Text(
-        title,
+        title.toUpperCase(),
         style: theme.textTheme.labelSmall?.copyWith(
           fontWeight: FontWeight.w900,
           letterSpacing: 2,
@@ -541,28 +568,54 @@ class ProfileScreen extends ConsumerWidget {
     Widget? trailing,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 12),
       child: PremiumCard(
         onTap: onTap,
-        padding: EdgeInsets.zero,
-        borderRadius: AppDesignTokens.radiusSmall,
-        child: ListTile(
-          leading: Icon(icon, color: color, size: 20),
-          title: Text(
-            title,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w900,
-              letterSpacing: 1,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        borderRadius: AppDesignTokens.radiusMedium,
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: color, size: 22),
             ),
-          ),
-          subtitle: Text(
-            subtitle,
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 0.5,
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          trailing:
-              trailing ?? Icon(Icons.chevron_right, color: color, size: 20),
+            if (trailing != null)
+              trailing
+            else
+              Icon(
+                Icons.chevron_right_rounded,
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
+                size: 20,
+              ),
+          ],
         ),
       ),
     );
@@ -577,90 +630,100 @@ class ProfileScreen extends ConsumerWidget {
   ) {
     final achievements = [
       {
-        'icon': Icons.star,
+        'icon': Icons.star_rounded,
         'title': l10n.stargazer,
         'progress': (totalStars / 50).clamp(0.0, 1.0),
         'color': theme.colorScheme.secondary,
       },
       {
-        'icon': Icons.my_location,
+        'icon': Icons.track_changes_rounded,
         'title': l10n.sharpshooter,
-        'progress': accuracy, // Needs 100% accuracy to fill
+        'progress': accuracy / 100.0,
         'color': theme.colorScheme.primary,
       },
       {
-        'icon': Icons.watch_later,
+        'icon': Icons.timer_outlined,
         'title': l10n.timeLord,
-        'progress': (totalTime / 3600).clamp(0.0, 1.0), // 1 hour of playtime
+        'progress': (totalTime / 3600).clamp(0.0, 1.0),
         'color': theme.colorScheme.tertiary,
       },
       {
-        'icon': Icons.school,
+        'icon': Icons.school_rounded,
         'title': l10n.scholar,
-        'progress': (totalStars / 120).clamp(0.0, 1.0), // All campaign stars
+        'progress': (totalStars / 120).clamp(0.0, 1.0),
         'color': theme.colorScheme.primary,
       },
     ];
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            l10n.achievements,
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          _buildSectionHeader(l10n.achievements, theme),
           const SizedBox(height: 12),
           SizedBox(
-            height: 140,
+            height: 160,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
               itemCount: achievements.length,
               itemBuilder: (context, index) {
                 final achievement = achievements[index];
+                final color = achievement['color'] as Color;
+                final progress = achievement['progress'] as double;
+                
                 return Container(
-                  width: 120,
-                  margin: const EdgeInsets.only(right: 12),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surface,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: (achievement['color'] as Color).withValues(
-                        alpha: 0.3,
-                      ),
+                  width: 140,
+                  margin: const EdgeInsets.only(right: 16),
+                  child: PremiumCard(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: color.withValues(alpha: 0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            achievement['icon'] as IconData,
+                            color: color,
+                            size: 24,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          achievement['title'] as String,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 0.5,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 8),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: LinearProgressIndicator(
+                            value: progress,
+                            backgroundColor: color.withValues(alpha: 0.1),
+                            valueColor: AlwaysStoppedAnimation(color),
+                            minHeight: 6,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${(progress * 100).toInt()}%',
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: color,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 9,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        achievement['icon'] as IconData,
-                        color: achievement['color'] as Color,
-                        size: 28,
-                      ),
-                      const Spacer(),
-                      Text(
-                        achievement['title'] as String,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 2,
-                      ),
-                      const SizedBox(height: 8),
-                      LinearProgressIndicator(
-                        value: achievement['progress'] as double,
-                        backgroundColor: (achievement['color'] as Color)
-                            .withValues(alpha: 0.2),
-                        valueColor: AlwaysStoppedAnimation(
-                          achievement['color'] as Color,
-                        ),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                    ],
                   ),
                 );
               },
@@ -796,6 +859,79 @@ onTap: () {
         ],
       ),
     ));
+  }
+
+  void _showColorBlindDialog(
+    BuildContext context,
+    WidgetRef ref,
+    ThemeData theme,
+    AppLocalizations l10n,
+  ) {
+    HapticManager.instance.selectionClick();
+    final currentMode = ref.read(accessibilitySettingsProvider).colorBlindMode;
+
+    showDialog(
+      context: context,
+      builder: (context) => PremiumGlassOverlay(
+        borderRadius: 24,
+        child: AlertDialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(
+            l10n.colorBlindModeTitle,
+            style: TextStyle(
+              color: theme.colorScheme.primary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: ColorBlindMode.values.map((mode) {
+              final isSelected = currentMode == mode;
+              String title;
+              switch (mode) {
+                case ColorBlindMode.none:
+                  title = l10n.colorBlindModeNone;
+                  break;
+                case ColorBlindMode.protanopia:
+                  title = l10n.colorBlindModeProtanopia;
+                  break;
+                case ColorBlindMode.deuteranopia:
+                  title = l10n.colorBlindModeDeuteranopia;
+                  break;
+                case ColorBlindMode.tritanopia:
+                  title = l10n.colorBlindModeTritanopia;
+                  break;
+              }
+
+              return ListTile(
+                title: Text(
+                  title,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                selected: isSelected,
+                selectedTileColor: theme.colorScheme.primary.withValues(alpha: 0.1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                onTap: () {
+                  ref
+                      .read(accessibilitySettingsProvider.notifier)
+                      .setColorBlindMode(mode);
+                  Navigator.pop(context);
+                },
+              );
+            }).toList(),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.continueGame),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   IconData _getAvatarIcon(String shape) {

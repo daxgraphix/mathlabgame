@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io' show Platform;
 import 'core/providers.dart';
+import 'core/accessibility/accessibility_settings.dart';
 import 'features/game/logic/session_stats_provider.dart';
 import 'core/themes/app_themes.dart';
 import 'core/utils/game_flow_optimizer.dart';
@@ -138,16 +139,61 @@ class _MathlabAppState extends ConsumerState<MathlabApp> with WidgetsBindingObse
       supportedLocales: AppLocalizations.supportedLocales,
       home: getHome(),
       builder: (context, child) {
+        final accessibilitySettings = ref.watch(accessibilitySettingsProvider);
+        
+        Widget result = child!;
+        
+        if (accessibilitySettings.colorBlindMode != ColorBlindMode.none) {
+          result = ColorFiltered(
+            colorFilter: _getColorFilter(accessibilitySettings.colorBlindMode),
+            child: result,
+          );
+        }
+
         if (ResponsiveUtils.isWindows()) {
-          return MediaQuery(
+          result = MediaQuery(
             data: MediaQuery.of(context).copyWith(
               textScaler: TextScaler.noScaling,
             ),
-            child: child!,
+            child: result,
           );
         }
-        return child!;
+        
+        return AccessibilityWrapper(child: result);
       },
     );
+  }
+
+  ColorFilter _getColorFilter(ColorBlindMode mode) {
+    switch (mode) {
+      case ColorBlindMode.protanopia:
+        return const ColorFilter.matrix([
+          0.567, 0.433, 0, 0, 0,
+          0.558, 0.442, 0, 0, 0,
+          0, 0.242, 0.758, 0, 0,
+          0, 0, 0, 1, 0,
+        ]);
+      case ColorBlindMode.deuteranopia:
+        return const ColorFilter.matrix([
+          0.625, 0.375, 0, 0, 0,
+          0.7, 0.3, 0, 0, 0,
+          0, 0.3, 0.7, 0, 0,
+          0, 0, 0, 1, 0,
+        ]);
+      case ColorBlindMode.tritanopia:
+        return const ColorFilter.matrix([
+          0.95, 0.05, 0, 0, 0,
+          0, 0.433, 0.567, 0, 0,
+          0, 0.475, 0.525, 0, 0,
+          0, 0, 0, 1, 0,
+        ]);
+      case ColorBlindMode.none:
+        return const ColorFilter.matrix([
+          1, 0, 0, 0, 0,
+          0, 1, 0, 0, 0,
+          0, 0, 1, 0, 0,
+          0, 0, 0, 1, 0,
+        ]);
+    }
   }
 }

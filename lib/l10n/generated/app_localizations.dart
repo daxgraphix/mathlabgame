@@ -1499,7 +1499,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'📈 Your Progress'**
   String get yourProgress;
 
   ///
@@ -1523,13 +1523,13 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Complete today\'s math challenge to earn extra rewards!'**
   String get completeTodaysChallenge;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'🔥 5 Problems • 100 XP Reward'**
   String get challengeReward;
 
   ///
@@ -1559,37 +1559,37 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Good morning'**
   String get goodMorning;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Good afternoon'**
   String get goodAfternoon;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Good evening'**
   String get goodEvening;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Good night'**
   String get goodNight;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Welcome to mathlab'**
   String get welcomeTomathlab;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Quick Start'**
   String get quickStart;
 
   ///
@@ -1601,7 +1601,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Start your mathematical journey'**
   String get startYourMathematicalJourney;
 
   ///
@@ -1613,19 +1613,19 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Focus on specific operations'**
   String get focusOnSpecificOperations;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Arcade Mode'**
   String get arcadeMode;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Fast-paced gaming experience'**
   String get fastPacedGamingExperience;
 
   ///
@@ -2141,7 +2141,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Crossword'**
   String get crossword;
 
   ///
@@ -2213,13 +2213,13 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'ACROSS'**
   String get across;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'DOWN'**
   String get down;
 
   ///
@@ -2273,7 +2273,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'SELECT CROSSWORD LEVEL'**
   String get selectCrosswordLevel;
 
   ///
@@ -2489,7 +2489,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Crosswords + Math Riddles'**
   String get crosswordsMathRiddles;
 
   ///
@@ -3065,7 +3065,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Word Problems - Subtraction'**
   String get wordProblemsSubtraction;
 
   ///
@@ -3101,7 +3101,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Word Problems - Multiplication'**
   String get multiplicationWordProblems;
 
   ///
@@ -3149,7 +3149,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSING'**
+  /// **'Word Problems - Division'**
   String get divisionWordProblems;
 
   ///
@@ -3547,6 +3547,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you getting faster?'**
   String get areYouGettingFaster;
+
+  /// Title for color-blind mode setting
+  ///
+  /// In en, this message translates to:
+  /// **'Color-Blind Mode'**
+  String get colorBlindModeTitle;
+
+  /// No color-blind filter
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get colorBlindModeNone;
+
+  /// Protanopia (Red-Blind)
+  ///
+  /// In en, this message translates to:
+  /// **'Protanopia'**
+  String get colorBlindModeProtanopia;
+
+  /// Deuteranopia (Green-Blind)
+  ///
+  /// In en, this message translates to:
+  /// **'Deuteranopia'**
+  String get colorBlindModeDeuteranopia;
+
+  /// Tritanopia (Blue-Blind)
+  ///
+  /// In en, this message translates to:
+  /// **'Tritanopia'**
+  String get colorBlindModeTritanopia;
+
+  /// Description for color-blind mode setting
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust colors for better visibility'**
+  String get colorBlindModeDesc;
+
+  /// Button text to equip an item
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to Equip'**
+  String get tapToEquip;
+
+  /// Link to view all items
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
 }
 
 class _AppLocalizationsDelegate

@@ -344,13 +344,35 @@ class SoundManager {
 
   Future<void> playBackgroundMusic(String trackName) async {
     if (_isMuted || !_soundEnabled) return;
+    
+    try {
+      AudioPlayer? player = _playerPool['bgm'];
+      if (player == null) {
+        player = AudioPlayer();
+        player.setReleaseMode(ReleaseMode.loop);
+        _playerPool['bgm'] = player;
+      }
+      
+      await player.stop();
+      await player.setVolume(_volume * 0.5);
+      await player.setPlaybackRate(1.0 + (_currentHeatIndex - 1.0) * 0.15);
+      await player.play(AssetSource('sounds/$trackName.mp3'));
+    } catch (e) {
+      log('Sound Manager BGM Error: $e');
+    }
   }
 
-  Future<void> stopBackgroundMusic() async {}
+  Future<void> stopBackgroundMusic() async {
+    await _playerPool['bgm']?.stop();
+  }
 
-  Future<void> pauseBackgroundMusic() async {}
+  Future<void> pauseBackgroundMusic() async {
+    await _playerPool['bgm']?.pause();
+  }
 
-  Future<void> resumeBackgroundMusic() async {}
+  Future<void> resumeBackgroundMusic() async {
+    await _playerPool['bgm']?.resume();
+  }
 
   Future<void> setBackgroundMusicVolume(double volume) async {
     setVolume(volume);

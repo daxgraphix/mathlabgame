@@ -282,6 +282,7 @@ class _CustomMixScreenState extends ConsumerState<CustomMixScreen> {
             max: 30,
             divisions: 29,
             activeColor: theme.colorScheme.primary,
+            thumbColor: theme.colorScheme.primary,
             onChanged: (v) {
               HapticManager.instance.lightImpact();
               ref.read(customMixArithmeticProvider.notifier).setDifficulty(v.round());

@@ -719,7 +719,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Master mathematics through engaging games and track your progress.';
 
   @override
-  String get yourProgress => 'MISSING';
+  String get yourProgress => '📈 Your Progress';
 
   @override
   String get starsEarned => 'Stars Earned';
@@ -731,10 +731,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dailyChallenge => 'Daily Challenge';
 
   @override
-  String get completeTodaysChallenge => 'MISSING';
+  String get completeTodaysChallenge =>
+      'Complete today\'s math challenge to earn extra rewards!';
 
   @override
-  String get challengeReward => 'MISSING';
+  String get challengeReward => '🔥 5 Problems • 100 XP Reward';
 
   @override
   String get completeLevelsProgressively => 'Complete levels progressively';
@@ -749,40 +750,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createYourOwnChallenges => 'Create your own challenges';
 
   @override
-  String get goodMorning => 'MISSING';
+  String get goodMorning => 'Good morning';
 
   @override
-  String get goodAfternoon => 'MISSING';
+  String get goodAfternoon => 'Good afternoon';
 
   @override
-  String get goodEvening => 'MISSING';
+  String get goodEvening => 'Good evening';
 
   @override
-  String get goodNight => 'MISSING';
+  String get goodNight => 'Good night';
 
   @override
-  String get welcomeTomathlab => 'MISSING';
+  String get welcomeTomathlab => 'Welcome to mathlab';
 
   @override
-  String get quickStart => 'MISSING';
+  String get quickStart => 'Quick Start';
 
   @override
   String get campaignMode => 'Campaign Mode';
 
   @override
-  String get startYourMathematicalJourney => 'MISSING';
+  String get startYourMathematicalJourney => 'Start your mathematical journey';
 
   @override
   String get practiceMode => 'Practice Mode';
 
   @override
-  String get focusOnSpecificOperations => 'MISSING';
+  String get focusOnSpecificOperations => 'Focus on specific operations';
 
   @override
-  String get arcadeMode => 'MISSING';
+  String get arcadeMode => 'Arcade Mode';
 
   @override
-  String get fastPacedGamingExperience => 'MISSING';
+  String get fastPacedGamingExperience => 'Fast-paced gaming experience';
 
   @override
   String get cancel => 'Cancel';
@@ -1051,7 +1052,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noGameSession => 'No game session';
 
   @override
-  String get crossword => 'MISSING';
+  String get crossword => 'Crossword';
 
   @override
   String get playerLabel => 'Player';
@@ -1091,10 +1092,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skip => 'SKIP';
 
   @override
-  String get across => 'MISSING';
+  String get across => 'ACROSS';
 
   @override
-  String get down => 'MISSING';
+  String get down => 'DOWN';
 
   @override
   String get allChallengesComplete => 'All challenges complete!';
@@ -1121,7 +1122,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectRiddleLevel => 'SELECT RIDDLE LEVEL';
 
   @override
-  String get selectCrosswordLevel => 'MISSING';
+  String get selectCrosswordLevel => 'SELECT CROSSWORD LEVEL';
 
   @override
   String get loadingGame => 'Loading game...';
@@ -1233,7 +1234,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get puzzlesTitle => 'PUZZLES';
 
   @override
-  String get crosswordsMathRiddles => 'MISSING';
+  String get crosswordsMathRiddles => 'Crosswords + Math Riddles';
 
   @override
   String get firstVictory => 'First Victory';
@@ -1540,7 +1541,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get advancedSubtraction => 'Advanced Subtraction';
 
   @override
-  String get wordProblemsSubtraction => 'MISSING';
+  String get wordProblemsSubtraction => 'Word Problems - Subtraction';
 
   @override
   String get multiplicationMastery => 'Multiplication Mastery';
@@ -1558,7 +1559,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get threeDigitMultiplication => 'Three Digit Multiplication';
 
   @override
-  String get multiplicationWordProblems => 'MISSING';
+  String get multiplicationWordProblems => 'Word Problems - Multiplication';
 
   @override
   String get advancedMultiplication => 'Advanced Multiplication';
@@ -1582,7 +1583,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get threeDigitDivision => 'Three Digit Division';
 
   @override
-  String get divisionWordProblems => 'MISSING';
+  String get divisionWordProblems => 'Word Problems - Division';
 
   @override
   String get longDivision => 'Long Division';
@@ -1796,4 +1797,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get areYouGettingFaster => 'Are you getting faster?';
+
+  @override
+  String get colorBlindModeTitle => 'Color-Blind Mode';
+
+  @override
+  String get colorBlindModeNone => 'None';
+
+  @override
+  String get colorBlindModeProtanopia => 'Protanopia';
+
+  @override
+  String get colorBlindModeDeuteranopia => 'Deuteranopia';
+
+  @override
+  String get colorBlindModeTritanopia => 'Tritanopia';
+
+  @override
+  String get colorBlindModeDesc => 'Adjust colors for better visibility';
+
+  @override
+  String get tapToEquip => 'Tap to Equip';
+
+  @override
+  String get viewAll => 'View All';
 }

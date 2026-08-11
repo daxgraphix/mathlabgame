@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../accessibility/accessibility_settings.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../features/game/logic/game_session_provider.dart';
 
 enum AppThemeType { solar, cyber }
 
@@ -197,6 +198,10 @@ class GameThemeExtension extends ThemeExtension<GameThemeExtension> {
       glassEffectColor: Color.lerp(glassEffectColor, other.glassEffectColor, t)!,
     );
   }
+}
+
+extension GameThemeExtensionGetter on ThemeData {
+  GameThemeExtension get gameTheme => extension<GameThemeExtension>()!;
 }
 
 class AppThemes {
@@ -574,7 +579,9 @@ class GlassmorphicContainer extends ConsumerWidget {
       accessibilitySettingsProvider.select((s) => s.reduceTransparency),
     );
 
-    final gameTheme = theme.extension<GameThemeExtension>();
+    final isFeverMode = ref.watch(gameSessionProvider.select((s) => s?.feverActive ?? false));
+
+    final gameTheme = theme.gameTheme;
 
     final containerChild = Container(
       width: width,
@@ -584,7 +591,7 @@ class GlassmorphicContainer extends ConsumerWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         color:
             backgroundColor ??
-            (gameTheme != null && !reduceTransparency
+            (!reduceTransparency
                 ? gameTheme.glassEffectColor.withValues(alpha: opacity)
                 : (isDark
                     ? Colors.white.withValues(alpha: reduceTransparency ? 0.2 : opacity)
@@ -619,7 +626,7 @@ class GlassmorphicContainer extends ConsumerWidget {
           )
         : containerChild;
 
-    if (useFrostedEffect && !reduceTransparency) {
+    if (useFrostedEffect && !reduceTransparency && !isFeverMode) {
       result = ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
         child: BackdropFilter(
@@ -656,13 +663,14 @@ class PremiumGlassOverlay extends ConsumerWidget {
       accessibilitySettingsProvider.select((s) => s.reduceTransparency),
     );
 
-    final gameTheme = theme.extension<GameThemeExtension>();
+    final isFeverMode = ref.watch(gameSessionProvider.select((s) => s?.feverActive ?? false));
+    final gameTheme = theme.gameTheme;
 
     final decoration = BoxDecoration(
       borderRadius: BorderRadius.circular(borderRadius),
       boxShadow: !reduceTransparency ? [
         BoxShadow(
-          color: (gameTheme?.glassEffectColor ?? Colors.black).withValues(alpha: 0.2),
+          color: (gameTheme.glassEffectColor).withValues(alpha: 0.2),
           blurRadius: 20,
           spreadRadius: -5,
         ),
@@ -670,7 +678,7 @@ class PremiumGlassOverlay extends ConsumerWidget {
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: gameTheme != null && !reduceTransparency
+        colors: !reduceTransparency
             ? [
                 gameTheme.glassEffectColor.withValues(alpha: 0.5),
                 gameTheme.glassEffectColor.withValues(alpha: 0.2),
@@ -695,7 +703,7 @@ class PremiumGlassOverlay extends ConsumerWidget {
       ),
     );
 
-    if (reduceTransparency) {
+    if (reduceTransparency || isFeverMode) {
       return Container(
         padding: padding ?? const EdgeInsets.all(24),
         decoration: decoration,
@@ -835,8 +843,11 @@ class _PremiumAnimatedButtonState extends State<PremiumAnimatedButton> {
         widget.onPressed();
       },
       onTapCancel: () => setState(() => _isPressed = false),
-      child:
-          AnimatedContainer(
+      child: Semantics(
+        button: true,
+        enabled: true,
+        onTap: widget.onPressed,
+        child: AnimatedContainer(
                 duration: const Duration(milliseconds: 100),
                 padding: widget.padding,
                 decoration: BoxDecoration(
@@ -883,6 +894,7 @@ class _PremiumAnimatedButtonState extends State<PremiumAnimatedButton> {
                 duration: 400.ms,
                 curve: Curves.elasticOut,
               ),
+      ),
     );
   }
 }

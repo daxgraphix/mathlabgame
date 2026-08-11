@@ -16,6 +16,7 @@ import '../../features/game/logic/game_session_provider.dart';
 import '../../features/game/logic/session_stats_provider.dart';
 import '../../features/game/logic/player_performance_provider.dart';
 import '../../features/analytics/analytics_provider.dart';
+import '../../core/utils/responsive_utils.dart';
 import '../../l10n/generated/app_localizations.dart';
 
 final filteredPerformanceTrendsProvider = Provider<PerformanceTrends>((ref) {
@@ -49,52 +50,53 @@ class ReportsScreen extends ConsumerWidget {
     final totalTime = ref.watch(totalTimePlayedProvider);
     final completedLevels = ref.watch(completedLevelsProvider);
 
+    final isMobile = ResponsiveUtils.isMobile(context);
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: _buildAppBar(context, theme, l10n, ref),
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  Widget? child;
-                  switch (index) {
-                    case 0:
-                      child = _buildOverviewCards(theme, totalStars, completedLevels, totalTime, accuracy, l10n);
-                      break;
-                    case 1:
-                      child = _buildPerformanceAnalytics(context, theme, l10n);
-                      break;
-                    case 2:
-                      child = const SizedBox(height: 32);
-                      break;
-                    case 3:
-                      child = _buildLevelMastery(context, theme, ref, l10n);
-                      break;
-                    case 4:
-                      child = const SizedBox(height: 32);
-                      break;
-                    case 5:
-                      child = _buildPerformanceInsights(context, theme, l10n);
-                      break;
-                    case 6:
-                      child = _buildChallengesSummary(context, theme, ref, l10n);
-                      break;
-                    case 7:
-                      child = const SizedBox(height: 100); // Increased spacing for bottom navigation
-                      break;
-                  }
-                  
-                  if (child == null) return null;
-                  
-                  return child.animate()
-                      .fadeIn(duration: 400.ms, delay: (index * 50).ms)
-                      .slideY(begin: 0.05, end: 0, curve: Curves.easeOutCubic);
-                },
-                childCount: 8, // Updated count to include the spacer
+          SliverToBoxAdapter(
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 800),
+                padding: EdgeInsets.fromLTRB(
+                  isMobile ? 20 : 32,
+                  24,
+                  isMobile ? 20 : 32,
+                  100,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildOverviewCards(theme, totalStars, completedLevels, totalTime, accuracy, l10n)
+                        .animate()
+                        .fadeIn(duration: 400.ms)
+                        .slideY(begin: 0.05, end: 0),
+                    const SizedBox(height: 32),
+                    _buildPerformanceAnalytics(context, theme, l10n)
+                        .animate()
+                        .fadeIn(duration: 400.ms, delay: 100.ms)
+                        .slideY(begin: 0.05, end: 0),
+                    const SizedBox(height: 32),
+                    _buildLevelMastery(context, theme, ref, l10n)
+                        .animate()
+                        .fadeIn(duration: 400.ms, delay: 200.ms)
+                        .slideY(begin: 0.05, end: 0),
+                    const SizedBox(height: 32),
+                    _buildPerformanceInsights(context, theme, l10n)
+                        .animate()
+                        .fadeIn(duration: 400.ms, delay: 300.ms)
+                        .slideY(begin: 0.05, end: 0),
+                    const SizedBox(height: 32),
+                    _buildChallengesSummary(context, theme, ref, l10n)
+                        .animate()
+                        .fadeIn(duration: 400.ms, delay: 400.ms)
+                        .slideY(begin: 0.05, end: 0),
+                  ],
+                ),
               ),
             ),
           ),
@@ -1618,54 +1620,11 @@ class ReportsScreen extends ConsumerWidget {
         ),
       );
 
-      final user = ref.read(userSessionProvider);
-      final accuracy = ref.read(overallAccuracyProvider);
-      final totalStars = ref.read(totalStarsProvider);
-      final completedLevels = ref.read(completedLevelsProvider);
-      final totalTime = ref.read(totalTimePlayedProvider);
-      final trends = ref.read(performanceTrendsProvider);
-
       final pdf = pw.Document();
-
       pdf.addPage(
         pw.Page(
-          build: (pw.Context context) {
-            final avgHeat = trends.averageHeat;
-            final maxHeat = trends.heatHistory.isEmpty ? 1.0 : trends.heatHistory.reduce((a, b) => a > b ? a : b);
-
-            return pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Text(
-                  l10n.performanceReportTitle,
-                  style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
-                ),
-                pw.SizedBox(height: 20),
-                pw.Text(
-                  l10n.generatedOn(DateTime.now().toString().split('.')[0]),
-                  style: const pw.TextStyle(fontSize: 12, color: PdfColors.grey),
-                ),
-                pw.SizedBox(height: 20),
-                if (user != null) ...[
-                  pw.Text('${l10n.playerLabel}: ${user.name}', style: const pw.TextStyle(fontSize: 14)),
-                  pw.SizedBox(height: 10),
-                ],
-                pw.Divider(),
-                pw.SizedBox(height: 20),
-                _buildPdfStatRow(l10n.starsEarned, totalStars.toString()),
-                _buildPdfStatRow(l10n.levelsCompleted, completedLevels.toString()),
-                _buildPdfStatRow(l10n.accuracy, '${accuracy.toStringAsFixed(1)}%'),
-                _buildPdfStatRow(l10n.timePlayed, '${totalTime ~/ 60}h ${totalTime % 60}m'),
-                pw.SizedBox(height: 10),
-                pw.Divider(),
-                pw.SizedBox(height: 10),
-                pw.Text(l10n.engineIntensity, style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
-                pw.SizedBox(height: 10),
-                _buildPdfStatRow(l10n.averageHeat, avgHeat.toStringAsFixed(2)),
-                _buildPdfStatRow(l10n.maxHeat, maxHeat.toStringAsFixed(2)),
-              ],
-            );
-          },
+          pageFormat: PdfPageFormat.a4,
+          build: (pw.Context pwContext) => _buildPremiumPdfLayout(ref, l10n),
         ),
       );
 
@@ -1692,16 +1651,185 @@ class ReportsScreen extends ConsumerWidget {
     }
   }
 
-  pw.Widget _buildPdfStatRow(String label, String value) {
+  pw.Widget _buildPremiumPdfLayout(WidgetRef ref, AppLocalizations l10n) {
+    final user = ref.read(userSessionProvider);
+    final accuracy = ref.read(overallAccuracyProvider);
+    final totalStars = ref.read(totalStarsProvider);
+    final completedLevels = ref.read(completedLevelsProvider);
+    final totalTime = ref.read(totalTimePlayedProvider);
+    final trends = ref.read(performanceTrendsProvider);
+    final bestStreak = ref.read(bestStreakProvider);
+    final avgHeat = trends.averageHeat;
+    final maxHeat = trends.heatHistory.isEmpty ? 1.0 : trends.heatHistory.reduce((a, b) => a > b ? a : b);
+
     return pw.Container(
-      margin: const pw.EdgeInsets.symmetric(vertical: 4),
-      child: pw.Row(
-        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+      padding: const pw.EdgeInsets.all(32),
+      child: pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
         children: [
-          pw.Text(label, style: pw.TextStyle(fontSize: 12)),
-          pw.Text(value, style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold)),
+          // Header
+          pw.Row(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Expanded(
+                flex: 3,
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Text(
+                      'mathlab',
+                      style: pw.TextStyle(
+                        fontSize: 28,
+                        fontWeight: pw.FontWeight.bold,
+                        color: PdfColors.indigo600,
+                      ),
+                    ),
+                    pw.Text(
+                      l10n.performanceReportTitle,
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        color: PdfColors.grey700,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              pw.SizedBox(width: 16),
+              pw.Expanded(
+                flex: 2,
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.end,
+                  children: [
+                    pw.Text(
+                      l10n.generatedOn(DateTime.now().toString().split('.')[0]),
+                      style: const pw.TextStyle(fontSize: 10, color: PdfColors.grey),
+                      textAlign: pw.TextAlign.right,
+                    ),
+                    if (user != null)
+                      pw.Text(
+                        '${l10n.playerLabel}: ${user.name}',
+                        style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+                        textAlign: pw.TextAlign.right,
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          pw.SizedBox(height: 32),
+          
+          // Overview Card
+          pw.Container(
+            padding: const pw.EdgeInsets.all(24),
+            decoration: pw.BoxDecoration(
+              color: PdfColors.white,
+              borderRadius: const pw.BorderRadius.all(pw.Radius.circular(12)),
+              border: pw.Border.all(color: PdfColors.grey300, width: 0.5),
+            ),
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text(
+                  l10n.performanceOverview.toUpperCase(),
+                  style: pw.TextStyle(
+                    fontSize: 10,
+                    fontWeight: pw.FontWeight.bold,
+                    color: PdfColors.indigo600,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                pw.SizedBox(height: 20),
+                pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Expanded(child: _buildPdfStatColumn(l10n.starsEarned, totalStars.toString(), PdfColors.amber700)),
+                    pw.Expanded(child: _buildPdfStatColumn(l10n.levelsCompleted, completedLevels.toString(), PdfColors.green700)),
+                    pw.Expanded(child: _buildPdfStatColumn(l10n.accuracy, '${accuracy.toStringAsFixed(1)}%', PdfColors.blue700)),
+                    pw.Expanded(child: _buildPdfStatColumn(l10n.timePlayed, '${totalTime ~/ 60}h ${totalTime % 60}m', PdfColors.red700)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          pw.SizedBox(height: 24),
+
+          // Engine Intensity Card
+          pw.Container(
+            padding: const pw.EdgeInsets.all(24),
+            decoration: pw.BoxDecoration(
+              color: PdfColors.white,
+              borderRadius: const pw.BorderRadius.all(pw.Radius.circular(12)),
+              border: pw.Border.all(color: PdfColors.grey300, width: 0.5),
+            ),
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text(
+                  l10n.engineIntensity.toUpperCase(),
+                  style: pw.TextStyle(
+                    fontSize: 10,
+                    fontWeight: pw.FontWeight.bold,
+                    color: PdfColors.red700,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                pw.SizedBox(height: 20),
+                pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Expanded(child: _buildPdfStatColumn(l10n.heatIndex, avgHeat.toStringAsFixed(2), PdfColors.red700)),
+                    pw.Expanded(child: _buildPdfStatColumn(l10n.maxHeat, maxHeat.toStringAsFixed(2), PdfColors.orange700)),
+                    pw.Expanded(child: _buildPdfStatColumn(l10n.streak, bestStreak.toString(), PdfColors.deepOrange700)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          
+          pw.Spacer(),
+          pw.Divider(color: PdfColors.grey300, thickness: 0.5),
+          pw.SizedBox(height: 8),
+          pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              pw.Text(
+                'mathlab-math.app',
+                style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey600),
+              ),
+              pw.Text(
+                l10n.endOfReport,
+                style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey600),
+              ),
+            ],
+          ),
         ],
       ),
+    );
+  }
+
+  pw.Widget _buildPdfStatColumn(String label, String value, PdfColor color) {
+    return pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        pw.Text(
+          value,
+          style: pw.TextStyle(
+            fontSize: 18,
+            fontWeight: pw.FontWeight.bold,
+            color: color,
+          ),
+        ),
+        pw.SizedBox(height: 4),
+        pw.Text(
+          label,
+          style: const pw.TextStyle(
+            fontSize: 9,
+            color: PdfColors.grey600,
+          ),
+          softWrap: true,
+        ),
+      ],
     );
   }
 
@@ -1715,43 +1843,11 @@ class ReportsScreen extends ConsumerWidget {
         ),
       );
 
-      final user = ref.read(userSessionProvider);
-      final accuracy = ref.read(overallAccuracyProvider);
-      final totalStars = ref.read(totalStarsProvider);
-      final completedLevels = ref.read(completedLevelsProvider);
-      final totalTime = ref.read(totalTimePlayedProvider);
-      final trends = ref.read(performanceTrendsProvider);
-
       final pdf = pw.Document();
-
       pdf.addPage(
         pw.Page(
-          build: (pw.Context context) {
-            final avgHeat = trends.averageHeat;
-            final maxHeat = trends.heatHistory.isEmpty ? 1.0 : trends.heatHistory.reduce((a, b) => a > b ? a : b);
-
-            return pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Text(
-                  l10n.performanceReportTitle,
-                  style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
-                ),
-                pw.SizedBox(height: 20),
-                if (user != null) pw.Text('${l10n.playerLabel}: ${user.name}', style: const pw.TextStyle(fontSize: 14)),
-                pw.SizedBox(height: 20),
-                _buildPdfStatRow(l10n.starsEarned, totalStars.toString()),
-                _buildPdfStatRow(l10n.levelsCompleted, completedLevels.toString()),
-                _buildPdfStatRow(l10n.accuracy, '${accuracy.toStringAsFixed(1)}%'),
-                _buildPdfStatRow(l10n.timePlayed, '${totalTime ~/ 60}h ${totalTime % 60}m'),
-                pw.SizedBox(height: 10),
-                pw.Divider(),
-                pw.SizedBox(height: 10),
-                _buildPdfStatRow(l10n.averageHeat, avgHeat.toStringAsFixed(2)),
-                _buildPdfStatRow(l10n.maxHeat, maxHeat.toStringAsFixed(2)),
-              ],
-            );
-          },
+          pageFormat: PdfPageFormat.a4,
+          build: (pw.Context pwContext) => _buildPremiumPdfLayout(ref, l10n),
         ),
       );
 
@@ -1805,55 +1901,11 @@ class ReportsScreen extends ConsumerWidget {
         ),
       );
 
-      final user = ref.read(userSessionProvider);
-      final accuracy = ref.read(overallAccuracyProvider);
-      final totalStars = ref.read(totalStarsProvider);
-      final completedLevels = ref.read(completedLevelsProvider);
-      final bestStreak = ref.watch(bestStreakProvider);
-      final trends = ref.read(performanceTrendsProvider);
-
       final pdf = pw.Document();
       pdf.addPage(
         pw.Page(
-          build: (pw.Context context) {
-            final avgHeat = trends.averageHeat;
-            final maxHeat = trends.heatHistory.isEmpty ? 1.0 : trends.heatHistory.reduce((a, b) => a > b ? a : b);
-
-            return pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Text(
-                  l10n.performanceReportTitle,
-                  style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
-                ),
-                pw.SizedBox(height: 20),
-                pw.Text(l10n.generatedOn(DateTime.now().toString().split('.')[0])),
-                if (user != null) pw.Text('${l10n.playerLabel}: ${user.name}'),
-                pw.SizedBox(height: 24),
-                pw.Text(l10n.overview, style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold)),
-                pw.SizedBox(height: 12),
-                pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                  children: [
-                    _pdfStatColumn(l10n.stars, totalStars.toString()),
-                    _pdfStatColumn(l10n.level, completedLevels.toString()),
-                    _pdfStatColumn(l10n.streak, '$bestStreak'),
-                    _pdfStatColumn(l10n.accuracy, '${accuracy.toStringAsFixed(0)}%'),
-                  ],
-                ),
-                pw.SizedBox(height: 24),
-                pw.Text(l10n.engineIntensity, style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold)),
-                pw.SizedBox(height: 12),
-                pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                  children: [
-                    _pdfStatColumn(l10n.averageHeat, avgHeat.toStringAsFixed(2)),
-                    _pdfStatColumn(l10n.maxHeat, maxHeat.toStringAsFixed(2)),
-                  ],
-                ),
-              ],
-            );
-          },
+          pageFormat: PdfPageFormat.a4,
+          build: (pw.Context pwContext) => _buildPremiumPdfLayout(ref, l10n),
         ),
       );
 
@@ -1890,12 +1942,5 @@ class ReportsScreen extends ConsumerWidget {
     }
   }
 
-  pw.Widget _pdfStatColumn(String label, String value) {
-    return pw.Column(
-      children: [
-        pw.Text(value, style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
-        pw.Text(label, style: pw.TextStyle(fontSize: 10)),
-      ],
-    );
-  }
+
 }

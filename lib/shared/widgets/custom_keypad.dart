@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/sound_manager.dart';
+import '../../core/accessibility/accessibility_settings.dart';
 
-class CustomKeypad extends StatelessWidget {
+class CustomKeypad extends ConsumerWidget {
   final Function(String) onKeyPressed;
   final VoidCallback onClear;
   final VoidCallback onSubmit;
@@ -16,14 +18,16 @@ class CustomKeypad extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final isLargeTarget = ref.watch(accessibilitySettingsProvider.select((s) => s.largeTargetMode));
+    
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         // Answer display row - Minimalist thin line
         Container(
-          height: 60,
+          height: isLargeTarget ? 80 : 60,
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             border: Border(
@@ -40,7 +44,7 @@ class CustomKeypad extends StatelessWidget {
                   child: Text(
                     currentInput.isEmpty ? '?' : currentInput,
                     style: TextStyle(
-                      fontSize: 40,
+                      fontSize: isLargeTarget ? 48 : 40,
                       fontWeight: FontWeight.w200,
                       color: theme.colorScheme.onSurface,
                       letterSpacing: 4,
@@ -57,25 +61,25 @@ class CustomKeypad extends StatelessWidget {
                   Icons.backspace_outlined,
                    color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
                 ),
-                iconSize: 20,
+                iconSize: isLargeTarget ? 28 : 20,
               ),
             ],
           ),
         ),
-        _buildKeypad(context),
+        _buildKeypad(context, isLargeTarget),
       ],
     );
   }
 
-  Widget _buildKeypad(BuildContext context) {
+  Widget _buildKeypad(BuildContext context, bool isLargeTarget) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildRow(context, ['1', '2', '3']),
-          _buildRow(context, ['4', '5', '6']),
-          _buildRow(context, ['7', '8', '9']),
+          _buildRow(context, ['1', '2', '3'], isLargeTarget),
+          _buildRow(context, ['4', '5', '6'], isLargeTarget),
+          _buildRow(context, ['7', '8', '9'], isLargeTarget),
           Row(
             children: [
               Expanded(
@@ -86,9 +90,10 @@ class CustomKeypad extends StatelessWidget {
                     HapticManager.instance.mediumImpact();
                     onClear();
                   },
+                  isLargeTarget,
                 ),
               ),
-              Expanded(child: _buildKey(context, '0')),
+              Expanded(child: _buildKey(context, '0', isLargeTarget)),
               Expanded(
                 child: _buildActionKey(
                   context,
@@ -97,6 +102,7 @@ class CustomKeypad extends StatelessWidget {
                     HapticManager.instance.heavyImpact();
                     onSubmit();
                   },
+                  isLargeTarget,
                 ),
               ),
             ],
@@ -106,20 +112,20 @@ class CustomKeypad extends StatelessWidget {
     );
   }
 
-  Widget _buildRow(BuildContext context, List<String> keys) {
+  Widget _buildRow(BuildContext context, List<String> keys, bool isLargeTarget) {
     return Row(
       children: keys.map((k) {
         return Expanded(
-          child: _buildKey(context, k),
+          child: _buildKey(context, k, isLargeTarget),
         );
       }).toList(),
     );
   }
 
-  Widget _buildKey(BuildContext context, String key) {
+  Widget _buildKey(BuildContext context, String key, bool isLargeTarget) {
     final theme = Theme.of(context);
     return SizedBox(
-      height: 65,
+      height: isLargeTarget ? 85 : 65,
       child: Semantics(
         label: 'Key $key',
         button: true,
@@ -139,7 +145,7 @@ class CustomKeypad extends StatelessWidget {
               child: Text(
                 key,
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: isLargeTarget ? 36 : 28,
                   fontWeight: FontWeight.w200,
                   color: theme.colorScheme.onSurface,
                 ),
@@ -155,11 +161,12 @@ class CustomKeypad extends StatelessWidget {
     BuildContext context,
     IconData icon,
     VoidCallback onPressed,
+    bool isLargeTarget,
   ) {
     final theme = Theme.of(context);
     final isSubmit = icon == Icons.check;
     return SizedBox(
-      height: 65,
+      height: isLargeTarget ? 85 : 65,
       child: Semantics(
         label: isSubmit ? 'Submit' : 'Clear',
         button: true,
@@ -174,7 +181,7 @@ class CustomKeypad extends StatelessWidget {
             ),
             child: Icon(
               icon,
-              size: 24,
+              size: isLargeTarget ? 32 : 24,
               color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
             ),
           ),

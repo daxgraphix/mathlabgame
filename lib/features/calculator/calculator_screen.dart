@@ -1,15 +1,17 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/themes/app_themes.dart';
+import '../../core/accessibility/accessibility_settings.dart';
 import '../../l10n/generated/app_localizations.dart';
 
-class CalculatorScreen extends StatefulWidget {
+class CalculatorScreen extends ConsumerStatefulWidget {
   const CalculatorScreen({super.key});
 
   @override
-  State<CalculatorScreen> createState() => _CalculatorScreenState();
+  ConsumerState<CalculatorScreen> createState() => _CalculatorScreenState();
 }
 
-class _CalculatorScreenState extends State<CalculatorScreen> {
+class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
   AppLocalizations get l10n => AppLocalizations.of(context)!;
 
   String _expression = '';
@@ -76,9 +78,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 
   Widget _buildDisplay(ThemeData theme) {
+    final isLargeTarget = ref.watch(accessibilitySettingsProvider.select((s) => s.largeTargetMode));
+
     return GlassmorphicContainer(
       width: double.infinity,
-      height: 220,
+      height: isLargeTarget ? 260 : 220,
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.all(16),
       borderRadius: 16,
@@ -158,8 +162,10 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 
   Widget _buildKeypad(ThemeData theme) {
+    final isLargeTarget = ref.watch(accessibilitySettingsProvider.select((s) => s.largeTargetMode));
+
     return Container(
-      constraints: const BoxConstraints(maxHeight: 420),
+      constraints: BoxConstraints(maxHeight: isLargeTarget ? 500 : 420),
       child: Padding(
         padding: const EdgeInsets.all(4),
         child: Column(
@@ -237,6 +243,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
     bool isEquals = false,
     bool isWide = false,
   }) {
+    final isLargeTarget = ref.watch(accessibilitySettingsProvider.select((s) => s.largeTargetMode));
+
     final borderColor = isClear
         ? theme.colorScheme.error
         : isEquals
@@ -263,12 +271,12 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               ? theme.colorScheme.primary 
               : theme.colorScheme.surfaceContainerHighest,
           borderColor: borderColor,
-          borderRadius: 8,
+          borderRadius: isLargeTarget ? 12 : 8,
           padding: EdgeInsets.zero,
           child: Center(
             child: Text(
               label,
-              style: theme.textTheme.titleMedium?.copyWith(
+              style: (isLargeTarget ? theme.textTheme.headlineSmall : theme.textTheme.titleMedium)?.copyWith(
                 color: textColor,
                 fontWeight: FontWeight.w900,
                 fontFamily: 'monospace',

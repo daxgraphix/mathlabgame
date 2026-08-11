@@ -2,6 +2,8 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import '../constants/app_constants.dart';
 import '../../data/models/math_riddle.dart';
+import 'math_riddle_engine.dart';
+import 'math_visual_engine.dart';
 
 class MathQuestion {
   final String id;
@@ -16,6 +18,8 @@ class MathQuestion {
   final String? customQuestion;
   final List<String>? options;
   final String? explanation;
+  final List<String> concepts;
+  final double irtDifficulty;
 
   MathQuestion({
     String? id,
@@ -30,6 +34,8 @@ class MathQuestion {
     this.customQuestion,
     this.options,
     this.explanation,
+    this.concepts = const [],
+    this.irtDifficulty = 0.0,
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString();
 
   String get displayString {
@@ -54,6 +60,8 @@ class MathQuestion {
     String? customQuestion,
     List<String>? options,
     String? explanation,
+    List<String>? concepts,
+    double? irtDifficulty,
   }) {
     return MathQuestion(
       id: id ?? this.id,
@@ -68,7 +76,41 @@ class MathQuestion {
       customQuestion: customQuestion ?? this.customQuestion,
       options: options ?? this.options,
       explanation: explanation ?? this.explanation,
+      concepts: concepts ?? this.concepts,
+      irtDifficulty: irtDifficulty ?? this.irtDifficulty,
     );
+  }
+}
+
+class MixedModeConfig {
+  final List<String> operations;
+  final Map<String, double> weights;
+
+  MixedModeConfig({
+    required this.operations,
+    Map<String, double>? weights,
+  }) : weights = weights ?? {for (var op in operations) op: 1.0 / operations.length};
+
+  factory MixedModeConfig.fromCsv(String csv) {
+    final ops = csv.split(',').where((s) => s.isNotEmpty).toList();
+    return MixedModeConfig(operations: ops);
+  }
+
+  String toCsv() => operations.join(',');
+
+  String getRandomOperation(Random random) {
+    if (weights.isEmpty) return operations[random.nextInt(operations.length)];
+    
+    double totalWeight = weights.values.fold(0, (sum, w) => sum + w);
+    double r = random.nextDouble() * totalWeight;
+    double cumulativeWeight = 0;
+    
+    for (var entry in weights.entries) {
+      cumulativeWeight += entry.value;
+      if (r <= cumulativeWeight) return entry.key;
+    }
+    
+    return operations.last;
   }
 }
 
@@ -123,19 +165,21 @@ class MathEngine {
   }
 
   static MathQuestion generateQuestion(
-    String operation,
+    dynamic operation, // Can be String or MixedModeConfig
     int level, {
     bool isArcade = false,
     Set<String>? excludeQuestions,
     int skillRating = 1000,
     double heatIndex = 1.0,
   }) {
-    // Handle comma-separated operations for mixed mode
-    final ops = operation.split(',');
-    final currentOp = ops.length > 1 ? ops[_random.nextInt(ops.length)] : operation;
+    final MixedModeConfig config = operation is MixedModeConfig 
+        ? operation 
+        : MixedModeConfig.fromCsv(operation.toString());
+    
+    final currentOp = config.getRandomOperation(_random);
 
     // Handle advanced topics
-    if (['logic'].contains(currentOp)) {
+    if (['logic', 'riddle', 'visual', 'mixed_advanced'].contains(currentOp)) {
       return _generateAdvancedQuestion(currentOp, level);
     }
 
@@ -221,7 +265,7 @@ class MathEngine {
 
   // Optimized batch question generation for better performance
   static Future<List<MathQuestion>> generateQuestionsBatch(
-    String operation,
+    dynamic operation, // Can be String or MixedModeConfig
     int level,
     int count, {
     bool isArcade = false,
@@ -229,32 +273,69 @@ class MathEngine {
     int skillRating = 1000,
     double heatIndex = 1.0,
   }) async {
+    final config = operation is MixedModeConfig 
+        ? operation 
+        : MixedModeConfig.fromCsv(operation.toString());
+    final opKey = config.toCsv();
+
     if (useCache && !isArcade) {
-      final cached = _getCachedQuestions(operation, level, count);
+      final cached = _getCachedQuestions(opKey, level, count);
       if (cached.isNotEmpty) {
         return cached;
       }
     }
 
     // Move heavy logic to background isolate for 60fps UI performance
+    // For small batches (count < 5), generate locally to avoid isolate overhead
+    if (count < 5) {
+      final questions = <MathQuestion>[];
+      final excludeSet = <String>{};
+      for (int i = 0; i < count; i++) {
+        final currentOp = config.getRandomOperation(_random);
+        final q = generateQuestion(
+          currentOp,
+          level,
+          isArcade: isArcade,
+          excludeQuestions: excludeSet,
+          skillRating: skillRating,
+          heatIndex: heatIndex,
+        );
+        questions.add(q);
+        excludeSet.add(q.displayString);
+      }
+      if (useCache && !isArcade) {
+        _cacheQuestions(opKey, level, count, questions);
+      }
+      return questions;
+    }
+
     final result = await compute(_generateBatchIsolate, {
-      'operation': operation,
+      'operation': opKey,
       'level': level,
       'count': count,
       'isArcade': isArcade,
       'skillRating': skillRating,
       'heatIndex': heatIndex,
+      'weights': config.weights,
     });
 
     if (useCache && !isArcade && result.length == count) {
-      _cacheQuestions(operation, level, count, result);
+      _cacheQuestions(opKey, level, count, result);
     }
 
     return result;
   }
 
   static List<MathQuestion> _generateBatchIsolate(Map<String, dynamic> params) {
-    final String operation = params['operation'];
+    final String opCsv = params['operation'];
+    final Map<String, double>? weights = params['weights'] != null 
+        ? Map<String, double>.from(params['weights']) 
+        : null;
+    final config = MixedModeConfig(
+      operations: opCsv.split(','),
+      weights: weights,
+    );
+    
     final int level = params['level'];
     final int count = params['count'];
     final bool isArcade = params['isArcade'];
@@ -264,23 +345,28 @@ class MathEngine {
     final questions = <MathQuestion>[];
     final excludeSet = <String>{};
     
-    // Support comma-separated operations for mixed mode in batch generation
-    final ops = operation.split(',');
+    // Pre-calculate common parameters
+    final heatBonus = (heatIndex > 1.0) ? (heatIndex - 1.0) * 5 : 0;
+    final effectiveLevel = (level + (skillRating - 1000) ~/ 200 + heatBonus.toInt()).clamp(1, 100);
+    final isBoss = level % 10 == 0 && !isArcade;
     
     int attempts = 0;
     const maxAttempts = 1000;
 
     while (questions.length < count && attempts < maxAttempts) {
-      final currentOp = ops.length > 1 ? ops[_random.nextInt(ops.length)] : operation;
+      final currentOp = config.getRandomOperation(_random);
       
-      final question = generateQuestion(
-        currentOp,
-        level,
-        isArcade: isArcade,
-        excludeQuestions: excludeSet,
-        skillRating: skillRating,
-        heatIndex: heatIndex,
-      );
+      MathQuestion question;
+      if (['logic', 'riddle', 'visual', 'mixed_advanced'].contains(currentOp)) {
+        question = _generateAdvancedQuestion(currentOp, effectiveLevel);
+      } else if (isArcade) {
+        question = _generateArcadeQuestion(currentOp, effectiveLevel);
+      } else if (isBoss) {
+        question = _generateBossQuestion(currentOp, effectiveLevel);
+      } else {
+        final (min, max) = getNumberRange(effectiveLevel, currentOp);
+        question = _generateQuestion(currentOp, effectiveLevel, min, max, skillRating: skillRating, heatIndex: heatIndex);
+      }
 
       if (!excludeSet.contains(question.displayString)) {
         questions.add(question);
@@ -379,6 +465,8 @@ class MathEngine {
         ],
         customQuestion: '$op1 $opSymbol1 $op2 $opSymbol2 $op3 = ?',
         explanation: 'Boss challenge: perform the operations in order. $op1 $opSymbol1 $op2 = ${opSymbol1 == '+' ? op1+op2 : op1-op2}, then ${opSymbol1 == '+' ? op1+op2 : op1-op2} $opSymbol2 $op3 = $result.',
+        concepts: ['boss', 'three_operands', operation],
+        irtDifficulty: _calculateIRTDifficulty(operation, op1, op2, op3) + 2.0,
       );
     }
 
@@ -446,6 +534,7 @@ class MathEngine {
     final a = _random.nextInt(max - min + 1) + min;
     final b = _random.nextInt(max - min + 1) + min;
     final result = a + b;
+    final concepts = _identifyConcepts('addition', a, b);
     return MathQuestion(
       operand1: a,
       operand2: b,
@@ -455,6 +544,8 @@ class MathEngine {
       hint: 'Ends with ${result % 10}',
       progressiveHints: ['Ends with ${result % 10}', 'Sum is between ${result - 5} and ${result + 5}'],
       explanation: '$a plus $b equals $result.',
+      concepts: concepts,
+      irtDifficulty: _calculateIRTDifficulty('addition', a, b),
     );
   }
 
@@ -487,6 +578,7 @@ class MathEngine {
       b = temp;
     }
     final result = a - b;
+    final concepts = _identifyConcepts('subtraction', a, b);
     return MathQuestion(
       operand1: a,
       operand2: b,
@@ -496,6 +588,8 @@ class MathEngine {
       hint: 'Ends with ${result % 10}',
       progressiveHints: ['Ends with ${result % 10}', 'The result is $result'],
       explanation: '$a minus $b equals $result.',
+      concepts: concepts,
+      irtDifficulty: _calculateIRTDifficulty('subtraction', a, b),
     );
   }
 
@@ -519,6 +613,7 @@ class MathEngine {
     final a = _random.nextInt(maxFactor) + 2;
     final b = _random.nextInt(maxFactor) + 2;
     final result = a * b;
+    final concepts = _identifyConcepts('multiplication', a, b);
     return MathQuestion(
       operand1: a,
       operand2: b,
@@ -528,6 +623,8 @@ class MathEngine {
       hint: 'Starts with ${result.toString()[0]}',
       progressiveHints: ['Starts with ${result.toString()[0]}', 'Ends with ${result % 10}'],
       explanation: '$a times $b equals $result.',
+      concepts: concepts,
+      irtDifficulty: _calculateIRTDifficulty('multiplication', a, b),
     );
   }
 
@@ -551,6 +648,7 @@ class MathEngine {
     final divisor = _random.nextInt(maxDivisor) + 2;
     final quotient = _random.nextInt(maxDivisor) + 2;
     final dividend = divisor * quotient;
+    final concepts = _identifyConcepts('division', dividend, divisor);
 
     return MathQuestion(
       operand1: dividend,
@@ -561,6 +659,8 @@ class MathEngine {
       hint: 'Result is $quotient',
       progressiveHints: ['Result is $quotient'],
       explanation: '$dividend divided by $divisor equals $quotient.',
+      concepts: concepts,
+      irtDifficulty: _calculateIRTDifficulty('division', dividend, divisor),
     );
   }
 
@@ -571,6 +671,7 @@ class MathEngine {
     final a = _random.nextInt(range) + 1;
     final b = _random.nextInt(range) + 1;
     final result = a + b;
+    final concepts = _identifyConcepts('addition', a, b);
     return MathQuestion(
       operand1: a,
       operand2: b,
@@ -579,6 +680,8 @@ class MathEngine {
       hint: 'Ends with ${result % 10}',
       progressiveHints: ['Ends with ${result % 10}'],
       explanation: '$a + $b = $result',
+      concepts: concepts,
+      irtDifficulty: _calculateIRTDifficulty('addition', a, b),
     );
   }
 
@@ -599,6 +702,8 @@ class MathEngine {
       hint: 'Subtract two numbers from the first',
       progressiveHints: ['Subtract $b from $a, then subtract $c', 'Try first step: $a - $b = ${a - b}'],
       explanation: '$a - $b - $c = ${a - b - c}',
+      concepts: ['subtraction', 'three_operands'],
+      irtDifficulty: _calculateIRTDifficulty('subtraction', a, b, c),
     );
   }
 
@@ -618,6 +723,8 @@ class MathEngine {
       hint: 'Multiply three numbers',
       progressiveHints: ['Multiply $a and $b first', 'Next: ${a * b} * $c'],
       explanation: '$a * $b * $c = ${a * b * c}',
+      concepts: ['multiplication', 'three_operands'],
+      irtDifficulty: _calculateIRTDifficulty('multiplication', a, b, c),
     );
   }
 
@@ -632,6 +739,7 @@ class MathEngine {
       b = temp;
     }
     final result = a - b;
+    final concepts = _identifyConcepts('subtraction', a, b);
     return MathQuestion(
       operand1: a,
       operand2: b,
@@ -640,6 +748,8 @@ class MathEngine {
       hint: 'Ends with ${result % 10}',
       progressiveHints: ['Ends with ${result % 10}'],
       explanation: '$a - $b = $result',
+      concepts: concepts,
+      irtDifficulty: _calculateIRTDifficulty('subtraction', a, b),
     );
   }
 
@@ -659,6 +769,7 @@ class MathEngine {
     final a = _random.nextInt(maxFactor.clamp(5, 500)) + 2;
     final b = _random.nextInt(maxFactor.clamp(2, 100)) + 1;
     final result = a * b;
+    final concepts = _identifyConcepts('multiplication', a, b);
     return MathQuestion(
       operand1: a,
       operand2: b,
@@ -667,6 +778,8 @@ class MathEngine {
       hint: 'Ends with ${result % 10}',
       progressiveHints: ['Ends with ${result % 10}'],
       explanation: '$a * $b = $result',
+      concepts: concepts,
+      irtDifficulty: _calculateIRTDifficulty('multiplication', a, b),
     );
   }
 
@@ -690,6 +803,7 @@ class MathEngine {
     final divisor = _random.nextInt(maxDivisor.clamp(2, 250)) + 2;
     final quotient = _random.nextInt(maxQuotient.clamp(2, 250)) + 1;
     final dividend = divisor * quotient;
+    final concepts = _identifyConcepts('division', dividend, divisor);
 
     return MathQuestion(
       operand1: dividend,
@@ -698,7 +812,72 @@ class MathEngine {
       correctAnswer: quotient,
       difficulty: level <= 30 ? 'easy' : level <= 70 ? 'medium' : 'hard',
       hint: 'Result is $quotient',
+      concepts: concepts,
+      irtDifficulty: _calculateIRTDifficulty('division', dividend, divisor),
     );
+  }
+
+  static List<String> _identifyConcepts(String operation, int a, int b, [int? c]) {
+    final concepts = <String>[];
+    concepts.add(operation);
+
+    switch (operation) {
+      case 'addition':
+        if (a < 10 && b < 10) concepts.add('single_digit_addition');
+        if (a >= 10 || b >= 10) concepts.add('multi_digit_addition');
+        if ((a % 10) + (b % 10) >= 10) concepts.add('carrying');
+        break;
+      case 'subtraction':
+        if (a < 20 && b < 10) concepts.add('basic_subtraction');
+        if (a >= 20) concepts.add('multi_digit_subtraction');
+        if ((a % 10) < (b % 10)) concepts.add('borrowing');
+        break;
+      case 'multiplication':
+        if (a <= 12 && b <= 12) {
+          concepts.add('times_table');
+          concepts.add('times_table_$a');
+          concepts.add('times_table_$b');
+        } else {
+          concepts.add('multi_digit_multiplication');
+        }
+        break;
+      case 'division':
+        if (b <= 12) concepts.add('basic_division');
+        if (a > 100) concepts.add('large_dividend');
+        break;
+    }
+
+    if (c != null) concepts.add('three_operands');
+    
+    return concepts;
+  }
+
+  static double _calculateIRTDifficulty(String operation, int a, int b, [int? c]) {
+    double difficulty = 0.0;
+    
+    // Base difficulty by operation
+    switch (operation) {
+      case 'addition': difficulty = 1.0; break;
+      case 'subtraction': difficulty = 1.2; break;
+      case 'multiplication': difficulty = 2.0; break;
+      case 'division': difficulty = 2.5; break;
+    }
+    
+    // Scale by number of digits
+    difficulty += (a.toString().length + b.toString().length) * 0.5;
+    if (c != null) difficulty += c.toString().length * 0.5 + 1.0;
+    
+    // Concept-based weights
+    final concepts = _identifyConcepts(operation, a, b, c);
+    if (concepts.contains('carrying')) difficulty += 0.8;
+    if (concepts.contains('borrowing')) difficulty += 1.0;
+    if (concepts.contains('multi_digit_multiplication')) difficulty += 1.5;
+    if (concepts.contains('large_dividend')) difficulty += 1.2;
+    
+    // Add small random noise
+    difficulty += _random.nextDouble() * 0.2;
+    
+    return double.parse(difficulty.toStringAsFixed(2));
   }
 
   static int calculateStars(int correctAnswers, int totalQuestions) {
@@ -730,8 +909,15 @@ class MathEngine {
   }
 
   static MathQuestion _generateAdvancedQuestion(String operation, int level) {
-    final dynamic riddle = switch (operation) {
+    // For mixed_advanced, randomly pick one of the advanced types
+    final effectiveOp = operation == 'mixed_advanced' 
+        ? ['logic', 'riddle', 'visual'][_random.nextInt(3)]
+        : operation;
+
+    final dynamic riddle = switch (effectiveOp) {
       'logic' => _generateMixedLogicChallenge(level),
+      'riddle' => MathRiddleEngine.generateArithmeticProblem(level),
+      'visual' => MathVisualEngine.generateVisualLogicSync(level),
       _ => _generateMixedLogicChallenge(level),
     };
 

@@ -132,6 +132,7 @@ class PlayerPerformanceNotifier extends StateNotifier<void> {
     required bool isCorrect,
     required int responseTimeMs,
     int hintsUsed = 0,
+    List<String> concepts = const [],
   }) {
     final heatIndex = ref.read(gameSessionProvider)?.heatIndex ?? 1.0;
     final streak = ref.read(sessionStatsProvider).currentStreak;

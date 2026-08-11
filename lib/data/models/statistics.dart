@@ -13,6 +13,7 @@ class Statistics {
   bool isSynced;
   final List<Map<String, dynamic>> timePerQuestion;
   final Map<String, double> accuracyByOperation;
+  final Map<String, double> accuracyByConcept;
   final Map<String, int> modeUsage; // Tracks sessions per mode
   final Map<String, int> highScoresByMode; // Tracks high scores per mode
   final Map<String, int> levelCompletion; // Tracks completion count per level key
@@ -32,12 +33,14 @@ class Statistics {
     this.isSynced = false,
     List<Map<String, dynamic>>? timePerQuestion,
     Map<String, double>? accuracyByOperation,
+    Map<String, double>? accuracyByConcept,
     Map<String, int>? modeUsage,
     Map<String, int>? highScoresByMode,
     Map<String, int>? levelCompletion,
   })  : lastUpdated = lastUpdated ?? DateTime.now(),
         timePerQuestion = timePerQuestion ?? [],
         accuracyByOperation = accuracyByOperation ?? {},
+        accuracyByConcept = accuracyByConcept ?? {},
         modeUsage = modeUsage ?? {},
         highScoresByMode = highScoresByMode ?? {},
         levelCompletion = levelCompletion ?? {};
@@ -58,6 +61,7 @@ class Statistics {
       'isSynced': isSynced,
       'timePerQuestion': timePerQuestion,
       'accuracyByOperation': accuracyByOperation,
+      'accuracyByConcept': accuracyByConcept,
       'modeUsage': modeUsage,
       'highScoresByMode': highScoresByMode,
       'levelCompletion': levelCompletion,
@@ -82,6 +86,7 @@ class Statistics {
       isSynced: json['isSynced'] ?? false,
       timePerQuestion: (json['timePerQuestion'] as List?)?.cast<Map<String, dynamic>>() ?? [],
       accuracyByOperation: (json['accuracyByOperation'] as Map?)?.map((k, v) => MapEntry(k.toString(), (v as num).toDouble())) ?? {},
+      accuracyByConcept: (json['accuracyByConcept'] as Map?)?.map((k, v) => MapEntry(k.toString(), (v as num).toDouble())) ?? {},
       modeUsage: (json['modeUsage'] as Map?)?.cast<String, int>() ?? {},
       highScoresByMode: (json['highScoresByMode'] as Map?)?.cast<String, int>() ?? {},
       levelCompletion: (json['levelCompletion'] as Map?)?.cast<String, int>() ?? {},

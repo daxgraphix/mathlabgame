@@ -87,7 +87,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get levelStabilized => 'NGAZI IMEIMARIKA';
 
   @override
-  String get integrityFailed => 'UTENDAJI UMESHINDWA';
+  String get integrityFailed => 'UIMARA UMESHINDWA';
 
   @override
   String get coreScore => 'ALAMA KUU';
@@ -499,22 +499,22 @@ class AppLocalizationsSw extends AppLocalizations {
   String get minus => '-';
 
   @override
-  String get multiply => 'Ã—';
+  String get multiply => '×';
 
   @override
-  String get divide => 'Ã·';
+  String get divide => '÷';
 
   @override
-  String get hotStreak => 'ðŸ”¥ MFULULIZO MKALI!';
+  String get hotStreak => '🔥 MFULULIZO MKALI!';
 
   @override
-  String get unstoppable => 'ðŸŒŸ HAIWEZI KUZUIWA!';
+  String get unstoppable => '🌟 HAIWEZI KUZUIWA!';
 
   @override
   String get keepItUp => 'âš¡ ENDELEA!';
 
   @override
-  String get streakBroken => 'ðŸ’” MFULULIZO UMEVUNJWA!';
+  String get streakBroken => '💔 MFULULIZO UMEVUNJWA!';
 
   @override
   String get streak => 'MFULULIZO';
@@ -553,37 +553,38 @@ class AppLocalizationsSw extends AppLocalizations {
   String get sysOp => 'UENDESHAJI_MFUMO';
 
   @override
-  String get neuralAccuracy => 'USAHIHI_WA_AKILI';
+  String get neuralAccuracy => 'USAHIHI WA AKILI';
 
   @override
   String get coreStars => 'NYOTA_ZIKUU';
 
   @override
-  String get unitsCleared => 'VITENGO_VILIVYOKAMILIKA';
+  String get unitsCleared => 'VITENGO VILIVYOKAMILIKA';
 
   @override
   String get status => 'HALI';
 
   @override
-  String get missionActive => 'MISHE_INAENDELEA';
+  String get missionActive => 'MISHENI INAENDELEA';
 
   @override
-  String get endOfTransmission => 'MWISHO_WA_MAWASILIANO';
+  String get endOfTransmission => 'MWISHO WA MAWASILIANO';
 
   @override
-  String get exportProtocol => 'ITIFAKI_YA_KUTOA';
+  String get exportProtocol => 'ITIFAKI YA KUTOA';
 
   @override
   String get dismiss => 'ONDOA';
 
   @override
-  String get debriefCopied => 'RIPOTI_IMEKOPIWA';
+  String get debriefCopied => 'RIPOTI IMEKOPIWA';
 
   @override
   String get copyToClipboard => 'NAKILI';
 
   @override
-  String get neuralEfficiencyIndex => 'KIELEZO_CHA_UTENDAJI_AKILI';
+  String get neuralEfficiencyIndex =>
+      'Kielezo cha Ufanisi wa Mishipa ya Fahamu';
 
   @override
   String get performanceScore => 'Alama ya Utendaji';
@@ -601,13 +602,13 @@ class AppLocalizationsSw extends AppLocalizations {
   String get low => 'CHINI';
 
   @override
-  String get accuracyProgression => 'MAENDELEO_YA_USAHIHI';
+  String get accuracyProgression => 'MAENDELEO YA USAHIHI';
 
   @override
   String get peakAccuracy => 'Usahihi wa Juu';
 
   @override
-  String get responseAnalytics => 'UCHAMBUZI_WA_MAJIBU';
+  String get responseAnalytics => 'UCHAMBUZI WA MAJIBU';
 
   @override
   String get avgResponse => 'Wastani wa Majibu';
@@ -619,25 +620,25 @@ class AppLocalizationsSw extends AppLocalizations {
   String get improvement => 'Uboreshaji';
 
   @override
-  String get livePerformanceMetrics => 'VIPIMO_VYA_UTENDAJI_MUBASHARA';
+  String get livePerformanceMetrics => 'VIPIMO VYA UTENDAJI MUBASHARA';
 
   @override
-  String get currentAccuracy => 'USAHIHI_WA_SASA';
+  String get currentAccuracy => 'USAHIHI WA SASA';
 
   @override
-  String get sessionTime => 'MUDA_WA_KIPINDI';
+  String get sessionTime => 'MUDA WA KIPINDI';
 
   @override
-  String get activeStreak => 'MFULULIZO_AMILIFU';
+  String get activeStreak => 'MFULULIZO AMILIFU';
 
   @override
-  String get calculating => 'INAWAKALIKULI...';
+  String get calculating => 'INAKOKOTOA...';
 
   @override
   String get advanced => 'ILIYOBORESHWA';
 
   @override
-  String get performanceTrend => 'MWELEKEO_WA_UTEND_KAJI';
+  String get performanceTrend => 'MWELEKEO WA UTENDAJI';
 
   @override
   String get reactionTimeAnalysis => 'Uchambuzi wa Muda wa Kujibu';
@@ -646,7 +647,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get operationUsage => 'Matumizi ya Operesheni';
 
   @override
-  String get levelMasteryBreakdown => 'UCHAMBUZI_WA_UJUZI';
+  String get levelMasteryBreakdown => 'UCHAMBUZI WA UJUZI';
 
   @override
   String get perfectLevels => 'NGAZI_KAMILIFU';
@@ -655,22 +656,22 @@ class AppLocalizationsSw extends AppLocalizations {
   String get levelsWith35Plus => 'Ngazi zenye sahihi 35+';
 
   @override
-  String get highPerformance => 'UTENDAJI_WA_JUU';
+  String get highPerformance => 'UTENDAJI WA JUU';
 
   @override
   String get levelsWith30Plus => 'Ngazi zenye sahihi 30+';
 
   @override
-  String get goodProgress => 'MAENDELEO_MAZURI';
+  String get goodProgress => 'MAENDELEO MAZURI';
 
   @override
   String get levelsWith25Plus => 'Ngazi zenye sahihi 25+';
 
   @override
-  String get totalAttempts => 'JARIBIO_ZOTE';
+  String get totalAttempts => 'MAJARIBIO YOTE';
 
   @override
-  String get totalLevelsAttempted => 'Jumla ya ngazi';
+  String get totalLevelsAttempted => 'Jumla ya ngazi zilizojaribiwa';
 
   @override
   String get player => 'MCHEZAJI';
@@ -1044,7 +1045,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get operation => 'Operesheni';
 
   @override
-  String get dailyRewardClaimed => 'Zawadi ya kila siku imenukuliwa!';
+  String get dailyRewardClaimed => 'Zawadi ya kila siku imechukuliwa!';
 
   @override
   String get claimTodaysReward => 'CHUKUA ZAWADI YA LEO';
@@ -1595,7 +1596,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get century => 'Karne';
 
   @override
-  String get mathEquationsLevelPrefix => 'HESABU za MATH - NGazi';
+  String get mathEquationsLevelPrefix => 'MILINGANISHO YA MATH - NGAZI';
 
   @override
   String get selectDifficultyLevel => 'CHAGUA KIWANGO CHA UGUMU';
@@ -1649,7 +1650,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get maxHeat => 'JOTO LA JUU';
 
   @override
-  String get heatIndex => 'Kielezo cha Joto';
+  String get heatIndex => 'Kielezo cha Msukumo wa Joto';
 
   @override
   String get intensityNormal => 'KAWAIDA';
@@ -1758,7 +1759,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get suddenDeathDesc => 'Kifo Ghafla: Kosa moja na mchezo umekwisha!';
 
   @override
-  String get zenDesc => 'Zen: Hali ya uwelevu bila alama, mazoezi tu.';
+  String get zenDesc => 'Zen: Hali ya utulivu bila alama, mazoezi tu.';
 
   @override
   String get timeAttackDesc =>
@@ -1795,5 +1796,29 @@ class AppLocalizationsSw extends AppLocalizations {
   String get timingTrend => 'Mwelekeo wa Muda';
 
   @override
-  String get areYouGettingFaster => 'Je, unakua kwa kasi?';
+  String get areYouGettingFaster => 'Je, unakuwa haraka zaidi?';
+
+  @override
+  String get colorBlindModeTitle => 'Hali ya Upofu wa Rangi';
+
+  @override
+  String get colorBlindModeNone => 'Hakuna';
+
+  @override
+  String get colorBlindModeProtanopia => 'Protanopia';
+
+  @override
+  String get colorBlindModeDeuteranopia => 'Deuteranopia';
+
+  @override
+  String get colorBlindModeTritanopia => 'Tritanopia';
+
+  @override
+  String get colorBlindModeDesc => 'Rekebisha rangi kwa muonekano bora zaidi';
+
+  @override
+  String get tapToEquip => 'Gusa ili Kuvaa';
+
+  @override
+  String get viewAll => 'Tazama Zote';
 }

@@ -1193,7 +1193,7 @@
     "description": "",
     "placeholders": {}
   },
-  "yourProgress": "MISSING",
+  "yourProgress": "📈 Your Progress",
   "@yourProgress": {
     "description": "",
     "placeholders": {}
@@ -1213,12 +1213,12 @@
     "description": "",
     "placeholders": {}
   },
-  "completeTodaysChallenge": "MISSING",
+  "completeTodaysChallenge": "Complete today's math challenge to earn extra rewards!",
   "@completeTodaysChallenge": {
     "description": "",
     "placeholders": {}
   },
-  "challengeReward": "MISSING",
+  "challengeReward": "🔥 5 Problems • 100 XP Reward",
   "@challengeReward": {
     "description": "",
     "placeholders": {}
@@ -1243,32 +1243,32 @@
     "description": "",
     "placeholders": {}
   },
-  "goodMorning": "MISSING",
+  "goodMorning": "Good morning",
   "@goodMorning": {
     "description": "",
     "placeholders": {}
   },
-  "goodAfternoon": "MISSING",
+  "goodAfternoon": "Good afternoon",
   "@goodAfternoon": {
     "description": "",
     "placeholders": {}
   },
-  "goodEvening": "MISSING",
+  "goodEvening": "Good evening",
   "@goodEvening": {
     "description": "",
     "placeholders": {}
   },
-  "goodNight": "MISSING",
+  "goodNight": "Good night",
   "@goodNight": {
     "description": "",
     "placeholders": {}
   },
-  "welcomeTomathlab": "MISSING",
+  "welcomeTomathlab": "Welcome to mathlab",
   "@welcomeTomathlab": {
     "description": "",
     "placeholders": {}
   },
-  "quickStart": "MISSING",
+  "quickStart": "Quick Start",
   "@quickStart": {
     "description": "",
     "placeholders": {}
@@ -1278,7 +1278,7 @@
     "description": "",
     "placeholders": {}
   },
-  "startYourMathematicalJourney": "MISSING",
+  "startYourMathematicalJourney": "Start your mathematical journey",
   "@startYourMathematicalJourney": {
     "description": "",
     "placeholders": {}
@@ -1288,17 +1288,17 @@
     "description": "",
     "placeholders": {}
   },
-  "focusOnSpecificOperations": "MISSING",
+  "focusOnSpecificOperations": "Focus on specific operations",
   "@focusOnSpecificOperations": {
     "description": "",
     "placeholders": {}
   },
-  "arcadeMode": "MISSING",
+  "arcadeMode": "Arcade Mode",
   "@arcadeMode": {
     "description": "",
     "placeholders": {}
   },
-  "fastPacedGamingExperience": "MISSING",
+  "fastPacedGamingExperience": "Fast-paced gaming experience",
   "@fastPacedGamingExperience": {
     "description": "",
     "placeholders": {}
@@ -1752,7 +1752,7 @@
     "description": "",
     "placeholders": {}
   },
-  "crossword": "MISSING",
+  "crossword": "Crossword",
   "@crossword": {
     "description": "",
     "placeholders": {}
@@ -1822,12 +1822,12 @@
     "description": "",
     "placeholders": {}
   },
-  "across": "MISSING",
+  "across": "ACROSS",
   "@across": {
     "description": "",
     "placeholders": {}
   },
-  "down": "MISSING",
+  "down": "DOWN",
   "@down": {
     "description": "",
     "placeholders": {}
@@ -1872,7 +1872,7 @@
     "description": "",
     "placeholders": {}
   },
-  "selectCrosswordLevel": "MISSING",
+  "selectCrosswordLevel": "SELECT CROSSWORD LEVEL",
   "@selectCrosswordLevel": {
     "description": "",
     "placeholders": {}
@@ -2057,7 +2057,7 @@
     "description": "",
     "placeholders": {}
   },
-  "crosswordsMathRiddles": "MISSING",
+  "crosswordsMathRiddles": "Crosswords + Math Riddles",
   "@crosswordsMathRiddles": {
     "description": "",
     "placeholders": {}
@@ -2571,7 +2571,7 @@
     "description": "",
     "placeholders": {}
   },
-  "wordProblemsSubtraction": "MISSING",
+  "wordProblemsSubtraction": "Word Problems - Subtraction",
   "@wordProblemsSubtraction": {
     "description": "",
     "placeholders": {}
@@ -2601,7 +2601,7 @@
     "description": "",
     "placeholders": {}
   },
-  "multiplicationWordProblems": "MISSING",
+  "multiplicationWordProblems": "Word Problems - Multiplication",
   "@multiplicationWordProblems": {
     "description": "",
     "placeholders": {}
@@ -2641,7 +2641,7 @@
     "description": "",
     "placeholders": {}
   },
-  "divisionWordProblems": "MISSING",
+  "divisionWordProblems": "Word Problems - Division",
   "@divisionWordProblems": {
     "description": "",
     "placeholders": {}
@@ -3012,6 +3012,46 @@
   "areYouGettingFaster": "Are you getting faster?",
   "@areYouGettingFaster": {
     "description": "",
+    "placeholders": {}
+  },
+  "colorBlindModeTitle": "Color-Blind Mode",
+  "@colorBlindModeTitle": {
+    "description": "Title for color-blind mode setting",
+    "placeholders": {}
+  },
+  "colorBlindModeNone": "None",
+  "@colorBlindModeNone": {
+    "description": "No color-blind filter",
+    "placeholders": {}
+  },
+  "colorBlindModeProtanopia": "Protanopia",
+  "@colorBlindModeProtanopia": {
+    "description": "Protanopia (Red-Blind)",
+    "placeholders": {}
+  },
+  "colorBlindModeDeuteranopia": "Deuteranopia",
+  "@colorBlindModeDeuteranopia": {
+    "description": "Deuteranopia (Green-Blind)",
+    "placeholders": {}
+  },
+  "colorBlindModeTritanopia": "Tritanopia",
+  "@colorBlindModeTritanopia": {
+    "description": "Tritanopia (Blue-Blind)",
+    "placeholders": {}
+  },
+  "colorBlindModeDesc": "Adjust colors for better visibility",
+  "@colorBlindModeDesc": {
+    "description": "Description for color-blind mode setting",
+    "placeholders": {}
+  },
+  "tapToEquip": "Tap to Equip",
+  "@tapToEquip": {
+    "description": "Button text to equip an item",
+    "placeholders": {}
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "Link to view all items",
     "placeholders": {}
   }
 }

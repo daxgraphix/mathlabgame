@@ -1,20 +1,59 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/themes/app_themes.dart';
 import '../../core/sound_manager.dart';
 import '../../core/providers.dart';
+import '../../core/utils/game_flow_optimizer.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/arcade/presentation/arcade_screen.dart';
 import '../../features/reports/reports_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
 
-class MainNavigationScaffold extends ConsumerWidget {
+class MainNavigationScaffold extends ConsumerStatefulWidget {
   const MainNavigationScaffold({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MainNavigationScaffold> createState() => _MainNavigationScaffoldState();
+}
+
+class _MainNavigationScaffoldState extends ConsumerState<MainNavigationScaffold> with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+  late AnimationController _meshController;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _meshController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 20),
+    )..repeat();
+
+    // Start idle monitoring for proactive pre-calculation
+    GameFlowOptimizer.startIdleMonitoring(ref);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    GameFlowOptimizer.stopIdleMonitoring();
+    _meshController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      GameFlowOptimizer.stopIdleMonitoring();
+    } else if (state == AppLifecycleState.resumed) {
+      GameFlowOptimizer.startIdleMonitoring(ref);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final currentIndex = ref.watch(navigationIndexProvider);
@@ -56,45 +95,18 @@ class MainNavigationScaffold extends ConsumerWidget {
   }
 
   Widget _buildGlobalBackground(ThemeData theme) {
-    return Container(
-      color: theme.scaffoldBackgroundColor,
-      child: Stack(
-        children: [
-          Positioned(
-            top: -100,
-            right: -100,
-            child: Container(
-              width: 400,
-              height: 400,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    theme.colorScheme.primary.withValues(alpha: 0.1),
-                    theme.colorScheme.primary.withValues(alpha: 0),
-                  ],
-                ),
-              ),
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _meshController,
+        builder: (context, child) {
+          return CustomPaint(
+            painter: _MeshPainter(
+              color1: theme.colorScheme.primary.withValues(alpha: 0.15),
+              color2: theme.colorScheme.secondary.withValues(alpha: 0.1),
+              progress: _meshController.value,
             ),
-          ),
-          Positioned(
-            bottom: -50,
-            left: -100,
-            child: Container(
-              width: 300,
-              height: 300,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    theme.colorScheme.secondary.withValues(alpha: 0.05),
-                    theme.colorScheme.secondary.withValues(alpha: 0),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -190,4 +202,50 @@ class MainNavigationScaffold extends ConsumerWidget {
       ),
     );
   }
+}
+
+class _MeshPainter extends CustomPainter {
+  final Color color1;
+  final Color color2;
+  final double progress;
+
+  _MeshPainter({
+    required this.color1,
+    required this.color2,
+    required this.progress,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..style = PaintingStyle.fill;
+    
+    // Gradient points with slow movement
+    final p1 = Offset(
+      size.width * (0.5 + 0.3 * math.cos(progress * 2 * math.pi)),
+      size.height * (0.3 + 0.2 * math.sin(progress * 2 * math.pi)),
+    );
+    
+    final p2 = Offset(
+      size.width * (0.2 + 0.4 * math.sin(progress * 2 * math.pi + 1)),
+      size.height * (0.7 + 0.2 * math.cos(progress * 2 * math.pi + 1)),
+    );
+
+    // Draw primary blob
+    paint.shader = RadialGradient(
+      colors: [color1, color1.withValues(alpha: 0)],
+    ).createShader(Rect.fromCircle(center: p1, radius: size.width * 0.8));
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
+
+    // Draw secondary blob
+    paint.shader = RadialGradient(
+      colors: [color2, color2.withValues(alpha: 0)],
+    ).createShader(Rect.fromCircle(center: p2, radius: size.width * 0.6));
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _MeshPainter oldDelegate) =>
+      oldDelegate.progress != progress ||
+      oldDelegate.color1 != color1 ||
+      oldDelegate.color2 != color2;
 }

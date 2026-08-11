@@ -10,6 +10,7 @@ class AccessibilitySettings {
   final bool screenReaderEnabled;
   final bool reduceMotion;
   final bool reduceTransparency;
+  final bool largeTargetMode;
   final double hapticIntensity;
   final bool audioFeedback;
   final double audioVolume;
@@ -21,6 +22,7 @@ class AccessibilitySettings {
     this.screenReaderEnabled = false,
     this.reduceMotion = false,
     this.reduceTransparency = false,
+    this.largeTargetMode = false,
     this.hapticIntensity = 1.0,
     this.audioFeedback = true,
     this.audioVolume = 0.8,
@@ -33,6 +35,7 @@ class AccessibilitySettings {
     bool? screenReaderEnabled,
     bool? reduceMotion,
     bool? reduceTransparency,
+    bool? largeTargetMode,
     double? hapticIntensity,
     bool? audioFeedback,
     double? audioVolume,
@@ -44,6 +47,7 @@ class AccessibilitySettings {
       screenReaderEnabled: screenReaderEnabled ?? this.screenReaderEnabled,
       reduceMotion: reduceMotion ?? this.reduceMotion,
       reduceTransparency: reduceTransparency ?? this.reduceTransparency,
+      largeTargetMode: largeTargetMode ?? this.largeTargetMode,
       hapticIntensity: hapticIntensity ?? this.hapticIntensity,
       audioFeedback: audioFeedback ?? this.audioFeedback,
       audioVolume: audioVolume ?? this.audioVolume,
@@ -57,6 +61,7 @@ class AccessibilitySettings {
     'screenReaderEnabled': screenReaderEnabled,
     'reduceMotion': reduceMotion,
     'reduceTransparency': reduceTransparency,
+    'largeTargetMode': largeTargetMode,
     'hapticIntensity': hapticIntensity,
     'audioFeedback': audioFeedback,
     'audioVolume': audioVolume,
@@ -70,6 +75,7 @@ class AccessibilitySettings {
       screenReaderEnabled: json['screenReaderEnabled'] ?? false,
       reduceMotion: json['reduceMotion'] ?? false,
       reduceTransparency: json['reduceTransparency'] ?? false,
+      largeTargetMode: json['largeTargetMode'] ?? false,
       hapticIntensity: (json['hapticIntensity'] as num?)?.toDouble() ?? 1.0,
       audioFeedback: json['audioFeedback'] ?? true,
       audioVolume: (json['audioVolume'] as num?)?.toDouble() ?? 0.8,
@@ -108,6 +114,10 @@ class AccessibilitySettingsNotifier
 
   void setReduceTransparency(bool enabled) {
     state = state.copyWith(reduceTransparency: enabled);
+  }
+
+  void setLargeTargetMode(bool enabled) {
+    state = state.copyWith(largeTargetMode: enabled);
   }
 
   void setHapticIntensity(double intensity) {

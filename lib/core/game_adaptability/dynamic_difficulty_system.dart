@@ -43,8 +43,11 @@ class PlayerPerformanceMetrics {
   final double averageResponseTimeMs;
   final List<double> recentResponseTimes;
   final Map<String, double> accuracyByOperation;
+  final Map<String, double> accuracyByConcept;
   final Map<String, int> operationFrequency;
+  final Map<String, int> conceptFrequency;
   final List<String> weakOperations;
+  final List<String> weakConcepts;
   final Map<String, LearningPath> learningPaths;
 
   PlayerPerformanceMetrics({
@@ -56,8 +59,11 @@ class PlayerPerformanceMetrics {
     this.averageResponseTimeMs = 5000,
     this.recentResponseTimes = const [],
     this.accuracyByOperation = const {},
+    this.accuracyByConcept = const {},
     this.operationFrequency = const {},
+    this.conceptFrequency = const {},
     this.weakOperations = const [],
+    this.weakConcepts = const [],
     this.learningPaths = const {},
   });
 
@@ -138,8 +144,11 @@ class PlayerPerformanceMetrics {
     double? averageResponseTimeMs,
     List<double>? recentResponseTimes,
     Map<String, double>? accuracyByOperation,
+    Map<String, double>? accuracyByConcept,
     Map<String, int>? operationFrequency,
+    Map<String, int>? conceptFrequency,
     List<String>? weakOperations,
+    List<String>? weakConcepts,
     Map<String, LearningPath>? learningPaths,
   }) {
     return PlayerPerformanceMetrics(
@@ -153,8 +162,11 @@ class PlayerPerformanceMetrics {
           averageResponseTimeMs ?? this.averageResponseTimeMs,
       recentResponseTimes: recentResponseTimes ?? this.recentResponseTimes,
       accuracyByOperation: accuracyByOperation ?? this.accuracyByOperation,
+      accuracyByConcept: accuracyByConcept ?? this.accuracyByConcept,
       operationFrequency: operationFrequency ?? this.operationFrequency,
+      conceptFrequency: conceptFrequency ?? this.conceptFrequency,
       weakOperations: weakOperations ?? this.weakOperations,
+      weakConcepts: weakConcepts ?? this.weakConcepts,
       learningPaths: learningPaths ?? this.learningPaths,
     );
   }
@@ -217,6 +229,7 @@ class PlayerPerformanceNotifier
     required bool isCorrect,
     required int responseTimeMs,
     required int hintsUsed,
+    List<String> concepts = const [],
   }) {
     final currentMetrics = state;
 
@@ -224,6 +237,17 @@ class PlayerPerformanceNotifier
     final currentAccuracy = currentMetrics.accuracyByOperation[operation] ?? 0.5;
     final currentFrequency = currentMetrics.operationFrequency[operation] ?? 0;
     final newAccuracy = ((currentAccuracy * currentFrequency) + (isCorrect ? 1.0 : 0.0)) / (currentFrequency + 1);
+
+    // Update concept-specific accuracy
+    final newAccuracyByConcept = Map<String, double>.from(currentMetrics.accuracyByConcept);
+    final newConceptFrequency = Map<String, int>.from(currentMetrics.conceptFrequency);
+
+    for (final concept in concepts) {
+      final currentConceptAccuracy = newAccuracyByConcept[concept] ?? 0.5;
+      final currentConceptFreq = newConceptFrequency[concept] ?? 0;
+      newAccuracyByConcept[concept] = ((currentConceptAccuracy * currentConceptFreq) + (isCorrect ? 1.0 : 0.0)) / (currentConceptFreq + 1);
+      newConceptFrequency[concept] = currentConceptFreq + 1;
+    }
 
     // Update recent response times (keep last 10)
     final recentTimes = List<double>.from(currentMetrics.recentResponseTimes);
@@ -251,20 +275,33 @@ class PlayerPerformanceNotifier
         ...currentMetrics.operationFrequency,
         operation: currentFrequency + 1,
       },
+      accuracyByConcept: newAccuracyByConcept,
+      conceptFrequency: newConceptFrequency,
     );
 
-    // Update weak operations
-    _updateWeakOperations();
+    // Update weak operations and concepts
+    _updateWeakAreas();
   }
 
-  void _updateWeakOperations() {
+  void _updateWeakAreas() {
     final weakOps = <String>[];
     state.accuracyByOperation.forEach((operation, accuracy) {
       if (accuracy < 0.7) {
         weakOps.add(operation);
       }
     });
-    state = state.copyWith(weakOperations: weakOps);
+
+    final weakConcepts = <String>[];
+    state.accuracyByConcept.forEach((concept, accuracy) {
+      if (accuracy < 0.7 && (state.conceptFrequency[concept] ?? 0) >= 3) {
+        weakConcepts.add(concept);
+      }
+    });
+
+    state = state.copyWith(
+      weakOperations: weakOps,
+      weakConcepts: weakConcepts,
+    );
   }
 
   DifficultyLevel getRecommendedDifficulty(String operation) {
