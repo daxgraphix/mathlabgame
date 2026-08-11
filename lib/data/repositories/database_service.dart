@@ -1,0 +1,128 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../models/level_progress.dart';
+import '../models/statistics.dart';
+import '../models/user_session.dart';
+import '../../core/security/security_service.dart';
+
+class DatabaseService {
+  static DatabaseService? _instance;
+  static SharedPreferences? _prefs;
+  static bool _isInitialized = false;
+
+  DatabaseService._private();
+
+  static Completer<DatabaseService>? _initCompleter;
+
+  static Future<DatabaseService> get instance async {
+    if (_instance != null && _isInitialized) return _instance!;
+    
+    if (_initCompleter != null) return _initCompleter!.future;
+    
+    _initCompleter = Completer<DatabaseService>();
+    try {
+      _instance = DatabaseService._private();
+      _prefs = await SharedPreferences.getInstance();
+      _isInitialized = true;
+      _initCompleter!.complete(_instance);
+      return _instance!;
+    } catch (e) {
+      _initCompleter!.completeError(e);
+      _initCompleter = null;
+      rethrow;
+    }
+  }
+
+  static Future<void> reset() async {
+    _instance = null;
+    _prefs = await SharedPreferences.getInstance();
+    _isInitialized = false;
+  }
+
+  Future<void> saveUserSession(UserSession userSession) async {
+    final json = userSession.toJson();
+    final encryptedJson = SecurityService.instance.encryptData(jsonEncode(json));
+    await _prefs?.setString('user_session', encryptedJson);
+  }
+
+  Future<UserSession?> getUserSession() async {
+    final encryptedString = _prefs?.getString('user_session');
+    if (encryptedString == null) return null;
+    final json = jsonDecode(SecurityService.instance.decryptData(encryptedString)) as Map<String, dynamic>;
+    return UserSession.fromJson(json);
+  }
+
+  Future<void> saveLevelProgress(LevelProgress progress) async {
+    final key = 'level_progress_${progress.operationId}_${progress.level}';
+    final json = progress.toJson();
+    await _prefs?.setString(key, jsonEncode(json));
+  }
+
+  Future<LevelProgress?> getLevelProgress(String operationId, int level) async {
+    final key = 'level_progress_${operationId}_$level';
+    final jsonString = _prefs?.getString(key);
+    if (jsonString == null) return null;
+    final json = jsonDecode(jsonString) as Map<String, dynamic>;
+    return LevelProgress.fromJson(json);
+  }
+
+  Future<List<LevelProgress>> getAllLevelProgress() async {
+    final keys = _prefs?.getKeys() ?? {};
+    final progressList = <LevelProgress>[];
+    
+    for (final key in keys) {
+      if (key.startsWith('level_progress_')) {
+        final jsonString = _prefs?.getString(key);
+        if (jsonString != null) {
+          final json = jsonDecode(jsonString) as Map<String, dynamic>;
+          progressList.add(LevelProgress.fromJson(json));
+        }
+      }
+    }
+    
+    return progressList;
+  }
+
+  Future<void> saveStatistics(Statistics stats) async {
+    final key = 'statistics_${stats.operationId ?? 'all'}';
+    final json = stats.toJson();
+    await _prefs?.setString(key, jsonEncode(json));
+  }
+
+  Future<Statistics?> getStatistics(String? operationId) async {
+    final key = 'statistics_${operationId ?? 'all'} ';
+    final jsonString = _prefs?.getString(key.trim());
+    if (jsonString == null) return null;
+    final json = jsonDecode(jsonString) as Map<String, dynamic>;
+    return Statistics.fromJson(json);
+  }
+
+  Future<List<Statistics>> getAllStatistics() async {
+    final keys = _prefs?.getKeys() ?? {};
+    final statsList = <Statistics>[];
+    
+    for (final key in keys) {
+      if (key.startsWith('statistics_')) {
+        final jsonString = _prefs?.getString(key);
+        if (jsonString != null) {
+          final json = jsonDecode(jsonString) as Map<String, dynamic>;
+          statsList.add(Statistics.fromJson(json));
+        }
+      }
+    }
+    
+    return statsList;
+  }
+
+  Future<void> clearAll() async {
+    final keys = _prefs?.getKeys() ?? {};
+    for (final key in keys) {
+      if (key.startsWith('level_progress_') ||
+          key.startsWith('statistics_') ||
+          key == 'user_session') {
+        await _prefs?.remove(key);
+      }
+    }
+  }
+}

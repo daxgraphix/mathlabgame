@@ -1,0 +1,3017 @@
+{
+  "@@locale": "en",
+  "appTitle": "mathlab",
+  "@appTitle": {
+    "description": "",
+    "placeholders": {}
+  },
+  "home": "Home",
+  "@home": {
+    "description": "",
+    "placeholders": {}
+  },
+  "campaign": "Campaign",
+  "@campaign": {
+    "description": "",
+    "placeholders": {}
+  },
+  "arcade": "Arcade",
+  "@arcade": {
+    "description": "",
+    "placeholders": {}
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "",
+    "placeholders": {}
+  },
+  "practice": "Practice",
+  "@practice": {
+    "description": "",
+    "placeholders": {}
+  },
+  "startGame": "Start Game",
+  "@startGame": {
+    "description": "",
+    "placeholders": {}
+  },
+  "continueGame": "Continue",
+  "@continueGame": {
+    "description": "",
+    "placeholders": {}
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "",
+    "placeholders": {}
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "",
+    "placeholders": {}
+  },
+  "language": "Language",
+  "@language": {
+    "description": "",
+    "placeholders": {}
+  },
+  "totalPoints": "Total Points",
+  "@totalPoints": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelsCompleted": "Levels Completed",
+  "@levelsCompleted": {
+    "description": "",
+    "placeholders": {}
+  },
+  "commandCenter": "COMMAND CENTER",
+  "@commandCenter": {
+    "description": "",
+    "placeholders": {}
+  },
+  "quickResume": "QUICK RESUME",
+  "@quickResume": {
+    "description": "",
+    "placeholders": {}
+  },
+  "todaysSession": "Today's Session",
+  "@todaysSession": {
+    "description": "",
+    "placeholders": {}
+  },
+  "ptsToLevel": "{pts} pts to Level {level}",
+  "@ptsToLevel": {
+    "description": "",
+    "placeholders": {
+      "pts": {
+        "type": "int",
+        "example": "pts"
+      },
+      "level": {
+        "type": "int",
+        "example": "level"
+      }
+    }
+  },
+  "timeLeftShort": "{hours}h {minutes}m left",
+  "@timeLeftShort": {
+    "description": "",
+    "placeholders": {
+      "hours": {
+        "type": "int",
+        "example": "hours"
+      },
+      "minutes": {
+        "type": "int",
+        "example": "minutes"
+      }
+    }
+  },
+  "levelUppercase": "LEVEL {level}",
+  "@levelUppercase": {
+    "description": "",
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "example": "level"
+      }
+    }
+  },
+  "accuracy": "Accuracy",
+  "@accuracy": {
+    "description": "",
+    "placeholders": {}
+  },
+  "completed": "Completed",
+  "@completed": {
+    "description": "",
+    "placeholders": {}
+  },
+  "victory": "VICTORY",
+  "@victory": {
+    "description": "",
+    "placeholders": {}
+  },
+  "defeat": "DEFEAT",
+  "@defeat": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelStabilized": "LEVEL STABILIZED",
+  "@levelStabilized": {
+    "description": "",
+    "placeholders": {}
+  },
+  "integrityFailed": "INTEGRITY FAILED",
+  "@integrityFailed": {
+    "description": "",
+    "placeholders": {}
+  },
+  "coreScore": "CORE SCORE",
+  "@coreScore": {
+    "description": "",
+    "placeholders": {}
+  },
+  "playAgain": "PLAY AGAIN",
+  "@playAgain": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelUp": "LEVEL UP!",
+  "@levelUp": {
+    "description": "",
+    "placeholders": {}
+  },
+  "rewardPoints": "REWARD POINTS",
+  "@rewardPoints": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timePlayed": "Time Played",
+  "@timePlayed": {
+    "description": "",
+    "placeholders": {}
+  },
+  "addition": "Addition",
+  "@addition": {
+    "description": "",
+    "placeholders": {}
+  },
+  "subtraction": "Subtraction",
+  "@subtraction": {
+    "description": "",
+    "placeholders": {}
+  },
+  "multiplication": "Multiplication",
+  "@multiplication": {
+    "description": "",
+    "placeholders": {}
+  },
+  "division": "Division",
+  "@division": {
+    "description": "",
+    "placeholders": {}
+  },
+  "visualCounting": "Visual Counting",
+  "@visualCounting": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level": "Level",
+  "@level": {
+    "description": "",
+    "placeholders": {}
+  },
+  "stars": "Stars",
+  "@stars": {
+    "description": "",
+    "placeholders": {}
+  },
+  "locked": "Locked",
+  "@locked": {
+    "description": "",
+    "placeholders": {}
+  },
+  "unlocked": "Unlocked",
+  "@unlocked": {
+    "description": "",
+    "placeholders": {}
+  },
+  "score": "Score",
+  "@score": {
+    "description": "",
+    "placeholders": {}
+  },
+  "lives": "Lives",
+  "@lives": {
+    "description": "",
+    "placeholders": {}
+  },
+  "time": "Time",
+  "@time": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timeUppercase": "TIME",
+  "@timeUppercase": {
+    "description": "",
+    "placeholders": {}
+  },
+  "heat": "HEAT",
+  "@heat": {
+    "description": "",
+    "placeholders": {}
+  },
+  "streakUppercase": "STREAK",
+  "@streakUppercase": {
+    "description": "",
+    "placeholders": {}
+  },
+  "maxStreak": "MAX STREAK",
+  "@maxStreak": {
+    "description": "",
+    "placeholders": {}
+  },
+  "correctAnswersLabel": "CORRECT",
+  "@correctAnswersLabel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "gameOver": "Game Over",
+  "@gameOver": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelComplete": "Level Complete!",
+  "@levelComplete": {
+    "description": "",
+    "placeholders": {}
+  },
+  "continueText": "CONTINUE",
+  "@continueText": {
+    "description": "",
+    "placeholders": {}
+  },
+  "resume": "RESUME",
+  "@resume": {
+    "description": "",
+    "placeholders": {}
+  },
+  "gamePaused": "Game Paused",
+  "@gamePaused": {
+    "description": "",
+    "placeholders": {}
+  },
+  "exitGame": "Exit Game?",
+  "@exitGame": {
+    "description": "",
+    "placeholders": {}
+  },
+  "exitGameDesc": "Are you sure you want to exit? Current progress will be lost.",
+  "@exitGameDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "correct": "Correct!",
+  "@correct": {
+    "description": "",
+    "placeholders": {}
+  },
+  "incorrect": "Incorrect!",
+  "@incorrect": {
+    "description": "",
+    "placeholders": {}
+  },
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "",
+    "placeholders": {}
+  },
+  "nextLevel": "Next Level",
+  "@nextLevel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "backToMenu": "Back to Menu",
+  "@backToMenu": {
+    "description": "",
+    "placeholders": {}
+  },
+  "scoreAttack": "Score Attack",
+  "@scoreAttack": {
+    "description": "",
+    "placeholders": {}
+  },
+  "endless": "Endless",
+  "@endless": {
+    "description": "",
+    "placeholders": {}
+  },
+  "duel": "Duel",
+  "@duel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "flash": "Flash",
+  "@flash": {
+    "description": "",
+    "placeholders": {}
+  },
+  "scoreAttackDesc": "60 seconds to score as high as possible",
+  "@scoreAttackDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "endlessDesc": "3 lives - keep playing as long as you can",
+  "@endlessDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "duelDesc": "Race against the AI",
+  "@duelDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "flashDesc": "Memory challenge - recall the numbers",
+  "@flashDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "simulation": "Simulation",
+  "@simulation": {
+    "description": "",
+    "placeholders": {}
+  },
+  "solar": "Solar",
+  "@solar": {
+    "description": "",
+    "placeholders": {}
+  },
+  "cyber": "Cyber",
+  "@cyber": {
+    "description": "",
+    "placeholders": {}
+  },
+  "selectOperation": "Select Operation",
+  "@selectOperation": {
+    "description": "",
+    "placeholders": {}
+  },
+  "selectLevel": "Select Level",
+  "@selectLevel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "customize": "Customize",
+  "@customize": {
+    "description": "",
+    "placeholders": {}
+  },
+  "numberRange": "Number Range",
+  "@numberRange": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timer": "Timer",
+  "@timer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "on": "On",
+  "@on": {
+    "description": "",
+    "placeholders": {}
+  },
+  "off": "Off",
+  "@off": {
+    "description": "",
+    "placeholders": {}
+  },
+  "countTheShapes": "Count the shapes!",
+  "@countTheShapes": {
+    "description": "",
+    "placeholders": {}
+  },
+  "enterAnswer": "Enter your answer",
+  "@enterAnswer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "submit": "Submit",
+  "@submit": {
+    "description": "",
+    "placeholders": {}
+  },
+  "clear": "Clear",
+  "@clear": {
+    "description": "",
+    "placeholders": {}
+  },
+  "dots": "Dots",
+  "@dots": {
+    "description": "",
+    "placeholders": {}
+  },
+  "triangles": "Triangles",
+  "@triangles": {
+    "description": "",
+    "placeholders": {}
+  },
+  "easy": "Easy",
+  "@easy": {
+    "description": "",
+    "placeholders": {}
+  },
+  "medium": "Medium",
+  "@medium": {
+    "description": "",
+    "placeholders": {}
+  },
+  "hard": "Hard",
+  "@hard": {
+    "description": "",
+    "placeholders": {}
+  },
+  "minutes": "min",
+  "@minutes": {
+    "description": "",
+    "placeholders": {}
+  },
+  "seconds": "sec",
+  "@seconds": {
+    "description": "",
+    "placeholders": {}
+  },
+  "highScore": "High Score",
+  "@highScore": {
+    "description": "",
+    "placeholders": {}
+  },
+  "newHighScore": "New High Score!",
+  "@newHighScore": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avatar": "Avatar",
+  "@avatar": {
+    "description": "",
+    "placeholders": {}
+  },
+  "shape": "Shape",
+  "@shape": {
+    "description": "",
+    "placeholders": {}
+  },
+  "color": "Color",
+  "@color": {
+    "description": "",
+    "placeholders": {}
+  },
+  "customMix": "Custom Mix",
+  "@customMix": {
+    "description": "",
+    "placeholders": {}
+  },
+  "customMixArithmetic": "Custom Mix Arithmetic",
+  "@customMixArithmetic": {
+    "description": "",
+    "placeholders": {}
+  },
+  "operationMatrix": "Operation Matrix",
+  "@operationMatrix": {
+    "description": "",
+    "placeholders": {}
+  },
+  "difficultyLevel": "Difficulty Level",
+  "@difficultyLevel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "initiateMixSequence": "Start Mix",
+  "@initiateMixSequence": {
+    "description": "",
+    "placeholders": {}
+  },
+  "sessionMetrics": "Session Metrics",
+  "@sessionMetrics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "gameSession": "Game Session",
+  "@gameSession": {
+    "description": "",
+    "placeholders": {}
+  },
+  "configuration": "Configuration",
+  "@configuration": {
+    "description": "",
+    "placeholders": {}
+  },
+  "terminateSession": "End Session",
+  "@terminateSession": {
+    "description": "",
+    "placeholders": {}
+  },
+  "requestHint": "Request Hint",
+  "@requestHint": {
+    "description": "",
+    "placeholders": {}
+  },
+  "systemHint": "System Hint",
+  "@systemHint": {
+    "description": "",
+    "placeholders": {}
+  },
+  "acknowledge": "Acknowledge",
+  "@acknowledge": {
+    "description": "",
+    "placeholders": {}
+  },
+  "understood": "Understood",
+  "@understood": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mixModeProtocol": "Mix Mode Protocol",
+  "@mixModeProtocol": {
+    "description": "",
+    "placeholders": {}
+  },
+  "coreMetrics": "Core Metrics",
+  "@coreMetrics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "progressionStatus": "Progression Status",
+  "@progressionStatus": {
+    "description": "",
+    "placeholders": {}
+  },
+  "performanceAnalytics": "Performance Analytics",
+  "@performanceAnalytics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "realTimePerformance": "Real Time Performance",
+  "@realTimePerformance": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelCompletionStats": "Level Completion Stats",
+  "@levelCompletionStats": {
+    "description": "",
+    "placeholders": {}
+  },
+  "reactionAnalytics": "Reaction Analytics",
+  "@reactionAnalytics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "speedMetrics": "Speed Metrics",
+  "@speedMetrics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "temporalInvestment": "Time Invested",
+  "@temporalInvestment": {
+    "description": "",
+    "placeholders": {}
+  },
+  "realTimeAccuracy": "Real Time Accuracy",
+  "@realTimeAccuracy": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelMastery": "Level Mastery",
+  "@levelMastery": {
+    "description": "",
+    "placeholders": {}
+  },
+  "achievementProgress": "Achievement Progress",
+  "@achievementProgress": {
+    "description": "",
+    "placeholders": {}
+  },
+  "endOfReport": "End of Report",
+  "@endOfReport": {
+    "description": "",
+    "placeholders": {}
+  },
+  "welcomeBack": "Welcome Back",
+  "@welcomeBack": {
+    "description": "",
+    "placeholders": {}
+  },
+  "dashboard": "Dashboard",
+  "@dashboard": {
+    "description": "",
+    "placeholders": {}
+  },
+  "shop": "Shop",
+  "@shop": {
+    "description": "",
+    "placeholders": {}
+  },
+  "stats": "Stats",
+  "@stats": {
+    "description": "",
+    "placeholders": {}
+  },
+  "calc": "Calc",
+  "@calc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "dailyMissions": "Daily Missions",
+  "@dailyMissions": {
+    "description": "",
+    "placeholders": {}
+  },
+  "close": "Close",
+  "@close": {
+    "description": "",
+    "placeholders": {}
+  },
+  "adventure": "Adventure",
+  "@adventure": {
+    "description": "",
+    "placeholders": {}
+  },
+  "gameModes": "Game Modes",
+  "@gameModes": {
+    "description": "",
+    "placeholders": {}
+  },
+  "puzzleWorld": "Puzzle World",
+  "@puzzleWorld": {
+    "description": "",
+    "placeholders": {}
+  },
+  "resourcesTools": "Resources & Tools",
+  "@resourcesTools": {
+    "description": "",
+    "placeholders": {}
+  },
+  "logicRiddles": "Logic Riddles",
+  "@logicRiddles": {
+    "description": "",
+    "placeholders": {}
+  },
+  "crossNumbers": "Cross Numbers",
+  "@crossNumbers": {
+    "description": "",
+    "placeholders": {}
+  },
+  "crossNumbersDesc": "Solve cross number puzzles",
+  "@crossNumbersDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "calculator": "Calculator",
+  "@calculator": {
+    "description": "",
+    "placeholders": {}
+  },
+  "reports": "Reports",
+  "@reports": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avatarShop": "Avatar Shop",
+  "@avatarShop": {
+    "description": "",
+    "placeholders": {}
+  },
+  "focusMode": "Focus Mode",
+  "@focusMode": {
+    "description": "",
+    "placeholders": {}
+  },
+  "focusModeDesc": "Simplified UI for concentration",
+  "@focusModeDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "performanceMode": "Performance Mode",
+  "@performanceMode": {
+    "description": "",
+    "placeholders": {}
+  },
+  "performanceModeDesc": "Reduce transparency for better performance",
+  "@performanceModeDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "visualTheme": "Visual Theme",
+  "@visualTheme": {
+    "description": "",
+    "placeholders": {}
+  },
+  "audioOutput": "Audio Output",
+  "@audioOutput": {
+    "description": "",
+    "placeholders": {}
+  },
+  "hapticFeedback": "Haptic Feedback",
+  "@hapticFeedback": {
+    "description": "",
+    "placeholders": {}
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "",
+    "placeholders": {}
+  },
+  "arithmeticMixGenerator": "Arithmetic Mix Generator",
+  "@arithmeticMixGenerator": {
+    "description": "",
+    "placeholders": {}
+  },
+  "custom": "Custom",
+  "@custom": {
+    "description": "",
+    "placeholders": {}
+  },
+  "nextQuestion": "Next Question",
+  "@nextQuestion": {
+    "description": "",
+    "placeholders": {}
+  },
+  "undo": "Undo",
+  "@undo": {
+    "description": "",
+    "placeholders": {}
+  },
+  "hint": "HINT",
+  "@hint": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level_1": "Level 1",
+  "@level_1": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level_2": "Level 2",
+  "@level_2": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level_3": "Level 3",
+  "@level_3": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level_4": "Level 4",
+  "@level_4": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level_5": "Level 5",
+  "@level_5": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level_6": "Level 6",
+  "@level_6": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level_7": "Level 7",
+  "@level_7": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level_8": "Level 8",
+  "@level_8": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level_9": "Level 9",
+  "@level_9": {
+    "description": "",
+    "placeholders": {}
+  },
+  "level_10": "Level 10",
+  "@level_10": {
+    "description": "",
+    "placeholders": {}
+  },
+  "plus": "+",
+  "@plus": {
+    "description": "",
+    "placeholders": {}
+  },
+  "minus": "-",
+  "@minus": {
+    "description": "",
+    "placeholders": {}
+  },
+  "multiply": "Ã—",
+  "@multiply": {
+    "description": "",
+    "placeholders": {}
+  },
+  "divide": "Ã·",
+  "@divide": {
+    "description": "",
+    "placeholders": {}
+  },
+  "hotStreak": "ðŸ”¥ HOT STREAK!",
+  "@hotStreak": {
+    "description": "",
+    "placeholders": {}
+  },
+  "unstoppable": "ðŸŒŸ UNSTOPPABLE!",
+  "@unstoppable": {
+    "description": "",
+    "placeholders": {}
+  },
+  "keepItUp": "âš¡ KEEP IT UP!",
+  "@keepItUp": {
+    "description": "",
+    "placeholders": {}
+  },
+  "streakBroken": "ðŸ’” STREAK BROKEN!",
+  "@streakBroken": {
+    "description": "",
+    "placeholders": {}
+  },
+  "streak": "STREAK",
+  "@streak": {
+    "description": "",
+    "placeholders": {}
+  },
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "",
+    "placeholders": {}
+  },
+  "english": "English",
+  "@english": {
+    "description": "",
+    "placeholders": {}
+  },
+  "swahili": "Swahili",
+  "@swahili": {
+    "description": "",
+    "placeholders": {}
+  },
+  "swahiliTanzania": "Swahili (Tanzania)",
+  "@swahiliTanzania": {
+    "description": "",
+    "placeholders": {}
+  },
+  "languageChanged": "Language changed",
+  "@languageChanged": {
+    "description": "",
+    "placeholders": {}
+  },
+  "exportReport": "Export Report",
+  "@exportReport": {
+    "description": "",
+    "placeholders": {}
+  },
+  "accuracyTrends": "Accuracy Trends",
+  "@accuracyTrends": {
+    "description": "",
+    "placeholders": {}
+  },
+  "help": "HELP",
+  "@help": {
+    "description": "",
+    "placeholders": {}
+  },
+  "refreshAnalytics": "Refresh Analytics",
+  "@refreshAnalytics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avgSession": "Avg Session",
+  "@avgSession": {
+    "description": "",
+    "placeholders": {}
+  },
+  "sysOp": "SYS_OP",
+  "@sysOp": {
+    "description": "",
+    "placeholders": {}
+  },
+  "neuralAccuracy": "NEURAL_ACCURACY",
+  "@neuralAccuracy": {
+    "description": "",
+    "placeholders": {}
+  },
+  "coreStars": "CORE_STARS",
+  "@coreStars": {
+    "description": "",
+    "placeholders": {}
+  },
+  "unitsCleared": "UNITS_CLEARED",
+  "@unitsCleared": {
+    "description": "",
+    "placeholders": {}
+  },
+  "status": "STATUS",
+  "@status": {
+    "description": "",
+    "placeholders": {}
+  },
+  "missionActive": "MISSION_ACTIVE",
+  "@missionActive": {
+    "description": "",
+    "placeholders": {}
+  },
+  "endOfTransmission": "END_OF_TRANSMISSION",
+  "@endOfTransmission": {
+    "description": "",
+    "placeholders": {}
+  },
+  "exportProtocol": "EXPORT_PROTOCOL",
+  "@exportProtocol": {
+    "description": "",
+    "placeholders": {}
+  },
+  "dismiss": "DISMISS",
+  "@dismiss": {
+    "description": "",
+    "placeholders": {}
+  },
+  "debriefCopied": "DEBRIEF_COPIED_TO_CLIPBOARD",
+  "@debriefCopied": {
+    "description": "",
+    "placeholders": {}
+  },
+  "copyToClipboard": "COPY_TO_CLIPBOARD",
+  "@copyToClipboard": {
+    "description": "",
+    "placeholders": {}
+  },
+  "neuralEfficiencyIndex": "NEURAL_EFFICIENCY_INDEX",
+  "@neuralEfficiencyIndex": {
+    "description": "",
+    "placeholders": {}
+  },
+  "performanceScore": "PERFORMANCE_SCORE",
+  "@performanceScore": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avgSpeed": "Avg Speed",
+  "@avgSpeed": {
+    "description": "",
+    "placeholders": {}
+  },
+  "high": "HIGH",
+  "@high": {
+    "description": "",
+    "placeholders": {}
+  },
+  "med": "MED",
+  "@med": {
+    "description": "",
+    "placeholders": {}
+  },
+  "low": "LOW",
+  "@low": {
+    "description": "",
+    "placeholders": {}
+  },
+  "accuracyProgression": "ACCURACY_PROGRESSION",
+  "@accuracyProgression": {
+    "description": "",
+    "placeholders": {}
+  },
+  "peakAccuracy": "Peak Accuracy",
+  "@peakAccuracy": {
+    "description": "",
+    "placeholders": {}
+  },
+  "responseAnalytics": "RESPONSE_ANALYTICS",
+  "@responseAnalytics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avgResponse": "Avg Response",
+  "@avgResponse": {
+    "description": "",
+    "placeholders": {}
+  },
+  "fastest": "Fastest",
+  "@fastest": {
+    "description": "",
+    "placeholders": {}
+  },
+  "improvement": "Improvement",
+  "@improvement": {
+    "description": "",
+    "placeholders": {}
+  },
+  "livePerformanceMetrics": "LIVE_PERFORMANCE_METRICS",
+  "@livePerformanceMetrics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "currentAccuracy": "CURRENT_ACCURACY",
+  "@currentAccuracy": {
+    "description": "",
+    "placeholders": {}
+  },
+  "sessionTime": "SESSION_TIME",
+  "@sessionTime": {
+    "description": "",
+    "placeholders": {}
+  },
+  "activeStreak": "ACTIVE_STREAK",
+  "@activeStreak": {
+    "description": "",
+    "placeholders": {}
+  },
+  "calculating": "CALCULATING...",
+  "@calculating": {
+    "description": "",
+    "placeholders": {}
+  },
+  "advanced": "ADVANCED",
+  "@advanced": {
+    "description": "",
+    "placeholders": {}
+  },
+  "performanceTrend": "PERFORMANCE_TREND",
+  "@performanceTrend": {
+    "description": "",
+    "placeholders": {}
+  },
+  "reactionTimeAnalysis": "Reaction Time Analysis",
+  "@reactionTimeAnalysis": {
+    "description": "",
+    "placeholders": {}
+  },
+  "operationUsage": "Operation Usage",
+  "@operationUsage": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelMasteryBreakdown": "LEVEL_MASTERY_BREAKDOWN",
+  "@levelMasteryBreakdown": {
+    "description": "",
+    "placeholders": {}
+  },
+  "perfectLevels": "PERFECT_LEVELS",
+  "@perfectLevels": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelsWith35Plus": "Levels with 35+ correct",
+  "@levelsWith35Plus": {
+    "description": "",
+    "placeholders": {}
+  },
+  "highPerformance": "HIGH_PERFORMANCE",
+  "@highPerformance": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelsWith30Plus": "Levels with 30+ correct",
+  "@levelsWith30Plus": {
+    "description": "",
+    "placeholders": {}
+  },
+  "goodProgress": "GOOD_PROGRESS",
+  "@goodProgress": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelsWith25Plus": "Levels with 25+ correct",
+  "@levelsWith25Plus": {
+    "description": "",
+    "placeholders": {}
+  },
+  "totalAttempts": "TOTAL_ATTEMPTS",
+  "@totalAttempts": {
+    "description": "",
+    "placeholders": {}
+  },
+  "totalLevelsAttempted": "Total levels attempted",
+  "@totalLevelsAttempted": {
+    "description": "",
+    "placeholders": {}
+  },
+  "player": "PLAYER",
+  "@player": {
+    "description": "",
+    "placeholders": {}
+  },
+  "del": "DEL",
+  "@del": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mc": "MC",
+  "@mc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mr": "MR",
+  "@mr": {
+    "description": "",
+    "placeholders": {}
+  },
+  "divByZero": "DIV BY ZERO",
+  "@divByZero": {
+    "description": "",
+    "placeholders": {}
+  },
+  "allModes": "All Modes",
+  "@allModes": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mathLearningProgress": "Math Learning Progress",
+  "@mathLearningProgress": {
+    "description": "",
+    "placeholders": {}
+  },
+  "preparingPdf": "Preparing PDF...",
+  "@preparingPdf": {
+    "description": "",
+    "placeholders": {}
+  },
+  "pdfSharedSuccessfully": "PDF shared successfully!",
+  "@pdfSharedSuccessfully": {
+    "description": "",
+    "placeholders": {}
+  },
+  "shareFailed": "Share failed: {error}",
+  "@shareFailed": {
+    "description": "",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "error"
+      }
+    }
+  },
+  "mymathlabProgressReport": "My mathlab Progress Report",
+  "@mymathlabProgressReport": {
+    "description": "",
+    "placeholders": {}
+  },
+  "overview": "Overview",
+  "@overview": {
+    "description": "",
+    "placeholders": {}
+  },
+  "readyToChallenge": "ðŸŽ¯ Ready to Challenge?",
+  "@readyToChallenge": {
+    "description": "",
+    "placeholders": {}
+  },
+  "masterMathematicsDesc": "Master mathematics through engaging games and track your progress.",
+  "@masterMathematicsDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "yourProgress": "MISSING",
+  "@yourProgress": {
+    "description": "",
+    "placeholders": {}
+  },
+  "starsEarned": "Stars Earned",
+  "@starsEarned": {
+    "description": "",
+    "placeholders": {}
+  },
+  "quickActions": "⚡ Quick Actions",
+  "@quickActions": {
+    "description": "",
+    "placeholders": {}
+  },
+  "dailyChallenge": "Daily Challenge",
+  "@dailyChallenge": {
+    "description": "",
+    "placeholders": {}
+  },
+  "completeTodaysChallenge": "MISSING",
+  "@completeTodaysChallenge": {
+    "description": "",
+    "placeholders": {}
+  },
+  "challengeReward": "MISSING",
+  "@challengeReward": {
+    "description": "",
+    "placeholders": {}
+  },
+  "completeLevelsProgressively": "Complete levels progressively",
+  "@completeLevelsProgressively": {
+    "description": "",
+    "placeholders": {}
+  },
+  "fastPacedChallenges": "Fast-paced challenges",
+  "@fastPacedChallenges": {
+    "description": "",
+    "placeholders": {}
+  },
+  "improveSpecificSkills": "Improve specific skills",
+  "@improveSpecificSkills": {
+    "description": "",
+    "placeholders": {}
+  },
+  "createYourOwnChallenges": "Create your own challenges",
+  "@createYourOwnChallenges": {
+    "description": "",
+    "placeholders": {}
+  },
+  "goodMorning": "MISSING",
+  "@goodMorning": {
+    "description": "",
+    "placeholders": {}
+  },
+  "goodAfternoon": "MISSING",
+  "@goodAfternoon": {
+    "description": "",
+    "placeholders": {}
+  },
+  "goodEvening": "MISSING",
+  "@goodEvening": {
+    "description": "",
+    "placeholders": {}
+  },
+  "goodNight": "MISSING",
+  "@goodNight": {
+    "description": "",
+    "placeholders": {}
+  },
+  "welcomeTomathlab": "MISSING",
+  "@welcomeTomathlab": {
+    "description": "",
+    "placeholders": {}
+  },
+  "quickStart": "MISSING",
+  "@quickStart": {
+    "description": "",
+    "placeholders": {}
+  },
+  "campaignMode": "Campaign Mode",
+  "@campaignMode": {
+    "description": "",
+    "placeholders": {}
+  },
+  "startYourMathematicalJourney": "MISSING",
+  "@startYourMathematicalJourney": {
+    "description": "",
+    "placeholders": {}
+  },
+  "practiceMode": "Practice Mode",
+  "@practiceMode": {
+    "description": "",
+    "placeholders": {}
+  },
+  "focusOnSpecificOperations": "MISSING",
+  "@focusOnSpecificOperations": {
+    "description": "",
+    "placeholders": {}
+  },
+  "arcadeMode": "MISSING",
+  "@arcadeMode": {
+    "description": "",
+    "placeholders": {}
+  },
+  "fastPacedGamingExperience": "MISSING",
+  "@fastPacedGamingExperience": {
+    "description": "",
+    "placeholders": {}
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "chapter": "CHAPTER",
+  "@chapter": {
+    "description": "",
+    "placeholders": {}
+  },
+  "chapterStarsProgress": "{stars} / {total} STARS",
+  "@chapterStarsProgress": {
+    "description": "",
+    "placeholders": {
+      "stars": {
+        "type": "int",
+        "example": "stars"
+      },
+      "total": {
+        "type": "int",
+        "example": "total"
+      }
+    }
+  },
+  "lockedNeedStars": "LOCKED - NEED {stars} TOTAL STARS",
+  "@lockedNeedStars": {
+    "description": "",
+    "placeholders": {
+      "stars": {
+        "type": "int",
+        "example": "stars"
+      }
+    }
+  },
+  "solveLogicChallenges": "Solve challenging logic puzzles",
+  "@solveLogicChallenges": {
+    "description": "",
+    "placeholders": {}
+  },
+  "pushUpdates": "Push updates",
+  "@pushUpdates": {
+    "description": "",
+    "placeholders": {}
+  },
+  "sfxAndMusic": "SFX & Music",
+  "@sfxAndMusic": {
+    "description": "",
+    "placeholders": {}
+  },
+  "tactileResponse": "Tactile response",
+  "@tactileResponse": {
+    "description": "",
+    "placeholders": {}
+  },
+  "noLimit": "No limit",
+  "@noLimit": {
+    "description": "",
+    "placeholders": {}
+  },
+  "equipped": "EQUIPPED",
+  "@equipped": {
+    "description": "",
+    "placeholders": {}
+  },
+  "achievementUnlocked": "ACHIEVEMENT_UNLOCKED",
+  "@achievementUnlocked": {
+    "description": "",
+    "placeholders": {}
+  },
+  "protocolInitialized": "Protocol \"Star Collector\" has been successfully initialized.",
+  "@protocolInitialized": {
+    "description": "",
+    "placeholders": {}
+  },
+  "newLogicNodesAvailable": "Three new logic nodes available for processing.",
+  "@newLogicNodesAvailable": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelClearanceGranted": "Level 10 clearance granted. New sectors unlocked.",
+  "@levelClearanceGranted": {
+    "description": "",
+    "placeholders": {}
+  },
+  "viewStreak": "View Streak",
+  "@viewStreak": {
+    "description": "",
+    "placeholders": {}
+  },
+  "viewAchievement": "View Achievement",
+  "@viewAchievement": {
+    "description": "",
+    "placeholders": {}
+  },
+  "startMission": "Start Mission",
+  "@startMission": {
+    "description": "",
+    "placeholders": {}
+  },
+  "viewProgress": "View Progress",
+  "@viewProgress": {
+    "description": "",
+    "placeholders": {}
+  },
+  "hoursAgo": "{count}h ago",
+  "@hoursAgo": {
+    "description": "",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "count"
+      }
+    }
+  },
+  "daysAgo": "{count}d ago",
+  "@daysAgo": {
+    "description": "",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "count"
+      }
+    }
+  },
+  "pleaseEnterYourName": "Please enter your name",
+  "@pleaseEnterYourName": {
+    "description": "",
+    "placeholders": {}
+  },
+  "errorSavingProfile": "Error saving profile",
+  "@errorSavingProfile": {
+    "description": "",
+    "placeholders": {}
+  },
+  "welcomeExclamation": "Welcome!",
+  "@welcomeExclamation": {
+    "description": "",
+    "placeholders": {}
+  },
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "",
+    "placeholders": {}
+  },
+  "letsSetupYourProfile": "Let's set up your profile",
+  "@letsSetupYourProfile": {
+    "description": "",
+    "placeholders": {}
+  },
+  "customizeYourProfile": "Customize your profile",
+  "@customizeYourProfile": {
+    "description": "",
+    "placeholders": {}
+  },
+  "getStarted": "Get Started",
+  "@getStarted": {
+    "description": "",
+    "placeholders": {}
+  },
+  "yourName": "Your Name",
+  "@yourName": {
+    "description": "",
+    "placeholders": {}
+  },
+  "enterYourName": "Enter your name",
+  "@enterYourName": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avatarShape": "Avatar Shape",
+  "@avatarShape": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avatarColor": "Avatar Color",
+  "@avatarColor": {
+    "description": "",
+    "placeholders": {}
+  },
+  "basicMode": "Basic Mode",
+  "@basicMode": {
+    "description": "",
+    "placeholders": {}
+  },
+  "scientificMode": "Scientific Mode",
+  "@scientificMode": {
+    "description": "",
+    "placeholders": {}
+  },
+  "calculationHistory": "Calculation History",
+  "@calculationHistory": {
+    "description": "",
+    "placeholders": {}
+  },
+  "noCalculationsYet": "No calculations yet",
+  "@noCalculationsYet": {
+    "description": "",
+    "placeholders": {}
+  },
+  "memory": "Memory",
+  "@memory": {
+    "description": "",
+    "placeholders": {}
+  },
+  "memoryIsEmpty": "Memory is empty",
+  "@memoryIsEmpty": {
+    "description": "",
+    "placeholders": {}
+  },
+  "switchLanguage": "Switch Language",
+  "@switchLanguage": {
+    "description": "",
+    "placeholders": {}
+  },
+  "switchedTo": "Switched to",
+  "@switchedTo": {
+    "description": "",
+    "placeholders": {}
+  },
+  "userProfile": "User Profile",
+  "@userProfile": {
+    "description": "",
+    "placeholders": {}
+  },
+  "systemStatusActive": "System Status: Active",
+  "@systemStatusActive": {
+    "description": "",
+    "placeholders": {}
+  },
+  "storeAndCustomization": "Store & Customization",
+  "@storeAndCustomization": {
+    "description": "",
+    "placeholders": {}
+  },
+  "unlockNewAvatarsWithPoints": "Unlock new avatars with points",
+  "@unlockNewAvatarsWithPoints": {
+    "description": "",
+    "placeholders": {}
+  },
+  "systemSettings": "System Settings",
+  "@systemSettings": {
+    "description": "",
+    "placeholders": {}
+  },
+  "interface": "Interface",
+  "@interface": {
+    "description": "",
+    "placeholders": {}
+  },
+  "audioAndHaptics": "Audio & Haptics",
+  "@audioAndHaptics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "builtInArithmeticTool": "Built-in arithmetic tool",
+  "@builtInArithmeticTool": {
+    "description": "",
+    "placeholders": {}
+  },
+  "quickLanguageToggle": "Quick Language Toggle",
+  "@quickLanguageToggle": {
+    "description": "",
+    "placeholders": {}
+  },
+  "stargazer": "Stargazer",
+  "@stargazer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "sharpshooter": "Sharpshooter",
+  "@sharpshooter": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timeLord": "Time Lord",
+  "@timeLord": {
+    "description": "",
+    "placeholders": {}
+  },
+  "scholar": "Scholar",
+  "@scholar": {
+    "description": "",
+    "placeholders": {}
+  },
+  "selectTheme": "Select Theme",
+  "@selectTheme": {
+    "description": "",
+    "placeholders": {}
+  },
+  "correctAnswer": "Correct!",
+  "@correctAnswer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "wrongAnswer": "Wrong!",
+  "@wrongAnswer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "achievements": "Achievements",
+  "@achievements": {
+    "description": "",
+    "placeholders": {}
+  },
+  "save": "Save",
+  "@save": {
+    "description": "",
+    "placeholders": {}
+  },
+  "activeChallenges": "Active Challenges",
+  "@activeChallenges": {
+    "description": "",
+    "placeholders": {}
+  },
+  "speedDemon": "Speed Demon",
+  "@speedDemon": {
+    "description": "",
+    "placeholders": {}
+  },
+  "speedDemonDesc": "Answer as fast as possible!",
+  "@speedDemonDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mathMaster": "Math Master",
+  "@mathMaster": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mathMasterDesc": "Achieve perfect accuracy",
+  "@mathMasterDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "marathon": "Marathon",
+  "@marathon": {
+    "description": "",
+    "placeholders": {}
+  },
+  "marathonDesc": "Endurance challenge",
+  "@marathonDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "practiceLab": "Practice Lab",
+  "@practiceLab": {
+    "description": "",
+    "placeholders": {}
+  },
+  "configurations": "Configurations",
+  "@configurations": {
+    "description": "",
+    "placeholders": {}
+  },
+  "visualCountingDesc": "Count shapes and objects",
+  "@visualCountingDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timePressure": "Time Pressure",
+  "@timePressure": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timePressureDesc": "Race against time",
+  "@timePressureDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "adaptiveDifficulty": "Adaptive Difficulty",
+  "@adaptiveDifficulty": {
+    "description": "",
+    "placeholders": {}
+  },
+  "adaptiveDifficultyDesc": "Difficulty adjusts to your skill",
+  "@adaptiveDifficultyDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timeLimit": "Time Limit",
+  "@timeLimit": {
+    "description": "",
+    "placeholders": {}
+  },
+  "questionsCount": "Questions Count",
+  "@questionsCount": {
+    "description": "",
+    "placeholders": {}
+  },
+  "startPractice": "Start Practice",
+  "@startPractice": {
+    "description": "",
+    "placeholders": {}
+  },
+  "additionProcedure": "Addition Mode",
+  "@additionProcedure": {
+    "description": "",
+    "placeholders": {}
+  },
+  "subtractionProcedure": "Subtraction Mode",
+  "@subtractionProcedure": {
+    "description": "",
+    "placeholders": {}
+  },
+  "multiplicationProcedure": "Multiplication Mode",
+  "@multiplicationProcedure": {
+    "description": "",
+    "placeholders": {}
+  },
+  "divisionProcedure": "Division Mode",
+  "@divisionProcedure": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timesUp": "Time's Up!",
+  "@timesUp": {
+    "description": "",
+    "placeholders": {}
+  },
+  "yourScore": "Your score",
+  "@yourScore": {
+    "description": "",
+    "placeholders": {}
+  },
+  "exit": "Exit",
+  "@exit": {
+    "description": "",
+    "placeholders": {}
+  },
+  "operation": "Operation",
+  "@operation": {
+    "description": "",
+    "placeholders": {}
+  },
+  "dailyRewardClaimed": "Daily reward claimed!",
+  "@dailyRewardClaimed": {
+    "description": "",
+    "placeholders": {}
+  },
+  "claimTodaysReward": "CLAIM TODAY'S REWARD",
+  "@claimTodaysReward": {
+    "description": "",
+    "placeholders": {}
+  },
+  "noGameSession": "No game session",
+  "@noGameSession": {
+    "description": "",
+    "placeholders": {}
+  },
+  "crossword": "MISSING",
+  "@crossword": {
+    "description": "",
+    "placeholders": {}
+  },
+  "playerLabel": "Player",
+  "@playerLabel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "generatingImage": "Generating image...",
+  "@generatingImage": {
+    "description": "",
+    "placeholders": {}
+  },
+  "imageSharedSuccessfully": "Image shared successfully!",
+  "@imageSharedSuccessfully": {
+    "description": "",
+    "placeholders": {}
+  },
+  "imageExportFailed": "Image export failed",
+  "@imageExportFailed": {
+    "description": "",
+    "placeholders": {}
+  },
+  "preparingDocument": "Preparing document for printing...",
+  "@preparingDocument": {
+    "description": "",
+    "placeholders": {}
+  },
+  "reportSaved": "Report saved to: {path}",
+  "@reportSaved": {
+    "description": "",
+    "placeholders": {
+      "path": {
+        "type": "String",
+        "example": "path"
+      }
+    }
+  },
+  "reportSaveFailed": "Save failed: {error}",
+  "@reportSaveFailed": {
+    "description": "",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "error"
+      }
+    }
+  },
+  "performanceReportTitle": "mathlab Performance Report",
+  "@performanceReportTitle": {
+    "description": "",
+    "placeholders": {}
+  },
+  "generatingPdf": "Generating PDF...",
+  "@generatingPdf": {
+    "description": "",
+    "placeholders": {}
+  },
+  "abortSession": "Abort Session",
+  "@abortSession": {
+    "description": "",
+    "placeholders": {}
+  },
+  "skip": "SKIP",
+  "@skip": {
+    "description": "",
+    "placeholders": {}
+  },
+  "across": "MISSING",
+  "@across": {
+    "description": "",
+    "placeholders": {}
+  },
+  "down": "MISSING",
+  "@down": {
+    "description": "",
+    "placeholders": {}
+  },
+  "allChallengesComplete": "All challenges complete!",
+  "@allChallengesComplete": {
+    "description": "",
+    "placeholders": {}
+  },
+  "play": "Play",
+  "@play": {
+    "description": "",
+    "placeholders": {}
+  },
+  "unlimitedTime": "Unlimited Time",
+  "@unlimitedTime": {
+    "description": "",
+    "placeholders": {}
+  },
+  "practiceWithoutPressure": "Practice without pressure",
+  "@practiceWithoutPressure": {
+    "description": "",
+    "placeholders": {}
+  },
+  "showFeedback": "Show Feedback",
+  "@showFeedback": {
+    "description": "",
+    "placeholders": {}
+  },
+  "seeCorrectAnswersImmediately": "See correct answers immediately",
+  "@seeCorrectAnswersImmediately": {
+    "description": "",
+    "placeholders": {}
+  },
+  "answerRevealed": "Answer revealed!",
+  "@answerRevealed": {
+    "description": "",
+    "placeholders": {}
+  },
+  "selectRiddleLevel": "SELECT RIDDLE LEVEL",
+  "@selectRiddleLevel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "selectCrosswordLevel": "MISSING",
+  "@selectCrosswordLevel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "loadingGame": "Loading game...",
+  "@loadingGame": {
+    "description": "",
+    "placeholders": {}
+  },
+  "thankYouForFeedback": "Thank you for your feedback!",
+  "@thankYouForFeedback": {
+    "description": "",
+    "placeholders": {}
+  },
+  "notEnoughPoints": "Not enough points! Keep playing to earn more.",
+  "@notEnoughPoints": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avatarUnlocked": "Avatar unlocked!",
+  "@avatarUnlocked": {
+    "description": "",
+    "placeholders": {}
+  },
+  "documentSentToPrinter": "Document sent to printer!",
+  "@documentSentToPrinter": {
+    "description": "",
+    "placeholders": {}
+  },
+  "printFailed": "Print failed: {error}",
+  "@printFailed": {
+    "description": "",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "error"
+      }
+    }
+  },
+  "noProgressDataAvailable": "No progress data available",
+  "@noProgressDataAvailable": {
+    "description": "",
+    "placeholders": {}
+  },
+  "exportOptions": "Export Options",
+  "@exportOptions": {
+    "description": "",
+    "placeholders": {}
+  },
+  "exportAsPdf": "Export as PDF",
+  "@exportAsPdf": {
+    "description": "",
+    "placeholders": {}
+  },
+  "generateDetailedPdfReport": "Generate and share detailed PDF report",
+  "@generateDetailedPdfReport": {
+    "description": "",
+    "placeholders": {}
+  },
+  "shareAsImage": "Share as Image",
+  "@shareAsImage": {
+    "description": "",
+    "placeholders": {}
+  },
+  "captureHighQualityImage": "Capture and share report as high-quality image",
+  "@captureHighQualityImage": {
+    "description": "",
+    "placeholders": {}
+  },
+  "printReport": "Print Report",
+  "@printReport": {
+    "description": "",
+    "placeholders": {}
+  },
+  "sendReportToPrinter": "Send report to printer",
+  "@sendReportToPrinter": {
+    "description": "",
+    "placeholders": {}
+  },
+  "saveToDevice": "Save to Device",
+  "@saveToDevice": {
+    "description": "",
+    "placeholders": {}
+  },
+  "savePdfToDeviceStorage": "Save PDF to device storage",
+  "@savePdfToDeviceStorage": {
+    "description": "",
+    "placeholders": {}
+  },
+  "firstSteps": "First Steps",
+  "@firstSteps": {
+    "description": "",
+    "placeholders": {}
+  },
+  "firstStepsDesc": "Answer your first question correctly",
+  "@firstStepsDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "speedDemonTitle": "Speed Demon",
+  "@speedDemonTitle": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mathMasterTitle": "Math Master",
+  "@mathMasterTitle": {
+    "description": "",
+    "placeholders": {}
+  },
+  "weeklyChampion": "Weekly Champion",
+  "@weeklyChampion": {
+    "description": "",
+    "placeholders": {}
+  },
+  "streakMaster": "Streak Master",
+  "@streakMaster": {
+    "description": "",
+    "placeholders": {}
+  },
+  "puzzleGenius": "Puzzle Genius",
+  "@puzzleGenius": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timeLordTitle": "Time Lord",
+  "@timeLordTitle": {
+    "description": "",
+    "placeholders": {}
+  },
+  "onFire": "On Fire",
+  "@onFire": {
+    "description": "",
+    "placeholders": {}
+  },
+  "onFireDesc": "Get 5 correct answers in a row",
+  "@onFireDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "perfectScore": "Perfect Score",
+  "@perfectScore": {
+    "description": "",
+    "placeholders": {}
+  },
+  "weekendMaster": "Weekend Master",
+  "@weekendMaster": {
+    "description": "",
+    "placeholders": {}
+  },
+  "equip": "EQUIP",
+  "@equip": {
+    "description": "",
+    "placeholders": {}
+  },
+  "coreConcept": "Core Concept",
+  "@coreConcept": {
+    "description": "",
+    "placeholders": {}
+  },
+  "adventureTitle": "ADVENTURE",
+  "@adventureTitle": {
+    "description": "",
+    "placeholders": {}
+  },
+  "campaignProgression": "Campaign Progression",
+  "@campaignProgression": {
+    "description": "",
+    "placeholders": {}
+  },
+  "challengeTitle": "CHALLENGE",
+  "@challengeTitle": {
+    "description": "",
+    "placeholders": {}
+  },
+  "arcadeDailyMissions": "Arcade + Daily Missions",
+  "@arcadeDailyMissions": {
+    "description": "",
+    "placeholders": {}
+  },
+  "puzzlesTitle": "PUZZLES",
+  "@puzzlesTitle": {
+    "description": "",
+    "placeholders": {}
+  },
+  "crosswordsMathRiddles": "MISSING",
+  "@crosswordsMathRiddles": {
+    "description": "",
+    "placeholders": {}
+  },
+  "firstVictory": "First Victory",
+  "@firstVictory": {
+    "description": "",
+    "placeholders": {}
+  },
+  "campaignMaster": "Campaign Master",
+  "@campaignMaster": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mathGenius": "Math Genius",
+  "@mathGenius": {
+    "description": "",
+    "placeholders": {}
+  },
+  "unstoppableDesc": "Get 10 correct answers in a row",
+  "@unstoppableDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "heatIndexDesc": "Maintain a Heat Index above 2.5 for an entire session",
+  "@heatIndexDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "flashCalculator": "Flash Calculator",
+  "@flashCalculator": {
+    "description": "",
+    "placeholders": {}
+  },
+  "flashCalculatorDesc": "Answer 50 questions with an average time under 2 seconds",
+  "@flashCalculatorDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "dedicated": "Dedicated",
+  "@dedicated": {
+    "description": "",
+    "placeholders": {}
+  },
+  "dedicatedDesc": "Answer 500 questions",
+  "@dedicatedDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "stargazerDesc": "Earn your first 10 stars",
+  "@stargazerDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "centuryDesc": "Answer 100 questions",
+  "@centuryDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mathGeniusDesc": "Answer 1000 questions",
+  "@mathGeniusDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "perfectScoreDesc": "Get 100% accuracy in any game",
+  "@perfectScoreDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "weeklyChampionDesc": "Play for 7 days in a row",
+  "@weeklyChampionDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "campaignMasterDesc": "Complete all campaign levels",
+  "@campaignMasterDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "duelMasterDesc": "Win 10 duel matches",
+  "@duelMasterDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "legendDesc": "Get 25 correct answers in a row",
+  "@legendDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "sharpMind": "Sharp Mind",
+  "@sharpMind": {
+    "description": "",
+    "placeholders": {}
+  },
+  "sharpMindDesc": "Achieve {percentage}% accuracy in any game mode",
+  "@sharpMindDesc": {
+    "description": "",
+    "placeholders": {
+      "percentage": {
+        "type": "int",
+        "example": "percentage"
+      }
+    }
+  },
+  "speedRun": "Speed Run",
+  "@speedRun": {
+    "description": "",
+    "placeholders": {}
+  },
+  "speedRunDesc": "Answer 10 questions in under {seconds} seconds",
+  "@speedRunDesc": {
+    "description": "",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": "seconds"
+      }
+    }
+  },
+  "committed": "Committed",
+  "@committed": {
+    "description": "",
+    "placeholders": {}
+  },
+  "committedDesc": "Play for 30 days in a row",
+  "@committedDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "masterOfOperations": "Master of Operations",
+  "@masterOfOperations": {
+    "description": "",
+    "placeholders": {}
+  },
+  "masterOfOperationsDesc": "Use all four operations",
+  "@masterOfOperationsDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "highScorer": "High Scorer",
+  "@highScorer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "highScorerDesc": "Score {points} points in one game",
+  "@highScorerDesc": {
+    "description": "",
+    "placeholders": {
+      "points": {
+        "type": "int",
+        "example": "points"
+      }
+    }
+  },
+  "earlyBird": "Early Bird",
+  "@earlyBird": {
+    "description": "",
+    "placeholders": {}
+  },
+  "earlyBirdDesc": "Play your first game of the day before 8 AM",
+  "@earlyBirdDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "precisionExpert": "Precision Expert",
+  "@precisionExpert": {
+    "description": "",
+    "placeholders": {}
+  },
+  "accuracyMaster": "Accuracy Master",
+  "@accuracyMaster": {
+    "description": "",
+    "placeholders": {}
+  },
+  "lightningFast": "Lightning Fast",
+  "@lightningFast": {
+    "description": "",
+    "placeholders": {}
+  },
+  "lightningFastDesc": "Complete a level in under {seconds} seconds",
+  "@lightningFastDesc": {
+    "description": "",
+    "placeholders": {
+      "seconds": {
+        "type": "int",
+        "example": "seconds"
+      }
+    }
+  },
+  "instantReaction": "Instant Reaction",
+  "@instantReaction": {
+    "description": "",
+    "placeholders": {}
+  },
+  "comboKing": "Combo King",
+  "@comboKing": {
+    "description": "",
+    "placeholders": {}
+  },
+  "comboKingDesc": "Achieve a {multiplier}x combo multiplier",
+  "@comboKingDesc": {
+    "description": "",
+    "placeholders": {
+      "multiplier": {
+        "type": "int",
+        "example": "multiplier"
+      }
+    }
+  },
+  "performanceMasterDesc": "Achieve 95% accuracy with average time under 15 seconds",
+  "@performanceMasterDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "consistentPlayer": "Consistent Player",
+  "@consistentPlayer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "consistentPlayerDesc": "Maintain {percentage}% accuracy over {count} consecutive questions",
+  "@consistentPlayerDesc": {
+    "description": "",
+    "placeholders": {
+      "percentage": {
+        "type": "int",
+        "example": "percentage"
+      },
+      "count": {
+        "type": "int",
+        "example": "count"
+      }
+    }
+  },
+  "nightOwl": "Night Owl",
+  "@nightOwl": {
+    "description": "",
+    "placeholders": {}
+  },
+  "nightOwlDesc": "Play a game after 10 PM",
+  "@nightOwlDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "weekendWarrior": "Weekend Warrior",
+  "@weekendWarrior": {
+    "description": "",
+    "placeholders": {}
+  },
+  "weekendWarriorDesc": "Play on both Saturday and Sunday",
+  "@weekendWarriorDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "firstPlace": "First Place",
+  "@firstPlace": {
+    "description": "",
+    "placeholders": {}
+  },
+  "firstPlaceDesc": "Reach #1 on the leaderboard",
+  "@firstPlaceDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "modeExplorer": "Mode Explorer",
+  "@modeExplorer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "modeExplorerDesc": "Play all game modes",
+  "@modeExplorerDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "precisionStrike": "Precision Strike",
+  "@precisionStrike": {
+    "description": "",
+    "placeholders": {}
+  },
+  "precisionStrikeDesc": "Complete a level with 35+ correct answers",
+  "@precisionStrikeDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "masterLevel": "Master Level",
+  "@masterLevel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "masterLevelDesc": "Complete a level with 40+ correct answers",
+  "@masterLevelDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "perfectLevel": "Perfect Level",
+  "@perfectLevel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "perfectLevelDesc": "Complete a level with all 45 questions correct",
+  "@perfectLevelDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "risingStar": "Rising Star",
+  "@risingStar": {
+    "description": "",
+    "placeholders": {}
+  },
+  "risingStarDesc": "Unlock 10 campaign levels",
+  "@risingStarDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mathWarrior": "Math Warrior",
+  "@mathWarrior": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mathWarriorDesc": "Unlock 25 campaign levels",
+  "@mathWarriorDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "campaignConqueror": "Campaign Conqueror",
+  "@campaignConqueror": {
+    "description": "",
+    "placeholders": {}
+  },
+  "campaignConquerorDesc": "Complete all 50 campaign levels",
+  "@campaignConquerorDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "questionMaster": "Question Master",
+  "@questionMaster": {
+    "description": "",
+    "placeholders": {}
+  },
+  "questionMasterDesc": "Answer 1000 questions across different categories",
+  "@questionMasterDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "lightningLevel": "Lightning Level",
+  "@lightningLevel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "lightningLevelDesc": "Complete a 45-question level in under 45 seconds",
+  "@lightningLevelDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "consistencyMaster": "Consistency Master",
+  "@consistencyMaster": {
+    "description": "",
+    "placeholders": {}
+  },
+  "starCollector": "Star Collector",
+  "@starCollector": {
+    "description": "",
+    "placeholders": {}
+  },
+  "stellarPerformer": "Stellar Performer",
+  "@stellarPerformer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "stellarPerformerDesc": "Earn 50 stars",
+  "@stellarPerformerDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "celestialMaster": "Celestial Master",
+  "@celestialMaster": {
+    "description": "",
+    "placeholders": {}
+  },
+  "celestialMasterDesc": "Earn 100 stars",
+  "@celestialMasterDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "riddleMaster": "Riddle Master",
+  "@riddleMaster": {
+    "description": "",
+    "placeholders": {}
+  },
+  "riddleMasterDesc": "Complete all 30 riddle levels",
+  "@riddleMasterDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "hintHoarder": "Hint Hoarder",
+  "@hintHoarder": {
+    "description": "",
+    "placeholders": {}
+  },
+  "hintHoarderDesc": "Obtain 50 hints",
+  "@hintHoarderDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "gridExplorer": "Grid Explorer",
+  "@gridExplorer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "gridExplorerDesc": "Complete 5 Cross Numbers puzzles",
+  "@gridExplorerDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "lightningGrid": "Lightning Grid",
+  "@lightningGrid": {
+    "description": "",
+    "placeholders": {}
+  },
+  "lightningGridDesc": "Complete a 7x7 Cross Numbers puzzle in under 90 seconds",
+  "@lightningGridDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "logicArchitect": "Logic Architect",
+  "@logicArchitect": {
+    "description": "",
+    "placeholders": {}
+  },
+  "logicArchitectDesc": "Complete 50 Cross Numbers puzzles",
+  "@logicArchitectDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "campaignGrinder": "Campaign Grinder",
+  "@campaignGrinder": {
+    "description": "",
+    "placeholders": {}
+  },
+  "duelMaster": "Duel Master",
+  "@duelMaster": {
+    "description": "",
+    "placeholders": {}
+  },
+  "endlessSurvivor": "Endless Survivor",
+  "@endlessSurvivor": {
+    "description": "",
+    "placeholders": {}
+  },
+  "divisionExpert": "Division Expert",
+  "@divisionExpert": {
+    "description": "",
+    "placeholders": {}
+  },
+  "additionMastery": "Addition Mastery",
+  "@additionMastery": {
+    "description": "",
+    "placeholders": {}
+  },
+  "singleDigitAddition": "Single Digit Addition",
+  "@singleDigitAddition": {
+    "description": "",
+    "placeholders": {}
+  },
+  "twoDigitAddition": "Two Digit Addition",
+  "@twoDigitAddition": {
+    "description": "",
+    "placeholders": {}
+  },
+  "threeDigitAddition": "Three Digit Addition",
+  "@threeDigitAddition": {
+    "description": "",
+    "placeholders": {}
+  },
+  "additionWithCarrying": "Addition with Carrying",
+  "@additionWithCarrying": {
+    "description": "",
+    "placeholders": {}
+  },
+  "advancedAddition": "Advanced Addition",
+  "@advancedAddition": {
+    "description": "",
+    "placeholders": {}
+  },
+  "subtractionMastery": "Subtraction Mastery",
+  "@subtractionMastery": {
+    "description": "",
+    "placeholders": {}
+  },
+  "singleDigitSubtraction": "Single Digit Subtraction",
+  "@singleDigitSubtraction": {
+    "description": "",
+    "placeholders": {}
+  },
+  "twoDigitSubtraction": "Two Digit Subtraction",
+  "@twoDigitSubtraction": {
+    "description": "",
+    "placeholders": {}
+  },
+  "threeDigitSubtraction": "Three Digit Subtraction",
+  "@threeDigitSubtraction": {
+    "description": "",
+    "placeholders": {}
+  },
+  "subtractionWithBorrowing": "Subtraction with Borrowing",
+  "@subtractionWithBorrowing": {
+    "description": "",
+    "placeholders": {}
+  },
+  "advancedSubtraction": "Advanced Subtraction",
+  "@advancedSubtraction": {
+    "description": "",
+    "placeholders": {}
+  },
+  "wordProblemsSubtraction": "MISSING",
+  "@wordProblemsSubtraction": {
+    "description": "",
+    "placeholders": {}
+  },
+  "multiplicationMastery": "Multiplication Mastery",
+  "@multiplicationMastery": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timesTables1to5": "Times Tables 1-5",
+  "@timesTables1to5": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timesTables6to10": "Times Tables 6-10",
+  "@timesTables6to10": {
+    "description": "",
+    "placeholders": {}
+  },
+  "twoDigitMultiplication": "Two Digit Multiplication",
+  "@twoDigitMultiplication": {
+    "description": "",
+    "placeholders": {}
+  },
+  "threeDigitMultiplication": "Three Digit Multiplication",
+  "@threeDigitMultiplication": {
+    "description": "",
+    "placeholders": {}
+  },
+  "multiplicationWordProblems": "MISSING",
+  "@multiplicationWordProblems": {
+    "description": "",
+    "placeholders": {}
+  },
+  "advancedMultiplication": "Advanced Multiplication",
+  "@advancedMultiplication": {
+    "description": "",
+    "placeholders": {}
+  },
+  "multiplicationPatterns": "Multiplication Patterns",
+  "@multiplicationPatterns": {
+    "description": "",
+    "placeholders": {}
+  },
+  "divisionMastery": "Division Mastery",
+  "@divisionMastery": {
+    "description": "",
+    "placeholders": {}
+  },
+  "divisionBasics": "Division Basics",
+  "@divisionBasics": {
+    "description": "",
+    "placeholders": {}
+  },
+  "divisionWithRemainders": "Division with Remainders",
+  "@divisionWithRemainders": {
+    "description": "",
+    "placeholders": {}
+  },
+  "twoDigitDivision": "Two Digit Division",
+  "@twoDigitDivision": {
+    "description": "",
+    "placeholders": {}
+  },
+  "threeDigitDivision": "Three Digit Division",
+  "@threeDigitDivision": {
+    "description": "",
+    "placeholders": {}
+  },
+  "divisionWordProblems": "MISSING",
+  "@divisionWordProblems": {
+    "description": "",
+    "placeholders": {}
+  },
+  "longDivision": "Long Division",
+  "@longDivision": {
+    "description": "",
+    "placeholders": {}
+  },
+  "legend": "Legend",
+  "@legend": {
+    "description": "",
+    "placeholders": {}
+  },
+  "century": "Century",
+  "@century": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mathEquationsLevelPrefix": "MATH EQUATIONS - LVL",
+  "@mathEquationsLevelPrefix": {
+    "description": "",
+    "placeholders": {}
+  },
+  "selectDifficultyLevel": "SELECT DIFFICULTY LEVEL",
+  "@selectDifficultyLevel": {
+    "description": "",
+    "placeholders": {}
+  },
+  "levelPrefix": "L",
+  "@levelPrefix": {
+    "description": "",
+    "placeholders": {}
+  },
+  "performanceOverview": "Performance Overview",
+  "@performanceOverview": {
+    "description": "",
+    "placeholders": {}
+  },
+  "currentSession": "Current Session",
+  "@currentSession": {
+    "description": "",
+    "placeholders": {}
+  },
+  "realTimeStats": "Real-time Stats",
+  "@realTimeStats": {
+    "description": "",
+    "placeholders": {}
+  },
+  "questions": "Questions",
+  "@questions": {
+    "description": "",
+    "placeholders": {}
+  },
+  "bestStreak": "Best Streak",
+  "@bestStreak": {
+    "description": "",
+    "placeholders": {}
+  },
+  "sessions": "Sessions",
+  "@sessions": {
+    "description": "",
+    "placeholders": {}
+  },
+  "gameModeDistribution": "Game Mode Distribution",
+  "@gameModeDistribution": {
+    "description": "",
+    "placeholders": {}
+  },
+  "performanceInsights": "Performance Insights",
+  "@performanceInsights": {
+    "description": "",
+    "placeholders": {}
+  },
+  "bestAccuracy": "Best Accuracy",
+  "@bestAccuracy": {
+    "description": "",
+    "placeholders": {}
+  },
+  "averageResponseTime": "Avg Response Time",
+  "@averageResponseTime": {
+    "description": "",
+    "placeholders": {}
+  },
+  "completionRate": "Completion Rate",
+  "@completionRate": {
+    "description": "",
+    "placeholders": {}
+  },
+  "engineIntensity": "ENGINE INTENSITY",
+  "@engineIntensity": {
+    "description": "",
+    "placeholders": {}
+  },
+  "averageHeat": "AVG HEAT",
+  "@averageHeat": {
+    "description": "",
+    "placeholders": {}
+  },
+  "currentHeat": "CURRENT HEAT",
+  "@currentHeat": {
+    "description": "",
+    "placeholders": {}
+  },
+  "maxHeat": "MAX HEAT",
+  "@maxHeat": {
+    "description": "",
+    "placeholders": {}
+  },
+  "heatIndex": "Heat Index",
+  "@heatIndex": {
+    "description": "",
+    "placeholders": {}
+  },
+  "intensityNormal": "NORMAL",
+  "@intensityNormal": {
+    "description": "",
+    "placeholders": {}
+  },
+  "intensityMedium": "MEDIUM",
+  "@intensityMedium": {
+    "description": "",
+    "placeholders": {}
+  },
+  "intensityHigh": "HIGH",
+  "@intensityHigh": {
+    "description": "",
+    "placeholders": {}
+  },
+  "intensityCritical": "CRITICAL",
+  "@intensityCritical": {
+    "description": "",
+    "placeholders": {}
+  },
+  "totalScore": "TOTAL SCORE",
+  "@totalScore": {
+    "description": "",
+    "placeholders": {}
+  },
+  "xpToLevelFull": "{xp} XP to NEXT LEVEL",
+  "@xpToLevelFull": {
+    "description": "",
+    "placeholders": {
+      "xp": {
+        "type": "int",
+        "example": "xp"
+      }
+    }
+  },
+  "achiever": "ACHIEVER",
+  "@achiever": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avatarUnlocks": "AVATAR UNLOCKS",
+  "@avatarUnlocks": {
+    "description": "",
+    "placeholders": {}
+  },
+  "requiresLevelAndStars": "Requires Level {level} and {stars} stars!",
+  "@requiresLevelAndStars": {
+    "description": "",
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "example": "level"
+      },
+      "stars": {
+        "type": "int",
+        "example": "stars"
+      }
+    }
+  },
+  "requiresStarsToUnlock": "Requires {stars} stars to unlock!",
+  "@requiresStarsToUnlock": {
+    "description": "",
+    "placeholders": {
+      "stars": {
+        "type": "int",
+        "example": "stars"
+      }
+    }
+  },
+  "requiresLevelToUnlock": "Requires Level {level} to unlock!",
+  "@requiresLevelToUnlock": {
+    "description": "",
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "example": "level"
+      }
+    }
+  },
+  "unlockAvatarQuestion": "Unlock Avatar?",
+  "@unlockAvatarQuestion": {
+    "description": "",
+    "placeholders": {}
+  },
+  "unlockAvatarConfirm": "Do you want to spend {cost} points to unlock the {name} avatar?",
+  "@unlockAvatarConfirm": {
+    "description": "",
+    "placeholders": {
+      "cost": {
+        "type": "int",
+        "example": "cost"
+      },
+      "name": {
+        "type": "String",
+        "example": "name"
+      }
+    }
+  },
+  "unlock": "Unlock",
+  "@unlock": {
+    "description": "",
+    "placeholders": {}
+  },
+  "rarityCommon": "Common",
+  "@rarityCommon": {
+    "description": "",
+    "placeholders": {}
+  },
+  "rarityUncommon": "Uncommon",
+  "@rarityUncommon": {
+    "description": "",
+    "placeholders": {}
+  },
+  "rarityRare": "Rare",
+  "@rarityRare": {
+    "description": "",
+    "placeholders": {}
+  },
+  "rarityEpic": "Epic",
+  "@rarityEpic": {
+    "description": "",
+    "placeholders": {}
+  },
+  "rarityLegendary": "Legendary",
+  "@rarityLegendary": {
+    "description": "",
+    "placeholders": {}
+  },
+  "rarityMythic": "Mythic",
+  "@rarityMythic": {
+    "description": "",
+    "placeholders": {}
+  },
+  "generatedOn": "Generated on {date}",
+  "@generatedOn": {
+    "description": "",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "date"
+      }
+    }
+  },
+  "gameMode": "Game Mode",
+  "@gameMode": {
+    "description": "",
+    "placeholders": {}
+  },
+  "intensity": "Intensity",
+  "@intensity": {
+    "description": "",
+    "placeholders": {}
+  },
+  "initializeMix": "Initialize Mix",
+  "@initializeMix": {
+    "description": "",
+    "placeholders": {}
+  },
+  "standard": "Standard",
+  "@standard": {
+    "description": "",
+    "placeholders": {}
+  },
+  "suddenDeath": "Sudden Death",
+  "@suddenDeath": {
+    "description": "",
+    "placeholders": {}
+  },
+  "zen": "Zen",
+  "@zen": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timeAttack": "Time Attack",
+  "@timeAttack": {
+    "description": "",
+    "placeholders": {}
+  },
+  "modeProtocols": "Mode Protocols",
+  "@modeProtocols": {
+    "description": "",
+    "placeholders": {}
+  },
+  "standardDesc": "Standard: Solve problems at your own pace with no time limit.",
+  "@standardDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "suddenDeathDesc": "Sudden Death: One mistake and it's game over!",
+  "@suddenDeathDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "zenDesc": "Zen: Relaxed mode with no scoring, just practice.",
+  "@zenDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timeAttackDesc": "Time Attack: Solve as many problems as possible in 60 seconds.",
+  "@timeAttackDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "elapsed": "Elapsed",
+  "@elapsed": {
+    "description": "",
+    "placeholders": {}
+  },
+  "getHint": "Get Hint",
+  "@getHint": {
+    "description": "",
+    "placeholders": {}
+  },
+  "challengesSummary": "Challenges Summary",
+  "@challengesSummary": {
+    "description": "",
+    "placeholders": {}
+  },
+  "dailyChallenges": "Daily Challenges",
+  "@dailyChallenges": {
+    "description": "",
+    "placeholders": {}
+  },
+  "weeklyChallenges": "Weekly Challenges",
+  "@weeklyChallenges": {
+    "description": "",
+    "placeholders": {}
+  },
+  "claimed": "Claimed",
+  "@claimed": {
+    "description": "",
+    "placeholders": {}
+  },
+  "mathRiddles": "Math Riddles",
+  "@mathRiddles": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timeToFirstAnswer": "Time to First Answer",
+  "@timeToFirstAnswer": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timingByMode": "Timing by Mode",
+  "@timingByMode": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timingTrend": "Timing Trend",
+  "@timingTrend": {
+    "description": "",
+    "placeholders": {}
+  },
+  "areYouGettingFaster": "Are you getting faster?",
+  "@areYouGettingFaster": {
+    "description": "",
+    "placeholders": {}
+  }
+}

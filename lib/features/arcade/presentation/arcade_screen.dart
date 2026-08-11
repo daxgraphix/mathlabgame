@@ -1,0 +1,489 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/themes/app_themes.dart';
+import '../../../l10n/generated/app_localizations.dart';
+import '../../game/logic/game_session_provider.dart';
+import '../../game/ui/game_screen.dart';
+import '../../../core/providers.dart';
+
+class ArcadeScreen extends ConsumerWidget {
+  const ArcadeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(l10n.arcade),
+      ),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          children: [
+            _buildSectionHeader(l10n.gameModes, theme),
+            const SizedBox(height: 16),
+            _buildArcadeListItem(
+              context,
+              l10n.scoreAttack,
+              l10n.scoreAttackDesc,
+              () {
+                ref.read(soundManagerProvider).playClick();
+                _showOperationDialog(context, ref, GameMode.scoreAttack);
+              },
+              theme.colorScheme.primary,
+            ),
+            _buildArcadeListItem(
+              context,
+              l10n.endless,
+              l10n.endlessDesc,
+              () {
+                ref.read(soundManagerProvider).playClick();
+                _showOperationDialog(context, ref, GameMode.endless);
+              },
+              theme.colorScheme.secondary,
+            ),
+            _buildArcadeListItem(
+              context,
+              l10n.duel,
+              l10n.duelDesc,
+              () {
+                ref.read(soundManagerProvider).playClick();
+                _showOperationDialog(context, ref, GameMode.duel);
+              },
+              theme.colorScheme.tertiary,
+            ),
+            _buildArcadeListItem(
+              context,
+              l10n.flash,
+              l10n.flashDesc,
+              () {
+                ref.read(soundManagerProvider).playClick();
+                _showOperationDialog(context, ref, GameMode.flash);
+              },
+              theme.colorScheme.error,
+            ),
+            const SizedBox(height: 32),
+            _buildSectionHeader(l10n.activeChallenges, theme),
+            const SizedBox(height: 16),
+            _buildArcadeListItem(
+              context,
+              l10n.speedDemon,
+              l10n.speedDemonDesc,
+              () {
+                ref.read(soundManagerProvider).playClick();
+                _showOperationDialog(context, ref, GameMode.speedDemon);
+              },
+              theme.colorScheme.primary,
+            ),
+            _buildArcadeListItem(
+              context,
+              l10n.mathMaster,
+              l10n.mathMasterDesc,
+              () {
+                ref.read(soundManagerProvider).playClick();
+                _showOperationDialog(context, ref, GameMode.mathMaster);
+              },
+              theme.colorScheme.secondary,
+            ),
+            _buildArcadeListItem(
+              context,
+              l10n.marathon,
+              l10n.marathonDesc,
+              () {
+                ref.read(soundManagerProvider).playClick();
+                _showOperationDialog(context, ref, GameMode.marathon);
+              },
+              theme.colorScheme.error,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title, ThemeData theme) {
+    return Text(
+      title,
+      style: theme.textTheme.labelSmall?.copyWith(
+        fontSize: 12,
+        fontWeight: FontWeight.w900,
+        letterSpacing: 2,
+        color: theme.colorScheme.primary,
+      ),
+    );
+  }
+
+  Widget _buildArcadeListItem(
+    BuildContext context,
+    String title,
+    String subtitle,
+    VoidCallback onTap,
+    Color color,
+  ) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: PremiumCard(
+        onTap: onTap,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        borderRadius: 16,
+        borderColor: color.withValues(alpha: 0.3),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                _getIconForTitle(title),
+                color: color,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.chevron_right,
+              size: 20,
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  IconData _getIconForTitle(String title) {
+    // Simple heuristic for icons based on title or passing it in
+    if (title.contains('Attack')) return Icons.bolt_outlined;
+    if (title.contains('Endless')) return Icons.all_inclusive_outlined;
+    if (title.contains('Duel')) return Icons.sports_kabaddi_outlined;
+    if (title.contains('Flash')) return Icons.visibility_outlined;
+    if (title.contains('Demon')) return Icons.speed_outlined;
+    if (title.contains('Master')) return Icons.psychology_outlined;
+    if (title.contains('Marathon')) return Icons.directions_run_outlined;
+    return Icons.games_outlined;
+  }
+
+  void _showOperationDialog(
+    BuildContext context,
+    WidgetRef ref,
+    GameMode mode,
+  ) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: theme.colorScheme.surface,
+      shape: const BeveledRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+              child: Text(
+                l10n.selectOperation,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 2,
+                  fontSize: 12,
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ),
+            _buildOperationItem(
+              context,
+              ref,
+              l10n.addition,
+              '+',
+              l10n.additionProcedure,
+              mode,
+            ),
+            _buildOperationItem(
+              context,
+              ref,
+              l10n.subtraction,
+              '-',
+              l10n.subtractionProcedure,
+              mode,
+            ),
+            _buildOperationItem(
+              context,
+              ref,
+              l10n.multiplication,
+              '×',
+              l10n.multiplicationProcedure,
+              mode,
+            ),
+            _buildOperationItem(
+              context,
+              ref,
+              l10n.division,
+              '÷',
+              l10n.divisionProcedure,
+              mode,
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOperationItem(
+    BuildContext context,
+    WidgetRef ref,
+    String operation,
+    String symbol,
+    String label,
+    GameMode mode,
+  ) {
+    final theme = Theme.of(context);
+    return InkWell(
+      onTap: () {
+        ref.read(soundManagerProvider).playClick();
+        Navigator.pop(context);
+        _startGame(context, ref, operation, mode);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: theme.colorScheme.outline.withValues(alpha: 0.1), width: 0.5)),
+        ),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 40,
+              child: Text(
+                symbol,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w100,
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ),
+            Text(
+              label,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w900,
+                letterSpacing: 2,
+                color: theme.colorScheme.onSurface,
+              ),
+            ),
+            const Spacer(),
+            Icon(
+              Icons.chevron_right,
+              size: 16,
+              color: theme.colorScheme.primary.withValues(alpha: 0.5),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _startGame(
+    BuildContext context,
+    WidgetRef ref,
+    String operation,
+    GameMode mode,
+  ) {
+    // For modes that need level selection, show level dialog
+    if ([GameMode.scoreAttack, GameMode.duel, GameMode.speedDemon, GameMode.mathMaster].contains(mode)) {
+      _showLevelDialog(context, ref, operation, mode);
+    } else {
+      _launchGame(context, ref, operation, mode, 1);
+    }
+  }
+
+  void _showLevelDialog(BuildContext context, WidgetRef ref, String operation, GameMode mode) {
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    int selectedLevel = 1;
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: theme.colorScheme.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'SELECT DIFFICULTY LEVEL',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 2,
+                    fontSize: 12,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  height: 200,
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: List.generate(100, (index) {
+                        final level = index + 1;
+                        final difficulty = level <= 20 ? 'Easy' : level <= 50 ? 'Medium' : level <= 80 ? 'Hard' : 'Master';
+                        final color = level <= 20 ? Colors.green : level <= 50 ? Colors.orange : level <= 80 ? Colors.red : Colors.purple;
+                        return ChoiceChip(
+                          label: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('${l10n.levelPrefix}$level', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                              Text(difficulty, style: TextStyle(fontSize: 8, color: color)),
+                            ],
+                          ),
+                          selected: selectedLevel == level,
+                          onSelected: (selected) {
+                            if (selected) {
+                              ref.read(soundManagerProvider).playClick();
+                              setState(() => selectedLevel = level);
+                            }
+                          },
+                          backgroundColor: theme.colorScheme.surface,
+                          selectedColor: theme.colorScheme.primary.withValues(alpha: 0.1),
+                          checkmarkColor: theme.colorScheme.primary,
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        );
+                      }),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ref.read(soundManagerProvider).playGameStart();
+                      Navigator.pop(context);
+                      _launchGame(context, ref, operation, mode, selectedLevel);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: theme.colorScheme.onPrimary,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(l10n.startGame),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _launchGame(BuildContext context, WidgetRef ref, String operation, GameMode mode, int level) async {
+    int totalQuestions = 60; // Increased base questions for more challenge
+
+    if (mode == GameMode.scoreAttack) {
+      totalQuestions = 200; // Increased - survive longer under time pressure
+    } else if (mode == GameMode.endless) {
+      totalQuestions = 300; // Increased - more endurance required
+    } else if (mode == GameMode.duel) {
+      totalQuestions = 50; // Increased - longer duels
+    } else if (mode == GameMode.flash) {
+      totalQuestions = 45; // Increased - more memory challenges
+    } else if (mode == GameMode.speedDemon) {
+      totalQuestions = 35; // Increased - faster paced speed round
+    } else if (mode == GameMode.mathMaster) {
+      totalQuestions = 80; // Increased - test all operations more thoroughly
+    } else if (mode == GameMode.marathon) {
+      totalQuestions = 300; // Increased - ultimate endurance test
+    }
+
+    // Scale difficulty based on level for arcade modes
+    if (level > 1) {
+      totalQuestions = (totalQuestions * (1 + level * 0.1)).round(); // 10% increase per level
+    }
+
+    // Set appropriate question counts based on mode and level
+    if (mode == GameMode.scoreAttack) {
+      totalQuestions = 200; // Survive longer under time pressure
+    } else if (mode == GameMode.endless) {
+      totalQuestions = 300; // More endurance required
+    } else if (mode == GameMode.duel) {
+      totalQuestions = 50; // Longer duels
+    } else if (mode == GameMode.flash) {
+      totalQuestions = 45; // More memory challenges
+    } else if (mode == GameMode.speedDemon) {
+      totalQuestions = 35; // Faster paced speed round
+    } else if (mode == GameMode.mathMaster) {
+      totalQuestions = 80; // Test all operations more thoroughly
+    } else if (mode == GameMode.marathon) {
+      totalQuestions = 300; // Ultimate endurance test
+    }
+
+    // Scale difficulty based on level for arcade modes
+    if (level > 1) {
+      totalQuestions = (totalQuestions * (1 + level * 0.1)).round(); // 10% increase per level
+    }
+
+    await ref
+        .read(gameSessionProvider.notifier)
+        .startGame(
+          mode: mode,
+          operation: operation,
+          level: level,
+          totalQuestions: totalQuestions,
+        );
+    if (context.mounted) {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              GameScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+          transitionDuration: const Duration(milliseconds: 400),
+        ),
+      );
+    }
+  }
+}
