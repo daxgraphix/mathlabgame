@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -16,29 +17,29 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     with TickerProviderStateMixin {
   final PageController _pageController = PageController();
   late AnimationController _backgroundController;
-  late Animation<Alignment> _gradientAnimation;
+  late AnimationController _floatingController;
   int _currentPage = 0;
 
   List<OnboardingPageData> _getPages(AppLocalizations l10n, ThemeData theme) => [
     OnboardingPageData(
-      title: l10n.appTitle,
-      subtitle: l10n.coreConcept,
+      title: 'MATHLAB',
+      subtitle: 'CORE SYSTEM',
       description:
           'A gamified adaptive arithmetic system that personalizes math practice with instant feedback and rewarding progression.',
-      icon: Icons.qr_code_scanner_rounded,
+      icon: Icons.calculate_rounded,
       accentColor: theme.colorScheme.primary,
     ),
     OnboardingPageData(
       title: 'ADVENTURE',
-      subtitle: 'Campaign Progression',
+      subtitle: 'CAMPAIGN PROGRESSION',
       description:
           'Progress through chapter-based missions, unlock new stages, and build streaks as your skills evolve.',
-      icon: Icons.track_changes_rounded,
+      icon: Icons.explore_rounded,
       accentColor: theme.colorScheme.error,
     ),
     OnboardingPageData(
       title: 'CHALLENGE',
-      subtitle: 'Arcade + Daily Missions',
+      subtitle: 'ARCADE + MISSIONS',
       description:
           'Jump into fast arcade modes, complete daily goals, and compete for top scores under pressure.',
       icon: Icons.bolt_rounded,
@@ -46,7 +47,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     ),
     OnboardingPageData(
       title: 'PUZZLES',
-      subtitle: 'Crosswords + Math Riddles',
+      subtitle: 'LOGIC HUB',
       description:
           'Solve crossword clues, arithmetic riddles, number sequences, and logic challenges in a single puzzle hub.',
       icon: Icons.psychology_rounded,
@@ -59,19 +60,20 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     super.initState();
     _backgroundController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 15),
-    )..repeat(reverse: true);
+      duration: const Duration(seconds: 20),
+    )..repeat();
 
-    _gradientAnimation = AlignmentTween(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ).animate(_backgroundController);
+    _floatingController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 4),
+    )..repeat(reverse: true);
   }
 
   @override
   void dispose() {
     _pageController.dispose();
     _backgroundController.dispose();
+    _floatingController.dispose();
     super.dispose();
   }
 
@@ -80,8 +82,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     SoundManager.instance.playClick();
     if (_currentPage < pages.length - 1) {
       _pageController.nextPage(
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOutCubic,
       );
     } else {
       _completeOnboarding();
@@ -96,7 +98,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
 
   Future<void> _completeOnboarding() async {
     await ref.read(startupProvider.notifier).completeIntro();
-    // No need to navigate manually, startupProvider state change will trigger rebuild in mathlabApp
   }
 
   @override
@@ -104,47 +105,38 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final pages = _getPages(l10n, theme);
-    final accent = pages[_currentPage].accentColor;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
-          // Background Gradient Animation
+          // Dynamic Mesh Background
           AnimatedBuilder(
-            animation: _gradientAnimation,
-            builder: (context, child) => Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: _gradientAnimation.value,
-                  end: _gradientAnimation.value == Alignment.topLeft
-                      ? Alignment.bottomRight
-                      : Alignment.topLeft,
-                  colors: [
-                    theme.scaffoldBackgroundColor,
-                    accent.withValues(alpha: 0.05),
-                    theme.scaffoldBackgroundColor,
-                  ],
+            animation: Listenable.merge([_backgroundController, _pageController]),
+            builder: (context, child) {
+              final page = _pageController.hasClients ? (_pageController.page ?? 0) : 0.0;
+              final index = page.floor();
+              final nextIndex = (index + 1).clamp(0, pages.length - 1);
+              final t = page - index;
+
+              final color1 = Color.lerp(
+                pages[index].accentColor,
+                pages[nextIndex].accentColor,
+                t,
+              )!.withValues(alpha: 0.15);
+
+              return CustomPaint(
+                painter: _OnboardingMeshPainter(
+                  color: color1,
+                  progress: _backgroundController.value,
                 ),
-              ),
-            ),
+                size: Size.infinite,
+              );
+            },
           ),
 
-          // HUD Scanlines effect (simple overlay)
-          Opacity(
-            opacity: 0.03,
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    'assets/images/scanline.png',
-                  ), // Fallback if missing
-                  repeat: ImageRepeat.repeat,
-                  onError: (e, s) {},
-                ),
-              ),
-            ),
-          ),
+          // Floating Math Symbols
+          ...List.generate(6, (index) => _buildFloatingSymbol(index)),
 
           PageView.builder(
             controller: _pageController,
@@ -154,126 +146,151 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
               HapticManager.instance.lightImpact();
             },
             itemBuilder: (context, index) {
-              return _buildPage(pages[index]);
+              return _buildPage(pages[index], index);
             },
           ),
 
-          // Top Bar - Progress and Skip
+          // Top Navigation
           Positioned(
-            top: 60,
+            top: MediaQuery.of(context).padding.top + 20,
             left: 24,
             right: 24,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Minimalist Progress
-                Row(
-                  children: List.generate(
-                    pages.length,
-                    (index) => AnimatedContainer(
-                      duration: 300.ms,
-                      margin: const EdgeInsets.only(right: 8),
-                      width: _currentPage == index ? 32 : 8,
-                      height: 4, // Increased height for visibility
-                      decoration: BoxDecoration(
-                        color: _currentPage == index
-                            ? accent
-                            : accent.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(2),
-                        boxShadow: [
-                          if (_currentPage == index)
-                            BoxShadow(
-                              color: accent.withValues(alpha: 0.5),
-                              blurRadius: 12,
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                _buildProgressDots(pages),
                 TextButton(
                   onPressed: _skip,
                   style: TextButton.styleFrom(
                     backgroundColor: theme.colorScheme.onSurface.withValues(alpha: 0.05),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: Text(
-                    'SKIP >>',
-                 style: theme.textTheme.labelSmall?.copyWith(
-                   color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                   letterSpacing: 2,
-                   fontWeight: FontWeight.bold,
-                 ),
+                    'SKIP',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      letterSpacing: 2,
+                      fontWeight: FontWeight.w900,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
 
-          // Bottom Navigation
+          // Action Button
           Positioned(
             bottom: 60,
             left: 32,
             right: 32,
-            child: Column(
-              children: [
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () => _nextPage(pages),
-                    borderRadius: BorderRadius.circular(12),
-                    child: Ink(
-                      width: double.infinity,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        color: accent,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: accent.withValues(alpha: 0.4),
-                            blurRadius: 20,
-                            offset: const Offset(0, 8),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              _currentPage == pages.length - 1
-                                  ? 'GET STARTED'
-                                  : 'NEXT',
-                              style: theme.textTheme.labelLarge?.copyWith(
-                                color: accent.computeLuminance() > 0.5 ? Colors.black : Colors.white,
-                                fontWeight: FontWeight.w900,
-                                letterSpacing: 2,
-                              ),
-                            ),
-                            const SizedBox(width: 12),
-                            Icon(
-                              Icons.arrow_forward_rounded,
-                              size: 20,
-                              color: accent.computeLuminance() > 0.5 ? Colors.black : Colors.white,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            child: _buildMainButton(theme, pages),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildPage(OnboardingPageData page) {
+  Widget _buildProgressDots(List<OnboardingPageData> pages) {
+    return Row(
+      children: List.generate(
+        pages.length,
+        (index) => AnimatedContainer(
+          duration: 400.ms,
+          margin: const EdgeInsets.only(right: 8),
+          width: _currentPage == index ? 32 : 8,
+          height: 6,
+          decoration: BoxDecoration(
+            color: _currentPage == index
+                ? pages[_currentPage].accentColor
+                : pages[_currentPage].accentColor.withValues(alpha: 0.2),
+            borderRadius: BorderRadius.circular(3),
+            boxShadow: [
+              if (_currentPage == index)
+                BoxShadow(
+                  color: pages[_currentPage].accentColor.withValues(alpha: 0.4),
+                  blurRadius: 10,
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMainButton(ThemeData theme, List<OnboardingPageData> pages) {
+    final accent = pages[_currentPage].accentColor;
+    final isLast = _currentPage == pages.length - 1;
+
+    return GestureDetector(
+      onTap: () => _nextPage(pages),
+      child: AnimatedContainer(
+        duration: 400.ms,
+        height: 64,
+        decoration: BoxDecoration(
+          color: accent,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: accent.withValues(alpha: 0.4),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                isLast ? 'INITIALIZE SYSTEM' : 'NEXT MODULE',
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: accent.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 2,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Icon(
+                isLast ? Icons.power_settings_new_rounded : Icons.arrow_forward_ios_rounded,
+                size: 18,
+                color: accent.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFloatingSymbol(int index) {
+    final symbols = ['+', '−', '×', '÷', '∑', '√'];
+    final random = math.Random(index);
+    final startTop = random.nextDouble() * 800;
+    final startLeft = random.nextDouble() * 400;
+
+    return AnimatedBuilder(
+      animation: _floatingController,
+      builder: (context, child) {
+        final offset = math.sin(_floatingController.value * 2 * math.pi + index) * 20;
+        return Positioned(
+          top: startTop + offset,
+          left: startLeft + (index % 2 == 0 ? offset : -offset),
+          child: Opacity(
+            opacity: 0.05,
+            child: Text(
+              symbols[index % symbols.length],
+              style: const TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildPage(OnboardingPageData page, int index) {
     final theme = Theme.of(context);
 
     return Padding(
@@ -281,94 +298,163 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Icon with Glow
+          // Visual Container
           Container(
-                padding: const EdgeInsets.all(32),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: page.accentColor.withValues(alpha: 0.1),
-                    width: 1,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: page.accentColor.withValues(alpha: 0.05),
-                      blurRadius: 40,
-                      spreadRadius: 10,
+            height: 280,
+            alignment: Alignment.center,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Outer ring
+                AnimatedBuilder(
+                  animation: _backgroundController,
+                  builder: (context, child) => Transform.rotate(
+                    angle: _backgroundController.value * 2 * math.pi,
+                    child: Container(
+                      width: 220,
+                      height: 220,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: page.accentColor.withValues(alpha: 0.1),
+                          width: 2,
+                        ),
+                      ),
                     ),
-                  ],
+                  ),
                 ),
-                child: Icon(page.icon, size: 80, color: page.accentColor),
+                // Icon with glow
+                Container(
+                  width: 140,
+                  height: 140,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: page.accentColor.withValues(alpha: 0.05),
+                    boxShadow: [
+                      BoxShadow(
+                        color: page.accentColor.withValues(alpha: 0.1),
+                        blurRadius: 40,
+                        spreadRadius: 10,
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    page.icon,
+                    size: 70,
+                    color: page.accentColor,
+                  ),
+                )
+                    .animate(key: ValueKey('icon_$index'))
+                    .scale(begin: const Offset(0.5, 0.5), curve: Curves.elasticOut, duration: 1200.ms)
+                    .shimmer(delay: 1500.ms, duration: 2000.ms),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 40),
+
+          // Text Content
+          Column(
+            children: [
+              Text(
+                page.title,
+                style: theme.textTheme.displaySmall?.copyWith(
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 4,
+                  color: theme.colorScheme.onSurface,
+                ),
               )
-              .animate(key: ValueKey('icon_${page.title}'))
-              .fadeIn(duration: 800.ms)
-              .scale(begin: const Offset(0.5, 0.5), curve: Curves.elasticOut),
+                  .animate(key: ValueKey('title_$index'))
+                  .fadeIn(duration: 600.ms)
+                  .slideY(begin: 0.3, end: 0),
 
-          const SizedBox(height: 64),
+              const SizedBox(height: 12),
 
-           // Title
-           Text(
-                 page.title,
-                 style: theme.textTheme.headlineMedium?.copyWith(
-                   color: theme.colorScheme.onSurface,
-                   fontWeight: FontWeight.w900,
-                   letterSpacing: 8,
-                   shadows: [
-                     Shadow(
-                       color: page.accentColor.withValues(alpha: 0.5),
-                       blurRadius: 15,
-                     ),
-                   ],
-                 ),
-                 textAlign: TextAlign.center,
-               )
-              .animate(key: ValueKey('title_${page.title}'))
-              .fadeIn(delay: 200.ms, duration: 600.ms)
-              .slideY(begin: 0.2, end: 0),
-
-          const SizedBox(height: 12),
-
-          // Subtitle
-          Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 4,
-                ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 decoration: BoxDecoration(
                   color: page.accentColor.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: page.accentColor.withValues(alpha: 0.2)),
                 ),
                 child: Text(
-                  page.subtitle.toUpperCase(),
-                  style: theme.textTheme.labelSmall?.copyWith(
+                  page.subtitle,
+                  style: theme.textTheme.labelMedium?.copyWith(
                     color: page.accentColor,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w900,
                     letterSpacing: 2,
                   ),
                 ),
               )
-              .animate(key: ValueKey('subtitle_${page.title}'))
-              .fadeIn(delay: 400.ms, duration: 600.ms),
+                  .animate(key: ValueKey('subtitle_$index'))
+                  .fadeIn(delay: 200.ms, duration: 600.ms)
+                  .scale(begin: const Offset(0.8, 0.8)),
 
-          const SizedBox(height: 32),
+              const SizedBox(height: 32),
 
-          // Description
-          Text(
+              Text(
                 page.description,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
-                  height: 1.8,
-                  letterSpacing: 1,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                  height: 1.6,
+                  letterSpacing: 0.5,
                 ),
                 textAlign: TextAlign.center,
               )
-              .animate(key: ValueKey('desc_${page.title}'))
-              .fadeIn(delay: 600.ms, duration: 600.ms),
+                  .animate(key: ValueKey('desc_$index'))
+                  .fadeIn(delay: 400.ms, duration: 600.ms),
+            ],
+          ),
+          
+          const SizedBox(height: 100), // Space for bottom button
         ],
       ),
     );
   }
 }
+
+class _OnboardingMeshPainter extends CustomPainter {
+  final Color color;
+  final double progress;
+
+  _OnboardingMeshPainter({required this.color, required this.progress});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..style = PaintingStyle.fill;
+    
+    final center = Offset(
+      size.width * (0.5 + 0.1 * math.cos(progress * 2 * math.pi)),
+      size.height * (0.5 + 0.1 * math.sin(progress * 2 * math.pi)),
+    );
+
+    paint.shader = RadialGradient(
+      colors: [color, color.withValues(alpha: 0)],
+      stops: const [0.0, 0.8],
+    ).createShader(Rect.fromCircle(center: center, radius: size.width * 1.2));
+    
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), paint);
+    
+    // Add subtle grid
+    final gridPaint = Paint()
+      ..color = color.withValues(alpha: 0.05)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0;
+      
+    const spacing = 40.0;
+    for (double i = 0; i < size.width; i += spacing) {
+      canvas.drawLine(Offset(i, 0), Offset(i, size.height), gridPaint);
+    }
+    for (double i = 0; i < size.height; i += spacing) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), gridPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _OnboardingMeshPainter oldDelegate) =>
+      oldDelegate.color != color || oldDelegate.progress != progress;
+}
+
 
 class OnboardingPageData {
   final String title;

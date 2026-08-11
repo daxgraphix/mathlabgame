@@ -56,7 +56,6 @@ class _MainNavigationScaffoldState extends ConsumerState<MainNavigationScaffold>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-    final currentIndex = ref.watch(navigationIndexProvider);
 
     final List<Widget> screens = [
       const HomeScreen(),
@@ -75,22 +74,32 @@ class _MainNavigationScaffoldState extends ConsumerState<MainNavigationScaffold>
             child: _buildGlobalBackground(theme),
           ),
           // Screens with Tab Transition
-          IndexedStack(
-            index: currentIndex,
-            children: screens.asMap().entries.map((entry) {
-              final index = entry.key;
-              final screen = entry.value;
-              return screen.animate(
-                key: ValueKey('tab_$index'),
-                target: currentIndex == index ? 1 : 0,
-              )
-              .fadeIn(duration: 300.ms, curve: Curves.easeOut)
-              .slideX(begin: 0.05, end: 0, duration: 300.ms, curve: Curves.easeOutCubic);
-            }).toList(),
+          Consumer(
+            builder: (context, ref, child) {
+              final currentIndex = ref.watch(navigationIndexProvider);
+              return IndexedStack(
+                index: currentIndex,
+                children: screens.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final screen = entry.value;
+                  return screen.animate(
+                    key: ValueKey('tab_$index'),
+                    target: currentIndex == index ? 1 : 0,
+                  )
+                  .fadeIn(duration: 400.ms, curve: Curves.easeOut)
+                  .slideX(begin: 0.02, end: 0, duration: 400.ms, curve: Curves.easeOutCubic);
+                }).toList(),
+              );
+            },
           ),
         ],
       ),
-      bottomNavigationBar: _buildUnifiedBottomNav(context, ref, theme, l10n, currentIndex),
+      bottomNavigationBar: Consumer(
+        builder: (context, ref, child) {
+          final currentIndex = ref.watch(navigationIndexProvider);
+          return _buildUnifiedBottomNav(context, ref, theme, l10n, currentIndex);
+        },
+      ),
     );
   }
 

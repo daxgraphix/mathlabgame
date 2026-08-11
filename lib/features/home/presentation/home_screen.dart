@@ -303,42 +303,43 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     SessionStats sessionStats,
     AppLocalizations l10n,
   ) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = ResponsiveUtils.isMobile(context);
     final topPadding = MediaQuery.of(context).padding.top;
     
+    // Calculate horizontal padding based on screen width
+    final double horizontalPadding = screenWidth > 1200 
+        ? (screenWidth - 1000) / 2 
+        : (isMobile ? 16 : 32);
+
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
         SliverToBoxAdapter(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
-              isMobile ? 16 : 32,
+              horizontalPadding,
               topPadding + 20,
-              isMobile ? 16 : 32,
+              horizontalPadding,
               120,
             ),
-            child: Center(
-              child: Container(
-                constraints: const BoxConstraints(maxWidth: 800),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildTopBar(theme, l10n),
-                    const SizedBox(height: 24),
-                    _buildWelcomeSection(theme, l10n),
-                    const SizedBox(height: 32),
-                    _buildQuickResumeModule(theme, l10n),
-                    const SizedBox(height: 40),
-                    _buildChallengeSection(theme, l10n),
-                    const SizedBox(height: 40),
-                    _buildGameModesGrid(theme, l10n),
-                    const SizedBox(height: 40),
-                    _buildSessionStats(theme, sessionStats, l10n),
-                    const SizedBox(height: 32),
-                    _buildQuickActions(theme, l10n),
-                  ],
-                ),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTopBar(theme, l10n),
+                const SizedBox(height: 24),
+                _buildWelcomeSection(theme, l10n),
+                const SizedBox(height: 32),
+                _buildQuickResumeModule(theme, l10n),
+                const SizedBox(height: 40),
+                _buildChallengeSection(theme, l10n),
+                const SizedBox(height: 40),
+                _buildGameModesGrid(theme, l10n),
+                const SizedBox(height: 40),
+                _buildSessionStats(theme, sessionStats, l10n),
+                const SizedBox(height: 32),
+                _buildQuickActions(theme, l10n),
+              ],
             ),
           ),
         ),
@@ -551,20 +552,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 alignment: Alignment.center,
                 children: [
                   Container(
-                    width: 64,
-                    height: 64,
+                    width: 72,
+                    height: 72,
                     decoration: BoxDecoration(
                       color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(22),
+                      border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.2)),
                     ),
                   ),
-                  const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 36),
+                  Icon(Icons.play_arrow_rounded, color: theme.colorScheme.primary, size: 40),
                   SizedBox(
-                    width: 64,
-                    height: 64,
+                    width: 72,
+                    height: 72,
                     child: CircularProgressIndicator(
                       value: 0.75,
-                      strokeWidth: 3,
+                      strokeWidth: 4,
+                      strokeCap: StrokeCap.round,
                       valueColor: AlwaysStoppedAnimation<Color>(
                         theme.colorScheme.primary,
                       ),
@@ -579,25 +582,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
-                      style: theme.textTheme.titleLarge?.copyWith(
+                      title.toUpperCase(),
+                      style: theme.textTheme.labelSmall?.copyWith(
                         fontWeight: FontWeight.w900,
-                        letterSpacing: 0.5,
+                        letterSpacing: 2,
+                        color: theme.colorScheme.primary,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       subtitle,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                        fontWeight: FontWeight.w600,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w900,
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
                     heatTag ?? const SizedBox.shrink(),
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, size: 28),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+              ),
             ],
           ),
         );
