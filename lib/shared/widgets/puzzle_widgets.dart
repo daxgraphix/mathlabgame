@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/sound_manager.dart';
 import '../../core/themes/app_themes.dart';
+import '../../core/providers.dart';
 
-class TutorialOverlay extends StatefulWidget {
+class TutorialOverlay extends ConsumerStatefulWidget {
   final String title;
   final String description;
   final List<String> steps;
@@ -20,10 +22,10 @@ class TutorialOverlay extends StatefulWidget {
   });
 
   @override
-  State<TutorialOverlay> createState() => _TutorialOverlayState();
+  ConsumerState<TutorialOverlay> createState() => _TutorialOverlayState();
 }
 
-class _TutorialOverlayState extends State<TutorialOverlay> {
+class _TutorialOverlayState extends ConsumerState<TutorialOverlay> {
   late PageController _pageController;
   int _currentPage = 0;
 
@@ -264,7 +266,7 @@ class HintButton extends StatelessWidget {
   }
 }
 
-class SuccessDialog extends StatelessWidget {
+class SuccessDialog extends ConsumerWidget {
   final String title;
   final String message;
   final int stars;
@@ -287,84 +289,95 @@ class SuccessDialog extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-      child: PremiumGlassOverlay(
-        borderRadius: 32,
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                isSuccess ? Icons.stars_rounded : Icons.error_outline_rounded,
-                color: isSuccess ? Colors.amber : theme.colorScheme.error,
-                size: 64,
-              ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 2.seconds),
-              const SizedBox(height: 24),
-              Text(
-                title.toUpperCase(),
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  letterSpacing: 4,
-                  fontWeight: FontWeight.w900,
-                  color: isSuccess ? theme.colorScheme.onSurface : theme.colorScheme.error,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              if (isSuccess && stars > 0) ...[
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(3, (index) {
-                    return Icon(
-                      index < stars ? Icons.star_rounded : Icons.star_outline_rounded,
-                      color: Colors.amber,
-                      size: 40,
-                    ).animate(delay: (200 * index).ms).scale(
-                          duration: 400.ms,
-                          curve: Curves.easeOutBack,
-                        );
-                  }),
-                ),
-              ],
-              const SizedBox(height: 24),
-              Text(
-                message,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  height: 1.5,
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 32),
-              Column(
-                children: [
-                  PremiumPrimaryButton(
-                    text: primaryButtonText ?? (isSuccess ? 'CONTINUE' : 'TRY AGAIN'),
-                    onPressed: onDone,
+      child: RepaintBoundary(
+        child: PremiumGlassOverlay(
+          borderRadius: 32,
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  isSuccess ? Icons.stars_rounded : Icons.error_outline_rounded,
+                  color: isSuccess ? Colors.amber : theme.colorScheme.error,
+                  size: 64,
+                )
+                    .animate(
+                      onPlay: (c) => c.repeat(),
+                      adapter: lowPerf ? ControlAdapter(value: 1) : null,
+                    )
+                    .shimmer(duration: 2.seconds),
+                const SizedBox(height: 24),
+                Text(
+                  title.toUpperCase(),
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    letterSpacing: 4,
+                    fontWeight: FontWeight.w900,
+                    color: isSuccess ? theme.colorScheme.onSurface : theme.colorScheme.error,
                   ),
-                  if (secondaryButtonText != null && onSecondaryAction != null) ...[
-                    const SizedBox(height: 12),
-                    TextButton(
-                      onPressed: onSecondaryAction,
-                      child: Text(
-                        secondaryButtonText!,
-                        style: TextStyle(
-                          color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1,
+                  textAlign: TextAlign.center,
+                ),
+                if (isSuccess && stars > 0) ...[
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(3, (index) {
+                      return Icon(
+                        index < stars ? Icons.star_rounded : Icons.star_outline_rounded,
+                        color: Colors.amber,
+                        size: 40,
+                      ).animate(
+                        delay: (200 * index).ms,
+                        adapter: lowPerf ? ControlAdapter(value: 1) : null,
+                      ).scale(
+                        duration: 400.ms,
+                        curve: Curves.easeOutBack,
+                      );
+                    }),
+                  ),
+                ],
+                const SizedBox(height: 24),
+                Text(
+                  message,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    height: 1.5,
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 32),
+                Column(
+                  children: [
+                    PremiumPrimaryButton(
+                      text: primaryButtonText ?? (isSuccess ? 'CONTINUE' : 'TRY AGAIN'),
+                      onPressed: onDone,
+                    ),
+                    if (secondaryButtonText != null && onSecondaryAction != null) ...[
+                      const SizedBox(height: 12),
+                      TextButton(
+                        onPressed: onSecondaryAction,
+                        child: Text(
+                          secondaryButtonText!,
+                          style: TextStyle(
+                            color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ],
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

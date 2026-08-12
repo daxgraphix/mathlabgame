@@ -10,11 +10,13 @@ import '../data/models/math_riddle.dart';
 import '../data/models/campaign_state.dart';
 import '../data/models/challenge_state.dart';
 import '../data/models/cross_numbers_puzzle.dart';
+import '../data/models/avatar.dart';
 import '../data/repositories/user_repository.dart';
 import '../data/repositories/settings_repository.dart';
 import '../data/repositories/level_progress_repository.dart';
 import '../data/repositories/math_riddles_repository.dart';
 import '../data/repositories/database_service.dart';
+import '../data/repositories/avatar_repository.dart';
 import '../features/analytics/analytics_provider.dart';
 import '../data/repositories/statistics_repository.dart';
 import '../features/game/logic/session_stats_provider.dart';
@@ -49,6 +51,10 @@ final levelProgressRepositoryProvider = Provider<LevelProgressRepository>((ref) 
 
 final mathRiddlesRepositoryProvider = Provider<MathRiddlesRepository>((ref) {
   return MathRiddlesRepository();
+});
+
+final avatarRepositoryProvider = Provider<AvatarRepository>((ref) {
+  return AvatarRepository();
 });
 
 final soundManagerProvider = Provider<SoundManager>((ref) {
@@ -657,6 +663,11 @@ class SettingsNotifier extends StateNotifier<GameSettings> {
     await HapticManager.instance.setHapticsEnabled(enabled);
     await updateSettings(updated);
   }
+
+  Future<void> toggleLowPerformanceMode(bool enabled) async {
+    final updated = state.copyWith(lowPerformanceMode: enabled);
+    await updateSettings(updated);
+  }
 }
 
 final levelProgressProvider = StateNotifierProvider<LevelProgressNotifier, Map<String, List<LevelProgress>>>((ref) {
@@ -727,6 +738,12 @@ final overallAccuracyProvider = Provider<double>((ref) {
 final totalTimePlayedProvider = Provider<int>((ref) {
   final analytics = ref.watch(analyticsProvider);
   return analytics.totalTimeSpent;
+});
+
+// Avatar Providers
+final avatarsProvider = FutureProvider<List<Avatar>>((ref) async {
+  final repository = ref.watch(avatarRepositoryProvider);
+  return repository.getAvatars();
 });
 
 // Riddles logic

@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers.dart';
 import '../accessibility/accessibility_settings.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../features/game/logic/game_session_provider.dart';
@@ -643,6 +644,10 @@ class GlassmorphicContainer extends ConsumerWidget {
   }
 }
 
+class ControlAdapter extends ValueAdapter {
+  ControlAdapter({required double value}) : super(value);
+}
+
 class PremiumGlassOverlay extends ConsumerWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
@@ -662,13 +667,14 @@ class PremiumGlassOverlay extends ConsumerWidget {
     final reduceTransparency = ref.watch(
       accessibilitySettingsProvider.select((s) => s.reduceTransparency),
     );
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     final isFeverMode = ref.watch(gameSessionProvider.select((s) => s?.feverActive ?? false));
     final gameTheme = theme.gameTheme;
 
     final decoration = BoxDecoration(
       borderRadius: BorderRadius.circular(borderRadius),
-      boxShadow: !reduceTransparency ? [
+      boxShadow: (!reduceTransparency && !lowPerf) ? [
         BoxShadow(
           color: (gameTheme.glassEffectColor).withValues(alpha: 0.2),
           blurRadius: 20,
@@ -678,32 +684,32 @@ class PremiumGlassOverlay extends ConsumerWidget {
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: !reduceTransparency
+        colors: (!reduceTransparency && !lowPerf)
             ? [
                 gameTheme.glassEffectColor.withValues(alpha: 0.5),
                 gameTheme.glassEffectColor.withValues(alpha: 0.2),
               ]
             : (isDark
                 ? [
-                    Colors.white.withValues(alpha: reduceTransparency ? 0.25 : 0.15),
-                    Colors.white.withValues(alpha: reduceTransparency ? 0.15 : 0.05),
+                    Colors.white.withValues(alpha: (reduceTransparency || lowPerf) ? 0.25 : 0.15),
+                    Colors.white.withValues(alpha: (reduceTransparency || lowPerf) ? 0.15 : 0.05),
                   ]
                 : [
-                    Colors.white.withValues(alpha: reduceTransparency ? 1.0 : 0.95),
+                    Colors.white.withValues(alpha: (reduceTransparency || lowPerf) ? 1.0 : 0.95),
                     const Color(0xFFF0FDFA).withValues(
-                      alpha: reduceTransparency ? 1.0 : 0.8,
+                      alpha: (reduceTransparency || lowPerf) ? 1.0 : 0.8,
                     ),
                   ]),
       ),
       border: Border.all(
         color: isDark
-            ? Colors.white.withValues(alpha: 0.15)
-            : AppDesignTokens.textPrimary(context).withValues(alpha: 0.1),
-        width: 1.0,
+            ? Colors.white.withValues(alpha: 0.25) // Increased contrast for dark mode
+            : theme.colorScheme.primary.withValues(alpha: 0.2), // Use primary for solar theme contrast
+        width: 1.5, // Slightly thicker for better visibility
       ),
     );
 
-    if (reduceTransparency || isFeverMode) {
+    if (reduceTransparency || isFeverMode || lowPerf) {
       return Container(
         padding: padding ?? const EdgeInsets.all(24),
         decoration: decoration,
@@ -985,59 +991,69 @@ class _PremiumCardState extends State<PremiumCard> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    return Consumer(
+      builder: (context, ref, child) {
+        final theme = Theme.of(context);
+        final isDark = theme.brightness == Brightness.dark;
+        final colorBlindMode = ref.watch(accessibilitySettingsProvider.select((s) => s.colorBlindMode));
+        
+        Color effectiveBorderColor = widget.borderColor ??
+            (isDark
+                ? Colors.white.withValues(alpha: 0.1)
+                : AppDesignTokens.textPrimary(context).withValues(alpha: 0.2));
+        
+        if (colorBlindMode != ColorBlindMode.none) {
+          effectiveBorderColor = AccessibilityTheme.adjustForColorBlind(effectiveBorderColor, colorBlindMode);
+        }
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: widget.onTap,
-        borderRadius: BorderRadius.circular(widget.borderRadius),
-        onHighlightChanged: (highlight) {
-          setState(() => _isPressed = highlight);
-        },
-        child: Container(
-          margin: widget.margin,
-          padding: widget.padding ?? const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: isDark
-                ? theme.colorScheme.surface.withValues(alpha: 0.8)
-                : theme.colorScheme.surface,
+        return Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onTap,
             borderRadius: BorderRadius.circular(widget.borderRadius),
-            border: Border.all(
-              color: widget.borderColor ??
-                  (isDark
-                      ? Colors.white.withValues(alpha: 0.1)
-                      : AppDesignTokens.textPrimary(context)
-                          .withValues(alpha: 0.2)),
-              width: 1,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(
-                  alpha: isDark ? 0.3 : 0.08,
+            onHighlightChanged: (highlight) {
+              setState(() => _isPressed = highlight);
+            },
+            child: Container(
+              margin: widget.margin,
+              padding: widget.padding ?? const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: isDark
+                    ? theme.colorScheme.surface.withValues(alpha: 0.8)
+                    : theme.colorScheme.surface,
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+                border: Border.all(
+                  color: effectiveBorderColor,
+                  width: 1,
                 ),
-                blurRadius: _isPressed ? 5 : 16,
-                offset: Offset(0, _isPressed ? 2 : 6),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(
+                      alpha: isDark ? 0.3 : 0.08,
+                    ),
+                    blurRadius: _isPressed ? 5 : 16,
+                    offset: Offset(0, _isPressed ? 2 : 6),
+                  ),
+                ],
               ),
-            ],
+              child: widget.overflowProtected
+                  ? SingleChildScrollView(
+                      clipBehavior: Clip.hardEdge,
+                      physics: const BouncingScrollPhysics(),
+                      child: ConstrainedWidthBox(child: widget.child),
+                    )
+                  : widget.child,
+            )
+                .animate(target: _isPressed ? 1 : 0)
+                .scale(
+                  begin: const Offset(1, 1),
+                  end: const Offset(0.98, 0.98),
+                  duration: 100.ms,
+                  curve: Curves.easeOut,
+                ),
           ),
-          child: widget.overflowProtected
-              ? SingleChildScrollView(
-                  clipBehavior: Clip.hardEdge,
-                  physics: const BouncingScrollPhysics(),
-                  child: ConstrainedWidthBox(child: widget.child),
-                )
-              : widget.child,
-        )
-            .animate(target: _isPressed ? 1 : 0)
-            .scale(
-              begin: const Offset(1, 1),
-              end: const Offset(0.98, 0.98),
-              duration: 100.ms,
-              curve: Curves.easeOut,
-            ),
-      ),
+        );
+      },
     );
   }
 }

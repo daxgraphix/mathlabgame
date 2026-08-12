@@ -130,9 +130,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final hoursLeft = challenge.expiresAt.difference(DateTime.now()).inHours;
     final minutesLeft = challenge.expiresAt.difference(DateTime.now()).inMinutes % 60;
     final color = isWeekly ? theme.colorScheme.secondary : theme.colorScheme.tertiary;
+    final isMobile = ResponsiveUtils.isMobile(context);
 
     return PremiumCard(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(isMobile ? 20 : 28),
       borderColor: color.withValues(alpha: 0.4),
       onTap: () => _navigateToScreen(const EnhancedChallengeScreen()),
       child: Row(
@@ -146,15 +147,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     Icon(
                       isWeekly ? Icons.auto_awesome : Icons.calendar_today,
                       color: color,
-                      size: 20,
+                      size: ResponsiveUtils.getResponsiveIconSize(context, 20),
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      isWeekly ? l10n.weeklyChallenges : l10n.dailyChallenge,
+                      (isWeekly ? l10n.weeklyChallenges : l10n.dailyChallenge).toUpperCase(),
                       style: theme.textTheme.labelSmall?.copyWith(
+                        fontSize: ResponsiveUtils.getResponsiveFontSize(context, 10),
                         fontWeight: FontWeight.w900,
                         color: color,
-                        letterSpacing: 1,
+                        letterSpacing: 1.5,
                       ),
                     ),
                   ],
@@ -163,6 +165,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 Text(
                   challenge.title,
                   style: theme.textTheme.titleMedium?.copyWith(
+                    fontSize: ResponsiveUtils.getResponsiveFontSize(context, 18),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -170,27 +173,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 Text(
                   challenge.description,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                    fontSize: ResponsiveUtils.getResponsiveFontSize(context, 12),
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                    height: 1.4,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(6),
                   child: LinearProgressIndicator(
                     value: challenge.progress,
-                    minHeight: 6,
+                    minHeight: 8,
                     backgroundColor: color.withValues(alpha: 0.1),
                     valueColor: AlwaysStoppedAnimation(color),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${challenge.currentValue}/${challenge.targetValue}',
+                      '${challenge.currentValue} / ${challenge.targetValue}',
                       style: theme.textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontSize: ResponsiveUtils.getResponsiveFontSize(context, 11),
+                        fontWeight: FontWeight.w900,
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
                     Text(
@@ -198,7 +205,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         ? l10n.timeLeftShort(hoursLeft ~/ 24, hoursLeft % 24)
                         : l10n.timeLeftShort(hoursLeft, minutesLeft),
                       style: theme.textTheme.labelSmall?.copyWith(
+                        fontSize: ResponsiveUtils.getResponsiveFontSize(context, 11),
                         color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -213,7 +222,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.chevron_right, color: color),
+            child: Icon(
+              Icons.chevron_right, 
+              color: color,
+              size: ResponsiveUtils.getResponsiveIconSize(context, 24),
+            ),
           ),
         ],
       ),
@@ -327,10 +340,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildTopBar(theme, l10n),
-                const SizedBox(height: 24),
-                _buildWelcomeSection(theme, l10n),
                 const SizedBox(height: 32),
-                _buildQuickResumeModule(theme, l10n),
+                _buildWelcomeSection(theme, l10n),
                 const SizedBox(height: 40),
                 _buildChallengeSection(theme, l10n),
                 const SizedBox(height: 40),
@@ -395,7 +406,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 
 
-  Widget _buildQuickResumeModule(ThemeData theme, AppLocalizations l10n) {
+
+
+
+
+  Widget _buildWelcomeSection(ThemeData theme, AppLocalizations l10n) {
     return Consumer(
       builder: (context, ref, child) {
         final user = ref.watch(userSessionProvider);
@@ -405,9 +420,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         final String? lastOp = user.lastPlayedOperation;
         final int? lastLevel = user.lastPlayedLevel;
         final double? lastHeat = user.lastHeatIndex;
+        
+        final isMobile = ResponsiveUtils.isMobile(context);
 
-        String title = l10n.quickResume;
-        String subtitle = '';
+        String quickResumeSubtitle = '';
         
         // Heat Intensity Tag
         Widget? heatTag;
@@ -436,7 +452,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
         if (lastMode != null && lastOp != null) {
           if (lastMode == 'campaign') {
-            subtitle = '${lastOp.toUpperCase()} ${l10n.levelUppercase(lastLevel ?? 1)}';
+            quickResumeSubtitle = '${lastOp.toUpperCase()} ${l10n.levelUppercase(lastLevel ?? 1)}';
           } else {
             String modeTitle = lastMode.toUpperCase();
             if (lastMode == 'scoreAttack') modeTitle = l10n.scoreAttack;
@@ -449,181 +465,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             if (lastMode == 'practice') modeTitle = l10n.practice;
             if (lastMode == 'custommix') modeTitle = l10n.customMix;
             
-            subtitle = '$modeTitle - ${lastOp.toUpperCase()}';
-          }
-        } else {
-          // Fallback logic if no last played data
-          final progressMap = ref.watch(levelProgressProvider);
-          if (progressMap.isNotEmpty) {
-            String? nextOp;
-            int? nextLevel;
-            for (final entry in progressMap.entries) {
-              final levels = entry.value;
-              for (final level in levels) {
-                if (level.isUnlocked && level.stars < 3) {
-                  nextOp = entry.key;
-                  nextLevel = level.level;
-                  break;
-                }
-              }
-              if (nextOp != null) break;
-            }
-            nextOp ??= progressMap.keys.first;
-            nextLevel ??= 1;
-            subtitle = '${nextOp.toUpperCase()} ${l10n.levelUppercase(nextLevel)}';
-          } else {
-            return const SizedBox.shrink();
+            quickResumeSubtitle = '$modeTitle - ${lastOp.toUpperCase()}';
           }
         }
 
-        return PremiumCard(
-          padding: const EdgeInsets.all(20),
-          borderColor: theme.colorScheme.primary.withValues(alpha: 0.5),
-          onTap: () {
-            if (lastMode == 'campaign' && lastOp != null && lastLevel != null) {
-              ref.read(soundManagerProvider).playGameStart();
-              ref.read(gameSessionProvider.notifier).startGame(
-                    mode: GameMode.campaign,
-                    operation: lastOp,
-                    level: lastLevel,
-                    totalQuestions: lastLevel > 50 ? 60 : 50,
-                  );
-              _navigateToScreen(GameScreen());
-            } else if (lastMode != null && lastOp != null) {
-              // Handle Arcade and other modes specifically
-              final GameMode mode = GameMode.values.firstWhere(
-                (m) => m.name == lastMode,
-                orElse: () => GameMode.campaign,
-              );
-
-              if (mode != GameMode.campaign) {
-                ref.read(soundManagerProvider).playGameStart();
-                
-                // Calculate arcade parameters if it's an arcade mode
-                int totalQuestions = 60;
-                int? timeLimit;
-                int level = lastLevel ?? 1;
-
-                if (mode == GameMode.scoreAttack) {
-                  totalQuestions = (200 * (1 + level * 0.05)).round();
-                  timeLimit = 90 + (level * 5);
-                } else if (mode == GameMode.speedDemon) {
-                  totalQuestions = (35 * (1 + level * 0.05)).round();
-                  timeLimit = 45 + (level * 2);
-                } else if (mode == GameMode.endless) {
-                  totalQuestions = 1000;
-                } else if (mode == GameMode.mathMaster) {
-                  totalQuestions = (100 * (1 + level * 0.05)).round();
-                } else if (mode == GameMode.marathon) {
-                  totalQuestions = 500;
-                } else if (mode == GameMode.flash) {
-                  totalQuestions = (50 * (1 + level * 0.05)).round();
-                  timeLimit = 60 + (level * 3);
-                }
-
-                ref.read(gameSessionProvider.notifier).startGame(
-                  mode: mode,
-                  operation: lastOp,
-                  level: level,
-                  totalQuestions: totalQuestions,
-                  timeLimit: timeLimit,
-                );
-                _navigateToScreen(GameScreen());
-              } else {
-                _navigateToScreen(const CampaignScreen());
-              }
-            } else if (lastMode == 'arcade') {
-              _navigateToScreen(const ArcadeScreen());
-            } else if (lastMode == 'practice') {
-              _navigateToScreen(const PracticeScreen());
-            } else if (lastMode == 'mathriddles') {
-              _navigateToScreen(const MathRiddleLevelSelectionScreen());
-            } else if (lastMode == 'crossnumbers') {
-              _navigateToScreen(const CrossNumbersLevelSelectionScreen());
-            } else if (lastMode == 'custommix') {
-              _navigateToScreen(const CustomMixScreen());
-            } else {
-              _navigateToScreen(const CampaignScreen());
-            }
-          },
-          child: Row(
-            children: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    width: 72,
-                    height: 72,
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(22),
-                      border: Border.all(color: theme.colorScheme.primary.withValues(alpha: 0.2)),
-                    ),
-                  ),
-                  Icon(Icons.play_arrow_rounded, color: theme.colorScheme.primary, size: 40),
-                  SizedBox(
-                    width: 72,
-                    height: 72,
-                    child: CircularProgressIndicator(
-                      value: 0.75,
-                      strokeWidth: 4,
-                      strokeCap: StrokeCap.round,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        theme.colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ).animate(onPlay: (controller) => controller.repeat())
-               .shimmer(duration: 2000.ms, color: theme.colorScheme.primary.withValues(alpha: 0.2)),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title.toUpperCase(),
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 2,
-                        color: theme.colorScheme.primary,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        color: theme.colorScheme.onSurface,
-                      ),
-                    ),
-                    heatTag ?? const SizedBox.shrink(),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-
-
-  Widget _buildWelcomeSection(ThemeData theme, AppLocalizations l10n) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final user = ref.watch(userSessionProvider);
         return PremiumGlassOverlay(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(isMobile ? 20 : 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -634,57 +481,49 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${l10n.welcomeBack}, ${user?.name ?? l10n.player}!',
+                          '${l10n.welcomeBack}, ${user.name}!',
                           style: theme.textTheme.headlineSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: theme.colorScheme.onSurface,
                           ),
                         ),
                         const SizedBox(height: 8),
-                        if (user != null)
-                          Row(
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  l10n.levelUppercase(user.level),
-                                  style: TextStyle(
-                                    color: theme.colorScheme.primary,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 12,
-                                    letterSpacing: 1,
-                                  ),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                l10n.levelUppercase(user.level),
+                                style: TextStyle(
+                                  color: theme.colorScheme.primary,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 12,
+                                  letterSpacing: 1,
                                 ),
                               ),
-                              const SizedBox(width: 8),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: theme.colorScheme.secondary.withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  '${user.totalPoints} PTS',
-                                  style: TextStyle(
-                                    color: theme.colorScheme.secondary,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 12,
-                                    letterSpacing: 1,
-                                  ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.secondary.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '${user.totalPoints} PTS',
+                                style: TextStyle(
+                                  color: theme.colorScheme.secondary,
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: 12,
+                                  letterSpacing: 1,
                                 ),
                               ),
-                            ],
-                          ),
-                        const SizedBox(height: 12),
-                        Text(
-                          l10n.masterMathematicsDesc,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -718,58 +557,160 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       .moveY(begin: -2, end: 2, duration: 1500.ms, curve: Curves.easeInOut),
                 ],
               ),
-              if (user != null) ...[
-                const SizedBox(height: 24),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              const SizedBox(height: 24),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${(user.levelProgress * 100).toInt()}% ${l10n.ptsToLevel(user.pointsToNextLevel, user.level + 1)}',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                        ),
+                      ),
+                      Text(
+                        '${user.pointsToNextLevel} XP LEFT',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          fontWeight: FontWeight.w900,
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Stack(
                       children: [
-                        Text(
-                          '${(user.levelProgress * 100).toInt()}% ${l10n.ptsToLevel(user.pointsToNextLevel, user.level + 1)}',
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                          ),
+                        Container(
+                          height: 12,
+                          width: double.infinity,
+                          color: theme.colorScheme.primary.withValues(alpha: 0.1),
                         ),
-                        Text(
-                          '${user.pointsToNextLevel} XP LEFT',
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.w900,
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Stack(
-                        children: [
-                          Container(
+                        FractionallySizedBox(
+                          widthFactor: user.levelProgress,
+                          child: Container(
                             height: 12,
-                            width: double.infinity,
-                            color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                          ),
-                          FractionallySizedBox(
-                            widthFactor: user.levelProgress,
-                            child: Container(
-                              height: 12,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    theme.colorScheme.primary,
-                                    theme.colorScheme.secondary,
-                                  ],
-                                ),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  theme.colorScheme.primary,
+                                  theme.colorScheme.secondary,
+                                ],
                               ),
                             ),
-                          ).animate().shimmer(duration: 1500.ms),
-                        ],
-                      ),
+                          ),
+                        ).animate().shimmer(duration: 1500.ms),
+                      ],
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              if (quickResumeSubtitle.isNotEmpty) ...[
+                const SizedBox(height: 24),
+                Divider(color: theme.colorScheme.onSurface.withValues(alpha: 0.1)),
+                const SizedBox(height: 16),
+                InkWell(
+                  onTap: () {
+                     if (lastMode == 'campaign' && lastOp != null && lastLevel != null) {
+                      ref.read(soundManagerProvider).playGameStart();
+                      ref.read(gameSessionProvider.notifier).startGame(
+                            mode: GameMode.campaign,
+                            operation: lastOp,
+                            level: lastLevel,
+                            totalQuestions: lastLevel > 50 ? 60 : 50,
+                          );
+                      _navigateToScreen(GameScreen());
+                    } else if (lastMode != null && lastOp != null) {
+                      final GameMode mode = GameMode.values.firstWhere(
+                        (m) => m.name == lastMode,
+                        orElse: () => GameMode.campaign,
+                      );
+
+                      if (mode != GameMode.campaign) {
+                        ref.read(soundManagerProvider).playGameStart();
+                        int totalQuestions = 60;
+                        int? timeLimit;
+                        int level = lastLevel ?? 1;
+
+                        if (mode == GameMode.scoreAttack) {
+                          totalQuestions = (200 * (1 + level * 0.05)).round();
+                          timeLimit = 90 + (level * 5);
+                        } else if (mode == GameMode.speedDemon) {
+                          totalQuestions = (35 * (1 + level * 0.05)).round();
+                          timeLimit = 45 + (level * 2);
+                        } else if (mode == GameMode.endless) {
+                          totalQuestions = 1000;
+                        } else if (mode == GameMode.mathMaster) {
+                          totalQuestions = (100 * (1 + level * 0.05)).round();
+                        } else if (mode == GameMode.marathon) {
+                          totalQuestions = 500;
+                        } else if (mode == GameMode.flash) {
+                          totalQuestions = (50 * (1 + level * 0.05)).round();
+                          timeLimit = 60 + (level * 3);
+                        }
+
+                        ref.read(gameSessionProvider.notifier).startGame(
+                          mode: mode,
+                          operation: lastOp,
+                          level: level,
+                          totalQuestions: totalQuestions,
+                          timeLimit: timeLimit,
+                        );
+                        _navigateToScreen(GameScreen());
+                      }
+                    }
+                  },
+                  borderRadius: BorderRadius.circular(12),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.play_arrow_rounded,
+                          color: theme.colorScheme.primary,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              l10n.quickResume.toUpperCase(),
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.5,
+                                color: theme.colorScheme.primary,
+                                fontSize: 9,
+                              ),
+                            ),
+                            Text(
+                              quickResumeSubtitle,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
+                              ),
+                            ),
+                            heatTag ?? const SizedBox.shrink(),
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        Icons.chevron_right,
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
+                        size: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ],
               const SizedBox(height: 24),

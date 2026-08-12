@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/providers.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -53,6 +54,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
     // Perform any necessary background initialization here
     // SoundManager is already initialized in StartupNotifier, but we can ensure it's ready
     
+    // Simulate system diagnostic logs for UX
+    await _loadingController.forward();
+    
     final elapsed = DateTime.now().difference(bootStart);
     if (elapsed < const Duration(milliseconds: 3500)) {
       await Future.delayed(const Duration(milliseconds: 3500) - elapsed);
@@ -67,31 +71,41 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
     super.dispose();
   }
 
+  final List<String> _bootLogs = [
+    'CONNECTING TO NEURAL CORE...',
+    'CALIBRATING ARITHMETIC ENGINE...',
+    'LOADING LOGIC MODULES...',
+    'SYNCING PERFORMANCE DATA...',
+    'READY FOR INITIALIZATION',
+  ];
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final primary = theme.colorScheme.primary;
     final secondary = theme.colorScheme.secondary;
     final bg = theme.scaffoldBackgroundColor;
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     return Scaffold(
       backgroundColor: bg,
       body: Stack(
         children: [
           // Animated Background Mesh
-          AnimatedBuilder(
-            animation: _bgController,
-            builder: (_, child) {
-              return CustomPaint(
-                painter: _SplashMeshPainter(
-                  color1: primary.withValues(alpha: 0.1),
-                  color2: secondary.withValues(alpha: 0.05),
-                  progress: _bgController.value,
-                ),
-                size: Size.infinite,
-              );
-            },
-          ),
+          if (!lowPerf)
+            AnimatedBuilder(
+              animation: _bgController,
+              builder: (_, child) {
+                return CustomPaint(
+                  painter: _SplashMeshPainter(
+                    color1: primary.withValues(alpha: 0.15),
+                    color2: secondary.withValues(alpha: 0.1),
+                    progress: _bgController.value,
+                  ),
+                  size: Size.infinite,
+                );
+              },
+            ),
           
           Center(
             child: AnimatedBuilder(
@@ -106,79 +120,120 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
                       child: Column(
                         children: [
                           Container(
-                            width: 160,
-                            height: 160,
+                            width: 180,
+                            height: 180,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: LinearGradient(
-                                colors: [primary, primary.withValues(alpha: 0.7)],
+                                colors: [primary, secondary],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: primary.withValues(alpha: 0.3),
-                                  blurRadius: 30,
+                                  color: primary.withValues(alpha: 0.4),
+                                  blurRadius: 40,
                                   spreadRadius: 5,
                                 ),
                               ],
                             ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.calculate_rounded,
-                                size: 80,
-                                color: Colors.white,
-                              ),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                // Rotating outer ring
+                                AnimatedBuilder(
+                                  animation: _bgController,
+                                  builder: (context, child) => Transform.rotate(
+                                    angle: -_bgController.value * 2 * math.pi,
+                                    child: Container(
+                                      width: 160,
+                                      height: 160,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Colors.white.withValues(alpha: 0.2),
+                                          width: 2,
+                                          strokeAlign: BorderSide.strokeAlignOutside,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.calculate_rounded,
+                                  size: 90,
+                                  color: Colors.white,
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 48),
                           Text(
                             'mathlab',
                             style: theme.textTheme.displayMedium?.copyWith(
                               color: theme.colorScheme.onSurface,
-                              letterSpacing: 20,
+                              letterSpacing: 22,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          const SizedBox(height: 12),
-                          Text(
-                            'LOGIC • ARITHMETIC • PUZZLES',
-                            style: theme.textTheme.labelMedium?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 4,
+                          const SizedBox(height: 16),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: primary.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: primary.withValues(alpha: 0.2)),
+                            ),
+                            child: Text(
+                              'NEURAL PERFORMANCE SYSTEM',
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: primary,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 3,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 80),
-                  // Loading Indicator
+                  const SizedBox(height: 100),
+                  // Loading Indicator and Logs
                   SizedBox(
-                    width: 200,
+                    width: 240,
                     child: Column(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(2),
+                          borderRadius: BorderRadius.circular(4),
                           child: AnimatedBuilder(
                             animation: _loadingProgress,
                             builder: (context, child) => LinearProgressIndicator(
                               value: _loadingProgress.value,
                               backgroundColor: primary.withValues(alpha: 0.1),
                               valueColor: AlwaysStoppedAnimation<Color>(primary),
-                              minHeight: 2,
+                              minHeight: 3,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 12),
-                        Text(
-                          'INITIALIZING CORE...',
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-                            letterSpacing: 2,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        const SizedBox(height: 20),
+                        AnimatedBuilder(
+                          animation: _loadingProgress,
+                          builder: (context, child) {
+                            final logIndex = (_loadingProgress.value * (_bootLogs.length - 1)).floor();
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 300),
+                              child: Text(
+                                _bootLogs[logIndex],
+                                key: ValueKey(_bootLogs[logIndex]),
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                                  letterSpacing: 1.5,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 9,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -192,6 +247,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
     );
   }
 }
+
 
 class _SplashMeshPainter extends CustomPainter {
   final Color color1;

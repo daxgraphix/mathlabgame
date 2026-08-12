@@ -838,22 +838,22 @@
     "description": "",
     "placeholders": {}
   },
-  "hotStreak": "ðŸ”¥ HOT STREAK!",
+  "hotStreak": "HOT STREAK!",
   "@hotStreak": {
     "description": "",
     "placeholders": {}
   },
-  "unstoppable": "ðŸŒŸ UNSTOPPABLE!",
+  "unstoppable": "UNSTOPPABLE!",
   "@unstoppable": {
     "description": "",
     "placeholders": {}
   },
-  "keepItUp": "âš¡ KEEP IT UP!",
+  "keepItUp": "KEEP IT UP!",
   "@keepItUp": {
     "description": "",
     "placeholders": {}
   },
-  "streakBroken": "ðŸ’” STREAK BROKEN!",
+  "streakBroken": "STREAK BROKEN!",
   "@streakBroken": {
     "description": "",
     "placeholders": {}
@@ -913,22 +913,22 @@
     "description": "",
     "placeholders": {}
   },
-  "sysOp": "SYS_OP",
+  "sysOp": "SYS OP",
   "@sysOp": {
     "description": "",
     "placeholders": {}
   },
-  "neuralAccuracy": "NEURAL_ACCURACY",
+  "neuralAccuracy": "NEURAL ACCURACY",
   "@neuralAccuracy": {
     "description": "",
     "placeholders": {}
   },
-  "coreStars": "CORE_STARS",
+  "coreStars": "CORE STARS",
   "@coreStars": {
     "description": "",
     "placeholders": {}
   },
-  "unitsCleared": "UNITS_CLEARED",
+  "unitsCleared": "UNITS CLEARED",
   "@unitsCleared": {
     "description": "",
     "placeholders": {}
@@ -938,17 +938,17 @@
     "description": "",
     "placeholders": {}
   },
-  "missionActive": "MISSION_ACTIVE",
+  "missionActive": "MISSION ACTIVE",
   "@missionActive": {
     "description": "",
     "placeholders": {}
   },
-  "endOfTransmission": "END_OF_TRANSMISSION",
+  "endOfTransmission": "END OF TRANSMISSION",
   "@endOfTransmission": {
     "description": "",
     "placeholders": {}
   },
-  "exportProtocol": "EXPORT_PROTOCOL",
+  "exportProtocol": "EXPORT PROTOCOL",
   "@exportProtocol": {
     "description": "",
     "placeholders": {}
@@ -958,22 +958,22 @@
     "description": "",
     "placeholders": {}
   },
-  "debriefCopied": "DEBRIEF_COPIED_TO_CLIPBOARD",
+  "debriefCopied": "DEBRIEF COPIED TO CLIPBOARD",
   "@debriefCopied": {
     "description": "",
     "placeholders": {}
   },
-  "copyToClipboard": "COPY_TO_CLIPBOARD",
+  "copyToClipboard": "COPY TO CLIPBOARD",
   "@copyToClipboard": {
     "description": "",
     "placeholders": {}
   },
-  "neuralEfficiencyIndex": "NEURAL_EFFICIENCY_INDEX",
+  "neuralEfficiencyIndex": "NEURAL EFFICIENCY INDEX",
   "@neuralEfficiencyIndex": {
     "description": "",
     "placeholders": {}
   },
-  "performanceScore": "PERFORMANCE_SCORE",
+  "performanceScore": "PERFORMANCE SCORE",
   "@performanceScore": {
     "description": "",
     "placeholders": {}
@@ -998,7 +998,7 @@
     "description": "",
     "placeholders": {}
   },
-  "accuracyProgression": "ACCURACY_PROGRESSION",
+  "accuracyProgression": "ACCURACY PROGRESSION",
   "@accuracyProgression": {
     "description": "",
     "placeholders": {}
@@ -1008,7 +1008,7 @@
     "description": "",
     "placeholders": {}
   },
-  "responseAnalytics": "RESPONSE_ANALYTICS",
+  "responseAnalytics": "RESPONSE ANALYTICS",
   "@responseAnalytics": {
     "description": "",
     "placeholders": {}
@@ -1028,22 +1028,22 @@
     "description": "",
     "placeholders": {}
   },
-  "livePerformanceMetrics": "LIVE_PERFORMANCE_METRICS",
+  "livePerformanceMetrics": "LIVE PERFORMANCE METRICS",
   "@livePerformanceMetrics": {
     "description": "",
     "placeholders": {}
   },
-  "currentAccuracy": "CURRENT_ACCURACY",
+  "currentAccuracy": "CURRENT ACCURACY",
   "@currentAccuracy": {
     "description": "",
     "placeholders": {}
   },
-  "sessionTime": "SESSION_TIME",
+  "sessionTime": "SESSION TIME",
   "@sessionTime": {
     "description": "",
     "placeholders": {}
   },
-  "activeStreak": "ACTIVE_STREAK",
+  "activeStreak": "ACTIVE STREAK",
   "@activeStreak": {
     "description": "",
     "placeholders": {}
@@ -1058,7 +1058,7 @@
     "description": "",
     "placeholders": {}
   },
-  "performanceTrend": "PERFORMANCE_TREND",
+  "performanceTrend": "PERFORMANCE TREND",
   "@performanceTrend": {
     "description": "",
     "placeholders": {}
@@ -1073,12 +1073,12 @@
     "description": "",
     "placeholders": {}
   },
-  "levelMasteryBreakdown": "LEVEL_MASTERY_BREAKDOWN",
+  "levelMasteryBreakdown": "LEVEL MASTERY BREAKDOWN",
   "@levelMasteryBreakdown": {
     "description": "",
     "placeholders": {}
   },
-  "perfectLevels": "PERFECT_LEVELS",
+  "perfectLevels": "PERFECT LEVELS",
   "@perfectLevels": {
     "description": "",
     "placeholders": {}
@@ -1098,7 +1098,7 @@
     "description": "",
     "placeholders": {}
   },
-  "goodProgress": "GOOD_PROGRESS",
+  "goodProgress": "GOOD PROGRESS",
   "@goodProgress": {
     "description": "",
     "placeholders": {}
@@ -1108,7 +1108,7 @@
     "description": "",
     "placeholders": {}
   },
-  "totalAttempts": "TOTAL_ATTEMPTS",
+  "totalAttempts": "TOTAL ATTEMPTS",
   "@totalAttempts": {
     "description": "",
     "placeholders": {}
@@ -1183,7 +1183,7 @@
     "description": "",
     "placeholders": {}
   },
-  "readyToChallenge": "ðŸŽ¯ Ready to Challenge?",
+  "readyToChallenge": "Ready to Challenge?",
   "@readyToChallenge": {
     "description": "",
     "placeholders": {}
@@ -1228,7 +1228,7 @@
     "description": "",
     "placeholders": {}
   },
-  "fastPacedChallenges": "Fast-paced challenges",
+  "fastPacedChallenges": "Fast paced challenges",
   "@fastPacedChallenges": {
     "description": "",
     "placeholders": {}
@@ -1367,7 +1367,7 @@
     "description": "",
     "placeholders": {}
   },
-  "achievementUnlocked": "ACHIEVEMENT_UNLOCKED",
+  "achievementUnlocked": "ACHIEVEMENT UNLOCKED",
   "@achievementUnlocked": {
     "description": "",
     "placeholders": {}
@@ -3052,6 +3052,36 @@
   "viewAll": "View All",
   "@viewAll": {
     "description": "Link to view all items",
+    "placeholders": {}
+  },
+  "accuracyTrend": "ACCURACY TREND",
+  "@accuracyTrend": {
+    "description": "",
+    "placeholders": {}
+  },
+  "progressByCategory": "PROGRESS BY CATEGORY",
+  "@progressByCategory": {
+    "description": "",
+    "placeholders": {}
+  },
+  "personalRecordDesc": "Your personal record across all modes.",
+  "@personalRecordDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avgResponseTimeDesc": "Average time taken to solve a question.",
+  "@avgResponseTimeDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timeToFirstAnswerDesc": "Average time until your first correct answer. Lower means faster engagement.",
+  "@timeToFirstAnswerDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "completionRateDesc": "Ratio of correctly solved equations.",
+  "@completionRateDesc": {
+    "description": "",
     "placeholders": {}
   }
 }

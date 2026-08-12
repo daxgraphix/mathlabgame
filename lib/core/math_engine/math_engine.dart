@@ -122,10 +122,10 @@ class MathEngine {
 
   static (int min, int max) getNumberRange(int level, String operation) {
     final l = level.toDouble();
-    // Scale ranges more aggressively for 100 levels
-    // Level 1: [2, 12], Level 50: [100, 1000], Level 100: [1000, 10000]
-    final minVal = pow(10, l / 33.3 + 0.3).toInt().clamp(2, 2000);
-    final maxVal = pow(10, l / 33.3 + 1.1).toInt().clamp(12, 10000);
+    // Balanced scaling for better progression
+    // Level 1: [2, 10], Level 50: [10, 100], Level 100: [100, 1000]
+    final minVal = pow(10, l / 50.0 + 0.3).toInt().clamp(2, 2000);
+    final maxVal = pow(10, l / 50.0 + 1.0).toInt().clamp(10, 10000);
     return (minVal, maxVal);
   }
 
@@ -193,8 +193,17 @@ class MathEngine {
 
     // Adjust effective level based on skill rating and real-time heat
     // Heat index > 1.0 boosts the effective difficulty for the session
-    final heatBonus = (heatIndex > 1.0) ? (heatIndex - 1.0) * 5 : 0;
-    final effectiveLevel = (level + (skillRating - 1000) ~/ 200 + heatBonus.toInt()).clamp(1, 100);
+    // Capping heat influence to prevent impossible spikes at very high levels
+    final heatBonus = (heatIndex > 1.0) ? (heatIndex - 1.0) * 8 : 0;
+    
+    int effectiveLevel = (level + (skillRating - 1000) ~/ 150 + heatBonus.toInt());
+    
+    // Smooth scaling for high levels to avoid sudden difficulty wall
+    if (effectiveLevel > 70) {
+      effectiveLevel = 70 + ((effectiveLevel - 70) ~/ 2);
+    }
+    
+    effectiveLevel = effectiveLevel.clamp(1, 100);
 
     do {
       if (isArcade) {
@@ -205,10 +214,38 @@ class MathEngine {
         final (min, max) = getNumberRange(effectiveLevel, currentOp);
         question = _generateQuestion(currentOp, effectiveLevel, min, max, skillRating: skillRating, heatIndex: heatIndex);
       }
+      
+      // Increase variety by randomly applying custom formatting to standard questions
+      if (question.customQuestion == null && _random.nextDouble() < 0.3) {
+        question = _applyVarietyToQuestion(question);
+      }
+      
       attempts++;
-    } while (excludeQuestions != null && excludeQuestions.contains(question.displayString) && attempts < 50);
+    } while (excludeQuestions != null && excludeQuestions.contains(question.displayString) && attempts < 100);
 
     return question;
+  }
+
+  static MathQuestion _applyVarietyToQuestion(MathQuestion q) {
+    final symbol = AppConstants.operationSymbols[q.operation] ?? '+';
+    final formats = [
+      'What is ${q.operand1} $symbol ${q.operand2}?',
+      'Calculate: ${q.operand1} $symbol ${q.operand2}',
+      'Solve ${q.operand1} $symbol ${q.operand2} = ?',
+      '${q.operand1} $symbol ${q.operand2} = x. Find x.',
+      'Result of ${q.operand1} $symbol ${q.operand2}',
+    ];
+    
+    if (q.operand3 != null) {
+      final formats3 = [
+        'What is ${q.operand1} $symbol ${q.operand2} $symbol ${q.operand3}?',
+        'Calculate: ${q.operand1} $symbol ${q.operand2} $symbol ${q.operand3}',
+        'Solve ${q.operand1} $symbol ${q.operand2} $symbol ${q.operand3} = ?',
+      ];
+      return q.copyWith(customQuestion: formats3[_random.nextInt(formats3.length)]);
+    }
+
+    return q.copyWith(customQuestion: formats[_random.nextInt(formats.length)]);
   }
 
   static MathQuestion _generateQuestion(
@@ -240,9 +277,46 @@ class MathEngine {
             : _generateMultiplication(level);
       case 'division':
         return _generateDivision(level);
+      case 'power':
+        return _generatePower(level);
+      case 'square_root':
+        return _generateSquareRoot(level);
       default:
         return _generateAddition(min, max, level);
     }
+  }
+
+  static MathQuestion _generatePower(int level) {
+    final base = (level <= 20) ? _random.nextInt(10) + 2 : _random.nextInt(5) + 2;
+    final exponent = (level <= 20) ? 2 : (level <= 50 ? 3 : _random.nextInt(2) + 2);
+    final result = pow(base, exponent).toInt();
+    
+    return MathQuestion(
+      operand1: base,
+      operand2: exponent,
+      operation: 'power',
+      correctAnswer: result,
+      difficulty: level > 40 ? 'hard' : 'medium',
+      customQuestion: '$base to the power of $exponent = ?',
+      explanation: '$base raised to $exponent is $result.',
+      concepts: ['power', 'exponents'],
+    );
+  }
+
+  static MathQuestion _generateSquareRoot(int level) {
+    final root = _random.nextInt(level + 10) + 2;
+    final square = root * root;
+    
+    return MathQuestion(
+      operand1: square,
+      operand2: 2, // square root
+      operation: 'square_root',
+      correctAnswer: root,
+      difficulty: level > 50 ? 'hard' : 'medium',
+      customQuestion: 'Square root of $square = ?',
+      explanation: 'The square root of $square is $root because $root * $root = $square.',
+      concepts: ['square_root', 'roots'],
+    );
   }
 
   static MathQuestion _generateThreeOperandAddition(int min, int max, int level) {
@@ -366,6 +440,11 @@ class MathEngine {
       } else {
         final (min, max) = getNumberRange(effectiveLevel, currentOp);
         question = _generateQuestion(currentOp, effectiveLevel, min, max, skillRating: skillRating, heatIndex: heatIndex);
+      }
+      
+      // Variety boost for batch generation
+      if (question.customQuestion == null && _random.nextDouble() < 0.25) {
+        question = _applyVarietyToQuestion(question);
       }
 
       if (!excludeSet.contains(question.displayString)) {

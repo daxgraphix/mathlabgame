@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/themes/app_themes.dart';
+import '../../core/providers.dart';
 import '../../core/accessibility/accessibility_settings.dart';
 import '../../l10n/generated/app_localizations.dart';
 
@@ -24,6 +25,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final lowPerformanceMode = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     return Scaffold(
       appBar: AppBar(
@@ -44,21 +46,22 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
       ),
       body: Stack(
         children: [
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    theme.scaffoldBackgroundColor,
-                    theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-                    theme.scaffoldBackgroundColor,
-                  ],
+          if (!lowPerformanceMode)
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      theme.scaffoldBackgroundColor,
+                      theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                      theme.scaffoldBackgroundColor,
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
           SafeArea(
             child: Column(
               children: [
@@ -79,6 +82,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
 
   Widget _buildDisplay(ThemeData theme) {
     final isLargeTarget = ref.watch(accessibilitySettingsProvider.select((s) => s.largeTargetMode));
+    final lowPerformanceMode = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     return GlassmorphicContainer(
       width: double.infinity,
@@ -86,7 +90,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.all(16),
       borderRadius: 16,
-      useFrostedEffect: true,
+      useFrostedEffect: !lowPerformanceMode,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -145,7 +149,7 @@ class _CalculatorScreenState extends ConsumerState<CalculatorScreen> {
                   fontWeight: FontWeight.w900,
                   color: theme.colorScheme.primary,
                   fontFamily: 'monospace',
-                  shadows: [
+                  shadows: lowPerformanceMode ? null : [
                     Shadow(
                       color: theme.colorScheme.primary.withValues(alpha: 0.5),
                       blurRadius: 15,

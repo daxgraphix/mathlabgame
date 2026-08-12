@@ -1079,25 +1079,25 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'ðŸ”¥ HOT STREAK!'**
+  /// **'HOT STREAK!'**
   String get hotStreak;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'ðŸŒŸ UNSTOPPABLE!'**
+  /// **'UNSTOPPABLE!'**
   String get unstoppable;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'âš¡ KEEP IT UP!'**
+  /// **'KEEP IT UP!'**
   String get keepItUp;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'ðŸ’” STREAK BROKEN!'**
+  /// **'STREAK BROKEN!'**
   String get streakBroken;
 
   ///
@@ -1169,25 +1169,25 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'SYS_OP'**
+  /// **'SYS OP'**
   String get sysOp;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'NEURAL_ACCURACY'**
+  /// **'NEURAL ACCURACY'**
   String get neuralAccuracy;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'CORE_STARS'**
+  /// **'CORE STARS'**
   String get coreStars;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'UNITS_CLEARED'**
+  /// **'UNITS CLEARED'**
   String get unitsCleared;
 
   ///
@@ -1199,19 +1199,19 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'MISSION_ACTIVE'**
+  /// **'MISSION ACTIVE'**
   String get missionActive;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'END_OF_TRANSMISSION'**
+  /// **'END OF TRANSMISSION'**
   String get endOfTransmission;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'EXPORT_PROTOCOL'**
+  /// **'EXPORT PROTOCOL'**
   String get exportProtocol;
 
   ///
@@ -1223,25 +1223,25 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'DEBRIEF_COPIED_TO_CLIPBOARD'**
+  /// **'DEBRIEF COPIED TO CLIPBOARD'**
   String get debriefCopied;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'COPY_TO_CLIPBOARD'**
+  /// **'COPY TO CLIPBOARD'**
   String get copyToClipboard;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'NEURAL_EFFICIENCY_INDEX'**
+  /// **'NEURAL EFFICIENCY INDEX'**
   String get neuralEfficiencyIndex;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'PERFORMANCE_SCORE'**
+  /// **'PERFORMANCE SCORE'**
   String get performanceScore;
 
   ///
@@ -1271,7 +1271,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'ACCURACY_PROGRESSION'**
+  /// **'ACCURACY PROGRESSION'**
   String get accuracyProgression;
 
   ///
@@ -1283,7 +1283,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'RESPONSE_ANALYTICS'**
+  /// **'RESPONSE ANALYTICS'**
   String get responseAnalytics;
 
   ///
@@ -1307,25 +1307,25 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'LIVE_PERFORMANCE_METRICS'**
+  /// **'LIVE PERFORMANCE METRICS'**
   String get livePerformanceMetrics;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'CURRENT_ACCURACY'**
+  /// **'CURRENT ACCURACY'**
   String get currentAccuracy;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'SESSION_TIME'**
+  /// **'SESSION TIME'**
   String get sessionTime;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'ACTIVE_STREAK'**
+  /// **'ACTIVE STREAK'**
   String get activeStreak;
 
   ///
@@ -1343,7 +1343,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'PERFORMANCE_TREND'**
+  /// **'PERFORMANCE TREND'**
   String get performanceTrend;
 
   ///
@@ -1361,13 +1361,13 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'LEVEL_MASTERY_BREAKDOWN'**
+  /// **'LEVEL MASTERY BREAKDOWN'**
   String get levelMasteryBreakdown;
 
   ///
   ///
   /// In en, this message translates to:
-  /// **'PERFECT_LEVELS'**
+  /// **'PERFECT LEVELS'**
   String get perfectLevels;
 
   ///
@@ -1391,7 +1391,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'GOOD_PROGRESS'**
+  /// **'GOOD PROGRESS'**
   String get goodProgress;
 
   ///
@@ -1403,7 +1403,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'TOTAL_ATTEMPTS'**
+  /// **'TOTAL ATTEMPTS'**
   String get totalAttempts;
 
   ///
@@ -1487,7 +1487,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'ðŸŽ¯ Ready to Challenge?'**
+  /// **'Ready to Challenge?'**
   String get readyToChallenge;
 
   ///
@@ -1541,7 +1541,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'Fast-paced challenges'**
+  /// **'Fast paced challenges'**
   String get fastPacedChallenges;
 
   ///
@@ -1691,7 +1691,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'ACHIEVEMENT_UNLOCKED'**
+  /// **'ACHIEVEMENT UNLOCKED'**
   String get achievementUnlocked;
 
   ///
@@ -3595,6 +3595,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View All'**
   String get viewAll;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'ACCURACY TREND'**
+  String get accuracyTrend;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'PROGRESS BY CATEGORY'**
+  String get progressByCategory;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal record across all modes.'**
+  String get personalRecordDesc;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Average time taken to solve a question.'**
+  String get avgResponseTimeDesc;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Average time until your first correct answer. Lower means faster engagement.'**
+  String get timeToFirstAnswerDesc;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Ratio of correctly solved equations.'**
+  String get completionRateDesc;
 }
 
 class _AppLocalizationsDelegate

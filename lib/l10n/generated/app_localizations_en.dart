@@ -506,16 +506,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get divide => 'Ã·';
 
   @override
-  String get hotStreak => 'ðŸ”¥ HOT STREAK!';
+  String get hotStreak => 'HOT STREAK!';
 
   @override
-  String get unstoppable => 'ðŸŒŸ UNSTOPPABLE!';
+  String get unstoppable => 'UNSTOPPABLE!';
 
   @override
-  String get keepItUp => 'âš¡ KEEP IT UP!';
+  String get keepItUp => 'KEEP IT UP!';
 
   @override
-  String get streakBroken => 'ðŸ’” STREAK BROKEN!';
+  String get streakBroken => 'STREAK BROKEN!';
 
   @override
   String get streak => 'STREAK';
@@ -551,43 +551,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get avgSession => 'Avg Session';
 
   @override
-  String get sysOp => 'SYS_OP';
+  String get sysOp => 'SYS OP';
 
   @override
-  String get neuralAccuracy => 'NEURAL_ACCURACY';
+  String get neuralAccuracy => 'NEURAL ACCURACY';
 
   @override
-  String get coreStars => 'CORE_STARS';
+  String get coreStars => 'CORE STARS';
 
   @override
-  String get unitsCleared => 'UNITS_CLEARED';
+  String get unitsCleared => 'UNITS CLEARED';
 
   @override
   String get status => 'STATUS';
 
   @override
-  String get missionActive => 'MISSION_ACTIVE';
+  String get missionActive => 'MISSION ACTIVE';
 
   @override
-  String get endOfTransmission => 'END_OF_TRANSMISSION';
+  String get endOfTransmission => 'END OF TRANSMISSION';
 
   @override
-  String get exportProtocol => 'EXPORT_PROTOCOL';
+  String get exportProtocol => 'EXPORT PROTOCOL';
 
   @override
   String get dismiss => 'DISMISS';
 
   @override
-  String get debriefCopied => 'DEBRIEF_COPIED_TO_CLIPBOARD';
+  String get debriefCopied => 'DEBRIEF COPIED TO CLIPBOARD';
 
   @override
-  String get copyToClipboard => 'COPY_TO_CLIPBOARD';
+  String get copyToClipboard => 'COPY TO CLIPBOARD';
 
   @override
-  String get neuralEfficiencyIndex => 'NEURAL_EFFICIENCY_INDEX';
+  String get neuralEfficiencyIndex => 'NEURAL EFFICIENCY INDEX';
 
   @override
-  String get performanceScore => 'PERFORMANCE_SCORE';
+  String get performanceScore => 'PERFORMANCE SCORE';
 
   @override
   String get avgSpeed => 'Avg Speed';
@@ -602,13 +602,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get low => 'LOW';
 
   @override
-  String get accuracyProgression => 'ACCURACY_PROGRESSION';
+  String get accuracyProgression => 'ACCURACY PROGRESSION';
 
   @override
   String get peakAccuracy => 'Peak Accuracy';
 
   @override
-  String get responseAnalytics => 'RESPONSE_ANALYTICS';
+  String get responseAnalytics => 'RESPONSE ANALYTICS';
 
   @override
   String get avgResponse => 'Avg Response';
@@ -620,16 +620,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get improvement => 'Improvement';
 
   @override
-  String get livePerformanceMetrics => 'LIVE_PERFORMANCE_METRICS';
+  String get livePerformanceMetrics => 'LIVE PERFORMANCE METRICS';
 
   @override
-  String get currentAccuracy => 'CURRENT_ACCURACY';
+  String get currentAccuracy => 'CURRENT ACCURACY';
 
   @override
-  String get sessionTime => 'SESSION_TIME';
+  String get sessionTime => 'SESSION TIME';
 
   @override
-  String get activeStreak => 'ACTIVE_STREAK';
+  String get activeStreak => 'ACTIVE STREAK';
 
   @override
   String get calculating => 'CALCULATING...';
@@ -638,7 +638,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get advanced => 'ADVANCED';
 
   @override
-  String get performanceTrend => 'PERFORMANCE_TREND';
+  String get performanceTrend => 'PERFORMANCE TREND';
 
   @override
   String get reactionTimeAnalysis => 'Reaction Time Analysis';
@@ -647,10 +647,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get operationUsage => 'Operation Usage';
 
   @override
-  String get levelMasteryBreakdown => 'LEVEL_MASTERY_BREAKDOWN';
+  String get levelMasteryBreakdown => 'LEVEL MASTERY BREAKDOWN';
 
   @override
-  String get perfectLevels => 'PERFECT_LEVELS';
+  String get perfectLevels => 'PERFECT LEVELS';
 
   @override
   String get levelsWith35Plus => 'Levels with 35+ correct';
@@ -662,13 +662,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get levelsWith30Plus => 'Levels with 30+ correct';
 
   @override
-  String get goodProgress => 'GOOD_PROGRESS';
+  String get goodProgress => 'GOOD PROGRESS';
 
   @override
   String get levelsWith25Plus => 'Levels with 25+ correct';
 
   @override
-  String get totalAttempts => 'TOTAL_ATTEMPTS';
+  String get totalAttempts => 'TOTAL ATTEMPTS';
 
   @override
   String get totalLevelsAttempted => 'Total levels attempted';
@@ -712,7 +712,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get overview => 'Overview';
 
   @override
-  String get readyToChallenge => 'ðŸŽ¯ Ready to Challenge?';
+  String get readyToChallenge => 'Ready to Challenge?';
 
   @override
   String get masterMathematicsDesc =>
@@ -741,7 +741,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get completeLevelsProgressively => 'Complete levels progressively';
 
   @override
-  String get fastPacedChallenges => 'Fast-paced challenges';
+  String get fastPacedChallenges => 'Fast paced challenges';
 
   @override
   String get improveSpecificSkills => 'Improve specific skills';
@@ -820,7 +820,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get equipped => 'EQUIPPED';
 
   @override
-  String get achievementUnlocked => 'ACHIEVEMENT_UNLOCKED';
+  String get achievementUnlocked => 'ACHIEVEMENT UNLOCKED';
 
   @override
   String get protocolInitialized =>
@@ -1821,4 +1821,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewAll => 'View All';
+
+  @override
+  String get accuracyTrend => 'ACCURACY TREND';
+
+  @override
+  String get progressByCategory => 'PROGRESS BY CATEGORY';
+
+  @override
+  String get personalRecordDesc => 'Your personal record across all modes.';
+
+  @override
+  String get avgResponseTimeDesc => 'Average time taken to solve a question.';
+
+  @override
+  String get timeToFirstAnswerDesc =>
+      'Average time until your first correct answer. Lower means faster engagement.';
+
+  @override
+  String get completionRateDesc => 'Ratio of correctly solved equations.';
 }

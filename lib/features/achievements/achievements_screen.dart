@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../data/content_library/achievement_system.dart';
 import '../../core/themes/app_themes.dart';
+import '../../core/providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 
 class AchievementsScreen extends ConsumerWidget {
@@ -15,22 +16,24 @@ class AchievementsScreen extends ConsumerWidget {
     final achievementState = ref.watch(achievementStateProvider);
     final allAchievements = ref.watch(achievementDatabaseProvider);
     final reward = ref.watch(achievementRewardProvider);
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           // Animated background
-          Positioned.fill(
-            child: RepaintBoundary(
-              child: CustomPaint(
-                painter: AchievementParticlesPainter(theme),
+          if (!lowPerf)
+            Positioned.fill(
+              child: RepaintBoundary(
+                child: CustomPaint(
+                  painter: AchievementParticlesPainter(theme),
+                ),
               ),
             ),
-          ),
           CustomScrollView(
             slivers: [
-              _buildSliverAppBar(context, ref, reward, theme),
+              _buildSliverAppBar(context, ref, reward, theme, lowPerf),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                 sliver: SliverList(
@@ -39,7 +42,7 @@ class AchievementsScreen extends ConsumerWidget {
                     final isUnlocked = achievementState.unlockedAchievements.any(
                       (a) => a.achievementId == achievement.id,
                     );
-                    return _buildAchievementEntry(achievement, isUnlocked, index, theme, context);
+                    return _buildAchievementEntry(achievement, isUnlocked, index, theme, context, lowPerf);
                   }, childCount: allAchievements.length),
                 ),
               ),
@@ -50,7 +53,7 @@ class AchievementsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSliverAppBar(BuildContext context, WidgetRef ref, AchievementReward reward, ThemeData theme) {
+  Widget _buildSliverAppBar(BuildContext context, WidgetRef ref, AchievementReward reward, ThemeData theme, bool lowPerf) {
     final unlockedAchievements = ref.read(achievementStateProvider).unlockedAchievements;
     final totalAchievements = ref.read(achievementDatabaseProvider).length;
     final progressPercent = unlockedAchievements.length / totalAchievements;
@@ -141,13 +144,13 @@ class AchievementsScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
-                    ).animate().scale(delay: 200.ms, duration: 600.ms, curve: Curves.easeOutBack),
+                    ).animate(target: lowPerf ? 0 : 1).scale(delay: 200.ms, duration: 600.ms, curve: Curves.easeOutBack),
                     const SizedBox(height: 32),
                     Container(
                       padding: const EdgeInsets.all(20),
                       constraints: const BoxConstraints(maxWidth: 320),
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.surface.withValues(alpha: 0.85),
+                        color: theme.colorScheme.surface.withValues(alpha: lowPerf ? 0.95 : 0.85),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: theme.colorScheme.outline.withValues(alpha: 0.25),
@@ -172,14 +175,14 @@ class AchievementsScreen extends ConsumerWidget {
                               fontSize: 48,
                               fontWeight: FontWeight.bold,
                               color: theme.colorScheme.primary,
-                              shadows: [
+                              shadows: lowPerf ? null : [
                                 Shadow(
                                   color: theme.colorScheme.primary.withValues(alpha: 0.5),
                                   blurRadius: 12,
                                 ),
                               ],
                             ),
-                          ).animate().scale(delay: 400.ms, duration: 500.ms, curve: Curves.easeOut),
+                          ).animate(target: lowPerf ? 0 : 1).scale(delay: 400.ms, duration: 500.ms, curve: Curves.easeOut),
                           const SizedBox(height: 16),
                           if (reward.pointsToNextLevel > 0) ...[
                             Stack(
@@ -244,11 +247,11 @@ class AchievementsScreen extends ConsumerWidget {
     int index,
     ThemeData theme,
     BuildContext context,
+    bool lowPerf,
   ) {
     final color = RarityUIConfig.getColor(achievement.rarity, theme);
-    final l10n = AppLocalizations.of(context)!;
 
-    return Container(
+    final entry = Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -271,7 +274,7 @@ class AchievementsScreen extends ConsumerWidget {
               : theme.colorScheme.outline.withValues(alpha: 0.1),
           width: 1,
         ),
-        boxShadow: isUnlocked
+        boxShadow: isUnlocked && !lowPerf
             ? [
                 BoxShadow(
                   color: color.withValues(alpha: 0.2),
@@ -283,136 +286,156 @@ class AchievementsScreen extends ConsumerWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-          child: Padding(
+        child: lowPerf 
+          ? Padding(
             padding: const EdgeInsets.all(20),
-            child: Row(
-              children: [
-                // Achievement icon with glow effect
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: isUnlocked
-                          ? [color, color.withValues(alpha: 0.7)]
-                          : [theme.colorScheme.surface, theme.colorScheme.surface.withValues(alpha: 0.5)],
+            child: _buildAchievementContent(achievement, isUnlocked, color, theme, context, lowPerf),
+          )
+          : BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: _buildAchievementContent(achievement, isUnlocked, color, theme, context, lowPerf),
+            ),
+          ),
+      ),
+    );
+
+    if (lowPerf) return entry;
+    return entry.animate().fadeIn(delay: (index * 50).ms).slideY(begin: 0.1, end: 0);
+  }
+
+  Widget _buildAchievementContent(
+    Achievement achievement,
+    bool isUnlocked,
+    Color color,
+    ThemeData theme,
+    BuildContext context,
+    bool lowPerf,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+    return Row(
+      children: [
+        // Achievement icon with glow effect
+        Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              colors: isUnlocked
+                  ? [color, color.withValues(alpha: 0.7)]
+                  : [theme.colorScheme.surface, theme.colorScheme.surface.withValues(alpha: 0.5)],
+            ),
+            border: Border.all(
+              color: isUnlocked ? color : theme.colorScheme.outline.withValues(alpha: 0.3),
+              width: 2,
+            ),
+            boxShadow: isUnlocked && !lowPerf
+                ? [
+                    BoxShadow(
+                      color: color.withValues(alpha: 0.4),
+                      blurRadius: 16,
+                      offset: const Offset(0, 8),
                     ),
-                    border: Border.all(
-                      color: isUnlocked ? color : theme.colorScheme.outline.withValues(alpha: 0.3),
-                      width: 2,
+                  ]
+                : null,
+          ),
+          child: Icon(
+            _getIconData(achievement.iconName),
+            color: isUnlocked ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface.withValues(alpha: 0.3),
+            size: 28,
+          ),
+        ),
+        const SizedBox(width: 20),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  // Rarity indicator
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: isUnlocked ? color.withValues(alpha: 0.2) : theme.colorScheme.surface.withValues(alpha: 0.3),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    boxShadow: isUnlocked
-                        ? [
-                            BoxShadow(
-                              color: color.withValues(alpha: 0.4),
-                              blurRadius: 16,
-                              offset: const Offset(0, 8),
-                            ),
-                          ]
-                        : null,
+                    child: Text(
+                      RarityUIConfig.getName(achievement.rarity, context).toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: isUnlocked ? color : AppDesignTokens.textSecondary(context).withValues(alpha: 0.6),
+                        letterSpacing: 0.5,
+                      ),
+                    ),
                   ),
-                  child: Icon(
-                    _getIconData(achievement.iconName),
-                    color: isUnlocked ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface.withValues(alpha: 0.3),
-                    size: 28,
+                  const Spacer(),
+                  // XP reward
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      '+${achievement.points} XP',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
                   ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                achievement.getLocalizedTitle(context),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: isUnlocked
+                      ? AppDesignTokens.textPrimary(context)
+                      : AppDesignTokens.textSecondary(context).withValues(alpha: 0.5),
                 ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          // Rarity indicator
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: isUnlocked ? color.withValues(alpha: 0.2) : theme.colorScheme.surface.withValues(alpha: 0.3),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              RarityUIConfig.getName(achievement.rarity, context).toUpperCase(),
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: isUnlocked ? color : AppDesignTokens.textSecondary(context).withValues(alpha: 0.6),
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                          ),
-                          const Spacer(),
-                          // XP reward
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(
-                              '+${achievement.points} XP',
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.primary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        achievement.getLocalizedTitle(context),
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: isUnlocked
-                              ? AppDesignTokens.textPrimary(context)
-                              : AppDesignTokens.textSecondary(context).withValues(alpha: 0.5),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        achievement.getLocalizedDescription(context),
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: isUnlocked
-                              ? AppDesignTokens.textSecondary(context).withValues(alpha: 0.7)
-                              : AppDesignTokens.textSecondary(context).withValues(alpha: 0.4),
-                          height: 1.4,
-                        ),
-                      ),
-                      if (!isUnlocked) ...[
-                        const SizedBox(height: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.surface.withValues(alpha: 0.5),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            l10n.locked.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              color: AppDesignTokens.textSecondary(context).withValues(alpha: 0.6),
-                              letterSpacing: 1,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
+              ),
+              const SizedBox(height: 4),
+              Text(
+                achievement.getLocalizedDescription(context),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: isUnlocked
+                      ? AppDesignTokens.textSecondary(context).withValues(alpha: 0.7)
+                      : AppDesignTokens.textSecondary(context).withValues(alpha: 0.4),
+                  height: 1.4,
+                ),
+              ),
+              if (!isUnlocked) ...[
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.surface.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    l10n.locked.toUpperCase(),
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: AppDesignTokens.textSecondary(context).withValues(alpha: 0.6),
+                      letterSpacing: 1,
+                    ),
                   ),
                 ),
               ],
-            ),
+            ],
           ),
         ),
-      ),
-    ).animate().fadeIn(delay: (index * 50).ms).slideY(begin: 0.1, end: 0);
+      ],
+    );
   }
 
   IconData _getIconData(String name) {

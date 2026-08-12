@@ -5,6 +5,7 @@ import '../../../core/utils/game_flow_optimizer.dart';
 import '../../../core/math_engine/math_engine.dart';
 import '../../../core/providers.dart';
 import '../../../core/notification_service.dart';
+import '../../../core/sound_manager.dart';
 import '../../../core/game_adaptability/dynamic_difficulty_system.dart' as difficulty;
 import '../../../data/content_library/achievement_system.dart';
 import '../../analytics/analytics_provider.dart';
@@ -122,42 +123,70 @@ class GameSession {
     if (mode == GameMode.campaign) {
       double pct = accuracy;
       int s = 0;
-      if (pct >= 95) {
+      if (pct >= 90) {
         s = 3;
-      } else if (pct >= 85) {
+      } else if (pct >= 80) {
         s = 2;
-      } else if (pct >= 75) {
+      } else if (pct >= 70) {
         s = 1;
       }
 
       if (s > 0 && timeTarget != null && elapsedSeconds > 0) {
         final timeRatio = elapsedSeconds / timeTarget!;
-        if (timeRatio <= 0.6) {
+        // More lenient time thresholds for stars
+        if (timeRatio <= 0.8) {
           s = max(s, 3);
-        } else if (timeRatio <= 0.85) {
-          s = max(s, 2);
         } else if (timeRatio <= 1.0) {
+          s = max(s, 2);
+        } else if (timeRatio <= 1.2) {
           s = max(s, 1);
         } else {
-          s = 0;
+          // If way too slow, cap at 1 star if accuracy was high
+          s = min(s, 1);
         }
       }
 
       return s.clamp(0, 3);
     } else {
       double pct = accuracy;
-      if (pct >= 95) return 3;
-      if (pct >= 85) return 2;
-      if (pct >= 75) return 1;
+      if (pct >= 90) return 3;
+      if (pct >= 80) return 2;
+      if (pct >= 70) return 1;
       return 0;
     }
   }
 
   bool get passed {
-    if (mode == GameMode.campaign) {
-      return correctAnswers >= (totalQuestions * 0.7).ceil(); // 70% threshold
+    switch (mode) {
+      case GameMode.campaign:
+        // More encouraging: 70% accuracy and more flexible time limit
+        final accuracyMet = accuracy >= 70.0;
+        final timeMet = timeTarget == null || elapsedSeconds <= (timeTarget! * 1.5);
+        return accuracyMet && timeMet;
+      case GameMode.duel:
+        return playerWon ?? false;
+      case GameMode.scoreAttack:
+      case GameMode.speedDemon:
+      case GameMode.flash:
+      case GameMode.customMix:
+        // Higher threshold for timed modes: 70% accuracy + positive score
+        // For Speed Demon, also require at least 10 correct answers
+        if (mode == GameMode.speedDemon) {
+          return accuracy >= 70.0 && correctAnswers >= 10;
+        }
+        return accuracy >= 70.0 && score > 0;
+      case GameMode.mathMaster:
+        // Elite mode: 90% accuracy and at least 20 correct answers
+        return accuracy >= 90.0 && correctAnswers >= 20;
+      case GameMode.marathon:
+        // Endurance: 70% accuracy and at least 50 correct
+        return accuracy >= 70.0 && correctAnswers >= 50;
+      case GameMode.endless:
+        // Endurance: 65% accuracy and at least 15 correct
+        return accuracy >= 65.0 && correctAnswers >= 15;
+      case GameMode.practice:
+        return true;
     }
-    return true; // Other modes usually "pass" if completed
   }
 
   GameSession copyWith({
@@ -321,8 +350,8 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
 
   static int _calculateCampaignTimeTarget(int level, int totalQuestions) {
     // Dynamic difficulty: Target time decreases as level increases to challenge the player.
-    // Base: starts at ~7s/question, tightening to ~4s/question at higher levels.
-    double secondsPerQuestion = (7.0 - (level * 0.04)).clamp(4.0, 7.0);
+    // Base: starts at ~8s/question, tightening to ~5s/question at higher levels.
+    double secondsPerQuestion = (8.0 - (level * 0.03)).clamp(5.0, 8.0);
     return (totalQuestions * secondsPerQuestion).round();
   }
 
@@ -467,10 +496,8 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
       );
       questions.addAll(batch);
       
-      // Shuffle questions for random order unless it's a specific ordered mode
-      if (mode != GameMode.campaign) {
-        questions.shuffle();
-      }
+      // Shuffle questions for random order for ALL modes to ensure variety
+      questions.shuffle();
     }
 
     // Save session info to user profile for "Quick Resume"
@@ -644,12 +671,14 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
       newCombo = (newCombo < 4) ? newCombo + 1 : 4;
       if (newCombo >= 4 && !newFever) {
         newFever = true;
+        HapticManager.instance.milestonePattern();
         ref.read(soundManagerProvider).playEffect('fever_start');
       }
     } else {
       newCombo = 1;
       if (newFever) {
         newFever = false;
+        HapticManager.instance.lightImpact();
         ref.read(soundManagerProvider).playEffect('fever_end');
       }
     }
@@ -657,6 +686,7 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     int bonusSeconds = 0;
     int questionScore = 0;
     if (isCorrect) {
+      HapticManager.instance.correctAnswerPattern();
       ref.read(soundManagerProvider).playCorrect();
       challengeNotifier.incrementProgress('correct', 1);
       final baseScore = _getScoreForMode();
@@ -681,18 +711,21 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
       }
 
       if (newCombo == 5) {
+        HapticManager.instance.streakPattern(5);
         ref.read(soundManagerProvider).playLevelUp();
         NotificationService().showStreakNotification(
           '5-Question Streak!',
           'Keep going! You\'ve answered 5 in a row.',
         );
       } else if (newCombo == 10) {
+        HapticManager.instance.streakPattern(10);
         ref.read(soundManagerProvider).playLevelUp();
         NotificationService().showAchievementNotification(
           '10-Question Streak!',
           'Incredible! Double-digit streak achieved.',
         );
       } else if (newCombo == 15) {
+        HapticManager.instance.achievementPattern();
         ref.read(soundManagerProvider).playAchievement();
         NotificationService().showAchievementNotification(
           '15-Question Streak!',
@@ -707,6 +740,7 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
         challengeNotifier.incrementProgress('speed', 1);
       }
     } else {
+      HapticManager.instance.wrongAnswerPattern();
       ref.read(soundManagerProvider).playIncorrect();
       newCombo = 1;
       if (state!.mode == GameMode.endless) {
@@ -745,6 +779,9 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
     } else {
       newHeat = (newHeat - 0.30).clamp(1.0, 4.0); // Sharper drop on error
     }
+
+    // Update sound manager heat index
+    ref.read(soundManagerProvider).updateHeat(newHeat);
     
     // Endless mode makes heat increase gradually over time to ensure progression
     if (state!.mode == GameMode.endless && isCorrect) {
@@ -1022,14 +1059,31 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
 
   List<ShapeData> _generateNonOverlappingShapes(int count) {
     final shapes = <ShapeData>[];
-    final colors = [0xFF6366F1, 0xFF22D3EE, 0xFFF472B6, 0xFF22C55E, 0xFFFACC15];
-    final types = ['circle', 'triangle', 'star'];
+    final colors = [
+      0xFF6366F1, // Indigo
+      0xFF22D3EE, // Cyan
+      0xFFF472B6, // Pink
+      0xFF22C55E, // Green
+      0xFFFACC15, // Yellow
+      0xFFFB923C, // Orange
+      0xFFA855F7, // Purple
+    ];
+    final types = ['circle', 'triangle', 'star', 'square', 'pentagon', 'diamond'];
+    
+    // More variety for higher levels
+    final level = state?.level ?? 1;
+    final activeTypes = level > 40 
+        ? types 
+        : level > 20 
+            ? types.sublist(0, 5) 
+            : types.sublist(0, 3);
+            
     const containerWidth = 300.0;
     const containerHeight = 300.0;
-    const minSize = 30.0;
-    const maxSize = 50.0;
-    const padding = 10.0;
-    const maxAttempts = 100;
+    const minSize = 25.0;
+    const maxSize = 55.0;
+    const padding = 8.0;
+    const maxAttempts = 150;
 
     for (int i = 0; i < count; i++) {
       bool placed = false;
@@ -1060,7 +1114,7 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
         if (!overlaps) {
           shapes.add(
             ShapeData(
-              type: types[_random.nextInt(types.length)],
+              type: activeTypes[_random.nextInt(activeTypes.length)],
               x: x,
               y: y,
               size: size,
@@ -1317,7 +1371,7 @@ class GameSessionNotifier extends StateNotifier<GameSession?> {
 
     state = state!.copyWith(
       state: GameState.finished,
-      playerWon: isCampaign ? passed : null,
+      playerWon: passed,
     );
   }
 

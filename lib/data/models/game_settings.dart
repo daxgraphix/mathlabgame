@@ -6,6 +6,7 @@ class GameSettings {
   final String language;
   final bool notificationsEnabled;
   final bool focusMode;
+  final bool lowPerformanceMode;
 
   const GameSettings({
     this.soundEnabled = true,
@@ -15,6 +16,7 @@ class GameSettings {
     this.language = 'en',
     this.notificationsEnabled = true,
     this.focusMode = false,
+    this.lowPerformanceMode = false,
   });
 
   GameSettings copyWith({
@@ -25,6 +27,7 @@ class GameSettings {
     String? language,
     bool? notificationsEnabled,
     bool? focusMode,
+    bool? lowPerformanceMode,
   }) {
     return GameSettings(
       soundEnabled: soundEnabled ?? this.soundEnabled,
@@ -34,6 +37,7 @@ class GameSettings {
       language: language ?? this.language,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       focusMode: focusMode ?? this.focusMode,
+      lowPerformanceMode: lowPerformanceMode ?? this.lowPerformanceMode,
     );
   }
 
@@ -46,6 +50,7 @@ class GameSettings {
       'language': language,
       'notificationsEnabled': notificationsEnabled,
       'focusMode': focusMode,
+      'lowPerformanceMode': lowPerformanceMode,
     };
   }
 
@@ -58,6 +63,7 @@ class GameSettings {
       language: json['language'] ?? 'en',
       notificationsEnabled: json['notificationsEnabled'] ?? true,
       focusMode: json['focusMode'] ?? false,
+      lowPerformanceMode: json['lowPerformanceMode'] ?? false,
     );
   }
 }

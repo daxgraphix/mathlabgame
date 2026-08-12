@@ -1,11 +1,13 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/themes/app_themes.dart';
+import '../../../../core/providers.dart';
 import '../../../../data/models/level_progress.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
-class SyncMap extends StatefulWidget {
+class SyncMap extends ConsumerStatefulWidget {
   final String operation;
   final List<LevelProgress> progressList;
   final Function(int level) onLevelTap;
@@ -18,10 +20,10 @@ class SyncMap extends StatefulWidget {
   });
 
   @override
-  State<SyncMap> createState() => _SyncMapState();
+  ConsumerState<SyncMap> createState() => _SyncMapState();
 }
 
-class _SyncMapState extends State<SyncMap> with TickerProviderStateMixin {
+class _SyncMapState extends ConsumerState<SyncMap> with TickerProviderStateMixin {
   late AnimationController _particleController;
 
   @override
@@ -41,6 +43,8 @@ class _SyncMapState extends State<SyncMap> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
+
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.symmetric(vertical: 40),
@@ -50,8 +54,8 @@ class _SyncMapState extends State<SyncMap> with TickerProviderStateMixin {
           child: Stack(
             alignment: Alignment.topCenter,
             children: [
-              _buildConnectionLines(context),
-              _buildLevelNodes(context),
+              _buildConnectionLines(context, lowPerf),
+              _buildLevelNodes(context, lowPerf),
             ],
           ),
         ),
@@ -59,14 +63,14 @@ class _SyncMapState extends State<SyncMap> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildConnectionLines(BuildContext context) {
+  Widget _buildConnectionLines(BuildContext context, bool lowPerf) {
     return CustomPaint(
       size: const Size(600, 100 * 120.0), // 100 levels * spacing
-      painter: _MapPathPainter(levelCount: 100, theme: Theme.of(context)),
+      painter: _MapPathPainter(levelCount: 100, theme: Theme.of(context), lowPerf: lowPerf),
     );
   }
 
-  Widget _buildLevelNodes(BuildContext context) {
+  Widget _buildLevelNodes(BuildContext context, bool lowPerf) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final List<Widget> children = [];
@@ -177,6 +181,7 @@ class _SyncMapState extends State<SyncMap> with TickerProviderStateMixin {
               isBoss: isBoss,
               onTap: () => widget.onLevelTap(level),
               particleAnimation: _particleController,
+              lowPerf: lowPerf,
             ),
           ),
         ),
@@ -194,6 +199,7 @@ class _SyncNode extends StatelessWidget {
   final bool isBoss;
   final VoidCallback onTap;
   final Animation<double> particleAnimation;
+  final bool lowPerf;
 
   const _SyncNode({
     required this.level,
@@ -201,6 +207,7 @@ class _SyncNode extends StatelessWidget {
     required this.stars,
     required this.onTap,
     required this.particleAnimation,
+    required this.lowPerf,
     this.isBoss = false,
   });
 
@@ -220,7 +227,7 @@ class _SyncNode extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                if (isBoss && isUnlocked)
+                if (isBoss && isUnlocked && !lowPerf)
                   CustomPaint(
                     size: const Size(120, 120),
                     painter: _BossParticlePainter(
@@ -240,7 +247,7 @@ class _SyncNode extends StatelessWidget {
                       color: isBoss && isUnlocked ? theme.colorScheme.error : accentColor,
                       width: isBoss ? 4 : 2,
                     ),
-                    boxShadow: isUnlocked
+                    boxShadow: (isUnlocked && !lowPerf)
                         ? [
                           BoxShadow(
                             color: (isBoss ? theme.colorScheme.error : accentColor)
@@ -292,9 +299,9 @@ class _SyncNode extends StatelessWidget {
                       ],
                     ),
                   ),
-                ).animate(target: isUnlocked ? 1 : 0)
-                  .shimmer(duration: 2.seconds, color: (isBoss ? theme.colorScheme.error : accentColor).withValues(alpha: 0.1))
-                  .scale(begin: const Offset(0.9, 0.9), end: const Offset(1, 1), duration: 400.ms, curve: Curves.easeOutBack),
+                ).animate(target: isUnlocked ? 1 : 0, adapter: lowPerf ? ControlAdapter(value: 1) : null)
+                  .shimmer(duration: lowPerf ? 0.ms : 2.seconds, color: (isBoss ? theme.colorScheme.error : accentColor).withValues(alpha: 0.1))
+                  .scale(begin: const Offset(0.9, 0.9), end: const Offset(1, 1), duration: lowPerf ? 0.ms : 400.ms, curve: Curves.easeOutBack),
               ],
             ),
             const SizedBox(height: 8),
@@ -354,8 +361,9 @@ class _BossParticlePainter extends CustomPainter {
 class _MapPathPainter extends CustomPainter {
   final int levelCount;
   final ThemeData theme;
+  final bool lowPerf;
 
-  _MapPathPainter({required this.levelCount, required this.theme});
+  _MapPathPainter({required this.levelCount, required this.theme, this.lowPerf = false});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -389,15 +397,17 @@ class _MapPathPainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    // Draw secondary "glow" path
-    final glowPaint = Paint()
-      ..color = theme.colorScheme.primary.withValues(alpha: 0.05)
-      ..strokeWidth = 8
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
-    
-    canvas.drawPath(path, glowPaint);
+    if (!lowPerf) {
+      // Draw secondary "glow" path
+      final glowPaint = Paint()
+        ..color = theme.colorScheme.primary.withValues(alpha: 0.05)
+        ..strokeWidth = 8
+        ..style = PaintingStyle.stroke
+        ..strokeCap = StrokeCap.round
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+      
+      canvas.drawPath(path, glowPaint);
+    }
   }
 
   @override

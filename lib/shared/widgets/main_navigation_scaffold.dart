@@ -104,19 +104,26 @@ class _MainNavigationScaffoldState extends ConsumerState<MainNavigationScaffold>
   }
 
   Widget _buildGlobalBackground(ThemeData theme) {
-    return RepaintBoundary(
-      child: AnimatedBuilder(
-        animation: _meshController,
-        builder: (context, child) {
-          return CustomPaint(
-            painter: _MeshPainter(
-              color1: theme.colorScheme.primary.withValues(alpha: 0.15),
-              color2: theme.colorScheme.secondary.withValues(alpha: 0.1),
-              progress: _meshController.value,
-            ),
-          );
-        },
-      ),
+    return Consumer(
+      builder: (context, ref, child) {
+        final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
+        if (lowPerf) return const SizedBox.shrink();
+        
+        return RepaintBoundary(
+          child: AnimatedBuilder(
+            animation: _meshController,
+            builder: (context, child) {
+              return CustomPaint(
+                painter: _MeshPainter(
+                  color1: theme.colorScheme.primary.withValues(alpha: 0.15),
+                  color2: theme.colorScheme.secondary.withValues(alpha: 0.1),
+                  progress: _meshController.value,
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 

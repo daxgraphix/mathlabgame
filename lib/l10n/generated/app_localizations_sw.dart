@@ -511,7 +511,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get unstoppable => '🌟 HAIWEZI KUZUIWA!';
 
   @override
-  String get keepItUp => 'âš¡ ENDELEA!';
+  String get keepItUp => 'ENDELEA!';
 
   @override
   String get streakBroken => '💔 MFULULIZO UMEVUNJWA!';
@@ -713,20 +713,20 @@ class AppLocalizationsSw extends AppLocalizations {
   String get overview => 'Muhtasari';
 
   @override
-  String get readyToChallenge => 'ðŸŽ¯ Tayari Kupambana na Changamoto?';
+  String get readyToChallenge => 'Tayari Kupambana na Changamoto?';
 
   @override
   String get masterMathematicsDesc =>
       'Boresha hesabu kupitia michezo ya kuvutia na fuatilia maendeleo yako.';
 
   @override
-  String get yourProgress => 'ðŸ“Š Maendeleo Yako';
+  String get yourProgress => 'Maendeleo Yako';
 
   @override
   String get starsEarned => 'Nyota Zilizopatikana';
 
   @override
-  String get quickActions => 'âš¡ Vitendo vya Haraka';
+  String get quickActions => 'Vitendo vya Haraka';
 
   @override
   String get dailyChallenge => 'Changamoto ya Kila Siku';
@@ -736,7 +736,7 @@ class AppLocalizationsSw extends AppLocalizations {
       'Kamilisha changamoto ya hesabu ya leo ili upate thawabu za ziada!';
 
   @override
-  String get challengeReward => 'ðŸ”¥ Matatizo 5 â€¢ Thawabu 100 XP';
+  String get challengeReward => 'Matatizo 5 â€¢ Thawabu 100 XP';
 
   @override
   String get completeLevelsProgressively => 'Kamilisha ngazi hatua kwa hatua';
@@ -1821,4 +1821,24 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String get viewAll => 'Tazama Zote';
+
+  @override
+  String get accuracyTrend => 'MWELEKEO WA USAHIHI';
+
+  @override
+  String get progressByCategory => 'MAENDELEO KWA KATEGORIA';
+
+  @override
+  String get personalRecordDesc => 'Rekodi yako binafsi katika njia zote.';
+
+  @override
+  String get avgResponseTimeDesc => 'Wastani wa muda uliotumika kutatua swali.';
+
+  @override
+  String get timeToFirstAnswerDesc =>
+      'Wastani wa muda hadi jibu lako la kwanza sahihi. Chini inamaanisha ushiriki wa haraka zaidi.';
+
+  @override
+  String get completionRateDesc =>
+      'Uwiano wa milinganyo iliyotatuliwa kwa usahihi.';
 }

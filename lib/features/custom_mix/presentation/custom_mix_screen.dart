@@ -23,6 +23,8 @@ class _CustomMixScreenState extends ConsumerState<CustomMixScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final state = ref.watch(customMixArithmeticProvider);
+    // ignore: unused_local_variable
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -72,12 +74,14 @@ class _CustomMixScreenState extends ConsumerState<CustomMixScreen> {
 
   Widget _buildFullHeader() {
     final theme = Theme.of(context);
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: GlassmorphicContainer(
         width: double.infinity,
         padding: const EdgeInsets.all(24),
         borderRadius: 12,
+        useFrostedEffect: !lowPerf,
         child: Column(
           children: [
             Text(
@@ -103,11 +107,14 @@ class _CustomMixScreenState extends ConsumerState<CustomMixScreen> {
             ),
           ],
         ),
-      ).animate().fadeIn().slideY(begin: -0.2, end: 0),
+      ).animate(adapter: lowPerf ? ControlAdapter(value: 1) : null)
+          .fadeIn(duration: lowPerf ? 0.ms : 600.ms)
+          .slideY(begin: lowPerf ? 0 : -0.2, end: 0),
     );
   }
 
   Widget _buildSetupMode(CustomMixArithmeticState state) {
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -139,7 +146,8 @@ class _CustomMixScreenState extends ConsumerState<CustomMixScreen> {
           icon: Icons.power_settings_new,
         ),
       ],
-    ).animate().fadeIn(delay: 200.ms);
+    ).animate(adapter: lowPerf ? ControlAdapter(value: 1) : null)
+        .fadeIn(duration: lowPerf ? 0.ms : 600.ms);
   }
 
   Widget _buildSectionHeader(String title) {

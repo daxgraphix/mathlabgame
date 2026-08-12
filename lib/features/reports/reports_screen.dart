@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -16,8 +15,11 @@ import '../../features/game/logic/game_session_provider.dart';
 import '../../features/game/logic/session_stats_provider.dart';
 import '../../features/game/logic/player_performance_provider.dart';
 import '../../features/analytics/analytics_provider.dart';
+import '../../features/practice/presentation/practice_screen.dart';
 import '../../core/utils/responsive_utils.dart';
+import '../../core/utils/render_service.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../core/accessibility/accessibility_settings.dart';
 
 final filteredPerformanceTrendsProvider = Provider<PerformanceTrends>((ref) {
   final trends = ref.watch(performanceTrendsProvider);
@@ -35,6 +37,22 @@ final filteredPerformanceTrendsProvider = Provider<PerformanceTrends>((ref) {
 
 class ReportsScreen extends ConsumerWidget {
   const ReportsScreen({super.key});
+
+  String _getLocalizedMode(String mode, AppLocalizations l10n) {
+    final m = mode.toLowerCase();
+    if (m == 'addition') return l10n.addition;
+    if (m == 'subtraction') return l10n.subtraction;
+    if (m == 'multiplication') return l10n.multiplication;
+    if (m == 'division') return l10n.division;
+    if (m == 'arcade') return l10n.arcade;
+    if (m == 'practice') return l10n.practice;
+    if (m == 'campaign') return l10n.campaign;
+    if (m == 'mathriddles') return l10n.mathRiddles;
+    if (m == 'cross_numbers' || m == 'crossnumbers') return l10n.crossNumbers;
+    if (m == 'custommix') return l10n.customMix;
+    // Fallback for unexpected mode names: split camelCase and capitalize
+    return mode.replaceAllMapped(RegExp(r'[A-Z]'), (match) => ' ${match.group(0)!}').trim();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -71,7 +89,7 @@ class ReportsScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildOverviewCards(theme, totalStars, completedLevels, totalTime, accuracy, l10n)
+                    _buildOverviewCards(context, theme, totalStars, completedLevels, totalTime, accuracy, l10n)
                         .animate()
                         .fadeIn(duration: 400.ms)
                         .slideY(begin: 0.05, end: 0),
@@ -287,6 +305,7 @@ class ReportsScreen extends ConsumerWidget {
   }
 
   Widget _buildOverviewCards(
+    BuildContext context,
     ThemeData theme,
     int totalStars,
     int completedLevels,
@@ -294,6 +313,8 @@ class ReportsScreen extends ConsumerWidget {
     double accuracy,
     AppLocalizations l10n,
   ) {
+    final columns = ResponsiveUtils.getResponsiveGridColumns(context);
+
     return RepaintBoundary(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,69 +327,104 @@ class ReportsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(
-                child: _buildStatCard(
-                  l10n.starsEarned,
-                  totalStars.toString(),
-                  Icons.star,
-                  theme.colorScheme.primary,
-                  theme,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildStatCard(
-                  l10n.levelsCompleted,
-                  completedLevels.toString(),
-                  Icons.flag,
-                  theme.colorScheme.secondary,
-                  theme,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _buildStatCard(
-                  l10n.accuracy,
-                  '${accuracy.toStringAsFixed(1)}%',
-                  Icons.trending_up,
-                  theme.colorScheme.tertiary,
-                  theme,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _buildStatCard(
-                  l10n.timePlayed,
-                  '${totalTime ~/ 60}h ${totalTime % 60}m',
-                  Icons.timer,
-                  theme.colorScheme.error,
-                  theme,
-                ),
-              ),
-            ],
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final cardWidth = (constraints.maxWidth - (columns - 1) * 12) / columns;
+              
+              return Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children: [
+                  SizedBox(
+                    width: cardWidth,
+                    child: _buildStatCard(
+                      context,
+                      l10n.starsEarned,
+                      totalStars.toString(),
+                      Icons.star,
+                      theme.colorScheme.primary,
+                      theme,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const PracticeScreen(initialOperation: 'mixed')),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: cardWidth,
+                    child: _buildStatCard(
+                      context,
+                      l10n.levelsCompleted,
+                      completedLevels.toString(),
+                      Icons.flag,
+                      theme.colorScheme.secondary,
+                      theme,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const PracticeScreen()),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: cardWidth,
+                    child: _buildStatCard(
+                      context,
+                      l10n.accuracy,
+                      '${accuracy.toStringAsFixed(1)}%',
+                      Icons.trending_up,
+                      theme.colorScheme.tertiary,
+                      theme,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const PracticeScreen()),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: cardWidth,
+                    child: _buildStatCard(
+                      context,
+                      l10n.timePlayed,
+                      '${totalTime ~/ 60}h ${totalTime % 60}m',
+                      Icons.timer,
+                      theme.colorScheme.error,
+                      theme,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const PracticeScreen()),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color, ThemeData theme) {
+  Widget _buildStatCard(BuildContext context, String title, String value, IconData icon, Color color, ThemeData theme, {VoidCallback? onTap}) {
+    final isMobile = ResponsiveUtils.isMobile(context);
     return PremiumCard(
-      padding: const EdgeInsets.all(16),
+      onTap: onTap,
+      padding: EdgeInsets.all(isMobile ? 12 : 16),
       borderColor: color.withValues(alpha: 0.3),
       child: Column(
         children: [
-          Icon(icon, color: color, size: 28),
+          Icon(icon, color: color, size: isMobile ? 24 : 28),
           const SizedBox(height: 12),
           Text(
             value,
-            style: theme.textTheme.headlineSmall?.copyWith(
+            style: (isMobile ? theme.textTheme.titleMedium : theme.textTheme.headlineSmall)?.copyWith(
               color: color,
               fontWeight: FontWeight.bold,
             ),
@@ -436,35 +492,10 @@ class ReportsScreen extends ConsumerWidget {
                           value: null,
                           child: Text(l10n.allModes),
                         ),
-                        ...modes.map((mode) {
-                          String localizedMode = mode!;
-                          if (mode.toLowerCase() == 'addition') {
-                            localizedMode = l10n.addition;
-                          } else if (mode.toLowerCase() == 'subtraction') {
-                            localizedMode = l10n.subtraction;
-                          } else if (mode.toLowerCase() == 'multiplication') {
-                            localizedMode = l10n.multiplication;
-                          } else if (mode.toLowerCase() == 'division') {
-                            localizedMode = l10n.division;
-                          } else if (mode.toLowerCase() == 'arcade') {
-                            localizedMode = l10n.arcade;
-                          } else if (mode.toLowerCase() == 'practice') {
-                            localizedMode = l10n.practice;
-                          } else if (mode.toLowerCase() == 'campaign') {
-                            localizedMode = l10n.campaign;
-                          } else if (mode.toLowerCase() == 'mathriddles') {
-                            localizedMode = l10n.mathRiddles;
-                          } else if (mode.toLowerCase() == 'cross_numbers' || mode.toLowerCase() == 'crossnumbers') {
-                            localizedMode = l10n.crossNumbers;
-                          } else if (mode.toLowerCase() == 'custommix') {
-                            localizedMode = l10n.customMix;
-                          }
-                          
-                          return PopupMenuItem(
+                        ...modes.map((mode) => PopupMenuItem(
                             value: mode,
-                            child: Text(localizedMode),
-                          );
-                        }),
+                            child: Text(_getLocalizedMode(mode!, l10n)),
+                          )),
                       ],
                     ),
                 ],
@@ -512,14 +543,14 @@ class ReportsScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'ACCURACY TREND',
+                      l10n.accuracyTrend,
                       style: theme.textTheme.labelSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
                       ),
                     ),
                     const SizedBox(height: 12),
-                    _buildAccuracyChart(displayTrends, theme, l10n),
+                    _buildAccuracyChart(context, ref, displayTrends, theme, l10n),
                     const SizedBox(height: 24),
                     Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
                     const SizedBox(height: 24),
@@ -541,7 +572,7 @@ class ReportsScreen extends ConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    _buildHeatTrendChart(displayTrends, theme, l10n),
+                    _buildHeatTrendChart(context, ref, displayTrends, theme, l10n),
                     const SizedBox(height: 24),
                     Divider(height: 1, color: theme.colorScheme.outline.withValues(alpha: 0.1)),
                     const SizedBox(height: 24),
@@ -661,78 +692,96 @@ class ReportsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildAccuracyChart(PerformanceTrends trends, ThemeData theme, AppLocalizations l10n) {
+  Widget _buildAccuracyChart(BuildContext context, WidgetRef ref, PerformanceTrends trends, ThemeData theme, AppLocalizations l10n) {
     if (trends.accuracyHistory.isEmpty) return const SizedBox.shrink();
+
+    final chartHeight = ResponsiveUtils.isMobile(context) ? 60.0 : 100.0;
+    final padding = ResponsiveUtils.getResponsivePadding(context, mobileHorizontal: 0, mobileVertical: 0);
 
     final spots = trends.accuracyHistory.asMap().entries.map((e) {
       return FlSpot(e.key.toDouble(), e.value);
     }).toList();
 
-    return SizedBox(
-      height: 60,
-      child: LineChart(
-        LineChartData(
-          gridData: const FlGridData(show: false),
-          titlesData: const FlTitlesData(show: false),
-          borderData: FlBorderData(show: false),
-          lineTouchData: LineTouchData(
-            touchTooltipData: LineTouchTooltipData(
-              getTooltipColor: (touchedSpot) => theme.colorScheme.surface.withValues(alpha: 0.95),
-              tooltipBorder: BorderSide(color: theme.colorScheme.primary.withValues(alpha: 0.2)),
-              getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
-                return touchedBarSpots.map((barSpot) {
-                  final index = barSpot.x.toInt();
-                  final accuracy = barSpot.y;
-                  final timestamp = trends.timestamps.length > index ? trends.timestamps[index] : null;
-                  
-                  final dateStr = timestamp != null 
-                    ? '${timestamp.hour}:${timestamp.minute.toString().padLeft(2, '0')}' 
-                    : '${l10n.gameSession} ${index + 1}';
-
-                  return LineTooltipItem(
-                    '$dateStr\n${accuracy.toStringAsFixed(1)}%',
-                    theme.textTheme.bodySmall!.copyWith(
-                      color: theme.colorScheme.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10,
-                    ),
-                  );
-                }).toList();
-              },
-            ),
-          ),
-          minX: 0,
-          maxX: spots.length.toDouble() - 1,
-          minY: 0,
-          maxY: 105,
-          lineBarsData: [
-            LineChartBarData(
-              spots: spots,
-              isCurved: true,
-              color: theme.colorScheme.primary,
-              barWidth: 2,
-              isStrokeCapRound: true,
-              dotData: const FlDotData(show: false),
-              belowBarData: BarAreaData(
-                show: true,
-                gradient: LinearGradient(
-                  colors: [
-                    theme.colorScheme.primary.withValues(alpha: 0.2),
-                    theme.colorScheme.primary.withValues(alpha: 0.0),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+    return Padding(
+      padding: padding,
+      child: SizedBox(
+        height: chartHeight,
+        child: LineChart(
+          LineChartData(
+            gridData: const FlGridData(show: false),
+            titlesData: const FlTitlesData(show: false),
+            borderData: FlBorderData(show: false),
+            lineTouchData: LineTouchData(
+              touchTooltipData: LineTouchTooltipData(
+                getTooltipColor: (touchedSpot) => (ref.read(accessibilitySettingsProvider).highContrast
+                    ? theme.colorScheme.onSurface
+                    : theme.colorScheme.surface).withValues(alpha: 0.95),
+                tooltipBorder: BorderSide(
+                  color: ref.read(accessibilitySettingsProvider).highContrast
+                      ? theme.colorScheme.surface
+                      : theme.colorScheme.primary.withValues(alpha: 0.2),
+                  width: ref.read(accessibilitySettingsProvider).highContrast ? 2 : 1,
                 ),
+                getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+                  return touchedBarSpots.map((barSpot) {
+                    final index = barSpot.x.toInt();
+                    final accuracy = barSpot.y;
+                    final timestamp = trends.timestamps.length > index ? trends.timestamps[index] : null;
+                    
+                    final dateStr = timestamp != null 
+                      ? '${timestamp.hour}:${timestamp.minute.toString().padLeft(2, '0')}' 
+                      : '${l10n.gameSession} ${index + 1}';
+
+                    final isHighContrast = ref.read(accessibilitySettingsProvider).highContrast;
+
+                    return LineTooltipItem(
+                      '$dateStr\n${accuracy.toStringAsFixed(1)}%',
+                      theme.textTheme.bodySmall!.copyWith(
+                        color: isHighContrast ? theme.colorScheme.surface : theme.colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    );
+                  }).toList();
+                },
               ),
             ),
-          ],
+            minX: 0,
+            maxX: spots.length.toDouble() - 1,
+            minY: 0,
+            maxY: 105,
+            lineBarsData: [
+              LineChartBarData(
+                spots: spots,
+                isCurved: true,
+                color: theme.colorScheme.primary,
+                barWidth: 2,
+                isStrokeCapRound: true,
+                dotData: const FlDotData(show: false),
+                belowBarData: BarAreaData(
+                  show: true,
+                  gradient: LinearGradient(
+                    colors: [
+                      theme.colorScheme.primary.withValues(alpha: 0.2),
+                      theme.colorScheme.primary.withValues(alpha: 0.0),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildHeatTrendChart(PerformanceTrends trends, ThemeData theme, AppLocalizations l10n) {
+  Widget _buildHeatTrendChart(BuildContext context, WidgetRef ref, PerformanceTrends trends, ThemeData theme, AppLocalizations l10n) {
     if (trends.heatHistory.isEmpty) return const SizedBox.shrink();
+
+    final chartHeight = ResponsiveUtils.isMobile(context) ? 60.0 : 80.0;
+    final padding = ResponsiveUtils.getResponsivePadding(context, mobileHorizontal: 0, mobileVertical: 0);
 
     final spots = trends.heatHistory.asMap().entries.map((e) {
       return FlSpot(e.key.toDouble(), e.value);
@@ -745,82 +794,96 @@ class ReportsScreen extends ConsumerWidget {
     final minY = (minHeat - 0.2).clamp(0.0, 5.0);
     final maxY = (maxHeat + 0.2).clamp(minY + 0.5, 5.0);
 
-    return SizedBox(
-      height: 80,
-      child: LineChart(
-        LineChartData(
-          gridData: const FlGridData(show: false),
-          titlesData: const FlTitlesData(show: false),
-          borderData: FlBorderData(show: false),
-          lineTouchData: LineTouchData(
-            touchTooltipData: LineTouchTooltipData(
-              getTooltipColor: (touchedSpot) => theme.colorScheme.surface.withValues(alpha: 0.95),
-              tooltipBorder: BorderSide(color: theme.colorScheme.error.withValues(alpha: 0.2)),
-              getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
-                return touchedBarSpots.map((barSpot) {
-                  final index = barSpot.x.toInt();
-                  final heat = barSpot.y;
-                  final timestamp = trends.timestamps.length > index ? trends.timestamps[index] : null;
-                  
-                  String level;
-                  if (heat >= 2.5) {
-                    level = l10n.intensityCritical;
-                  } else if (heat >= 2.0) {
-                    level = l10n.intensityHigh;
-                  } else if (heat >= 1.5) {
-                    level = l10n.intensityMedium;
-                  } else {
-                    level = l10n.intensityNormal;
-                  }
-                  
-                  final dateStr = timestamp != null 
-                    ? '${timestamp.hour}:${timestamp.minute.toString().padLeft(2, '0')}' 
-                    : '${l10n.gameSession} ${index + 1}';
+    return Padding(
+      padding: padding,
+      child: SizedBox(
+        height: chartHeight,
+        child: LineChart(
+          LineChartData(
+            gridData: const FlGridData(show: false),
+            titlesData: const FlTitlesData(show: false),
+            borderData: FlBorderData(show: false),
+            lineTouchData: LineTouchData(
+              touchTooltipData: LineTouchTooltipData(
+                getTooltipColor: (touchedSpot) => (ref.read(accessibilitySettingsProvider).highContrast
+                    ? theme.colorScheme.onSurface
+                    : theme.colorScheme.surface).withValues(alpha: 0.95),
+                tooltipBorder: BorderSide(
+                  color: ref.read(accessibilitySettingsProvider).highContrast
+                      ? theme.colorScheme.surface
+                      : theme.colorScheme.error.withValues(alpha: 0.2),
+                  width: ref.read(accessibilitySettingsProvider).highContrast ? 2 : 1,
+                ),
+                getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+                  return touchedBarSpots.map((barSpot) {
+                    final index = barSpot.x.toInt();
+                    final heat = barSpot.y;
+                    final timestamp = trends.timestamps.length > index ? trends.timestamps[index] : null;
+                    
+                    String level;
+                    if (heat >= 2.5) {
+                      level = l10n.intensityCritical;
+                    } else if (heat >= 2.0) {
+                      level = l10n.intensityHigh;
+                    } else if (heat >= 1.5) {
+                      level = l10n.intensityMedium;
+                    } else {
+                      level = l10n.intensityNormal;
+                    }
+                    
+                    final dateStr = timestamp != null 
+                      ? '${timestamp.hour}:${timestamp.minute.toString().padLeft(2, '0')}' 
+                      : '${l10n.gameSession} ${index + 1}';
 
-                  return LineTooltipItem(
-                    '$dateStr\n${heat.toStringAsFixed(2)}x\n$level',
-                    theme.textTheme.bodySmall!.copyWith(
-                      color: heat >= 2.0 ? theme.colorScheme.error : theme.colorScheme.primary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 10,
-                    ),
-                  );
-                }).toList();
-              },
+                    final isHighContrast = ref.read(accessibilitySettingsProvider).highContrast;
+
+                    return LineTooltipItem(
+                      '$dateStr\n${heat.toStringAsFixed(2)}x\n$level',
+                      theme.textTheme.bodySmall!.copyWith(
+                        color: isHighContrast 
+                            ? theme.colorScheme.surface 
+                            : (heat >= 2.0 ? theme.colorScheme.error : theme.colorScheme.primary),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                      ),
+                    );
+                  }).toList();
+                },
+              ),
             ),
+            minX: 0,
+            maxX: spots.length.toDouble() - 1,
+            minY: minY,
+            maxY: maxY,
+            lineBarsData: [
+              LineChartBarData(
+                spots: spots,
+                isCurved: true,
+                color: theme.colorScheme.error,
+                barWidth: 3,
+                isStrokeCapRound: true,
+                dotData: FlDotData(
+                  show: true,
+                  getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+                    radius: 3,
+                    color: theme.colorScheme.error,
+                    strokeWidth: 0,
+                  ),
+                ),
+                belowBarData: BarAreaData(
+                  show: true,
+                  gradient: LinearGradient(
+                    colors: [
+                      theme.colorScheme.error.withValues(alpha: 0.3),
+                      theme.colorScheme.error.withValues(alpha: 0.0),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+              ),
+            ],
           ),
-          minX: 0,
-          maxX: spots.length.toDouble() - 1,
-          minY: minY,
-          maxY: maxY,
-          lineBarsData: [
-            LineChartBarData(
-              spots: spots,
-              isCurved: true,
-              color: theme.colorScheme.error,
-              barWidth: 3,
-              isStrokeCapRound: true,
-              dotData: FlDotData(
-                show: true,
-                getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
-                  radius: 3,
-                  color: theme.colorScheme.error,
-                  strokeWidth: 0,
-                ),
-              ),
-              belowBarData: BarAreaData(
-                show: true,
-                gradient: LinearGradient(
-                  colors: [
-                    theme.colorScheme.error.withValues(alpha: 0.3),
-                    theme.colorScheme.error.withValues(alpha: 0.0),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );
@@ -855,7 +918,7 @@ class ReportsScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'PROGRESS BY CATEGORY',
+                      l10n.progressByCategory.toUpperCase(),
                       style: theme.textTheme.labelSmall?.copyWith(
                         fontWeight: FontWeight.w900,
                         color: theme.colorScheme.primary,
@@ -872,82 +935,89 @@ class ReportsScreen extends ConsumerWidget {
                         final totalLevels = levels.length;
                         final progress = totalLevels > 0 ? completed / totalLevels : 0.0;
                         
-                        String localizedOp = operation;
-                        if (operation.toLowerCase() == 'addition') {
-                          localizedOp = l10n.addition;
-                        } else if (operation.toLowerCase() == 'subtraction') {
-                          localizedOp = l10n.subtraction;
-                        } else if (operation.toLowerCase() == 'multiplication') {
-                          localizedOp = l10n.multiplication;
-                        } else if (operation.toLowerCase() == 'division') {
-                          localizedOp = l10n.division;
-                        }
+                        final localizedOp = _getLocalizedMode(operation, l10n);
                         
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    localizedOp.toUpperCase(),
-                                    style: theme.textTheme.labelLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 13,
-                                    ),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PracticeScreen(
+                                    initialOperation: operation.toLowerCase(),
                                   ),
+                                ),
+                              );
+                            },
+                            borderRadius: BorderRadius.circular(12),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Icon(Icons.star_rounded, size: 14, color: Colors.amber),
-                                      const SizedBox(width: 4),
                                       Text(
-                                        '$totalStarsEarned',
+                                        localizedOp.toUpperCase(),
                                         style: theme.textTheme.labelLarge?.copyWith(
                                           fontWeight: FontWeight.bold,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(Icons.star_rounded, size: 14, color: Colors.amber),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            '$totalStarsEarned',
+                                            style: theme.textTheme.labelLarge?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Stack(
+                                    children: [
+                                      Container(
+                                        height: 8,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: theme.colorScheme.outline.withValues(alpha: 0.1),
+                                          borderRadius: BorderRadius.circular(4),
+                                        ),
+                                      ),
+                                      FractionallySizedBox(
+                                        widthFactor: progress.clamp(0.05, 1.0),
+                                        child: Container(
+                                          height: 8,
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                theme.colorScheme.primary,
+                                                theme.colorScheme.primary.withValues(alpha: 0.6),
+                                              ],
+                                            ),
+                                            borderRadius: BorderRadius.circular(4),
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Stack(
-                                children: [
-                                  Container(
-                                    height: 8,
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: theme.colorScheme.outline.withValues(alpha: 0.1),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                  ),
-                                  FractionallySizedBox(
-                                    widthFactor: progress.clamp(0.05, 1.0),
-                                    child: Container(
-                                      height: 8,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            theme.colorScheme.primary,
-                                            theme.colorScheme.primary.withValues(alpha: 0.6),
-                                          ],
-                                        ),
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '$completed / $totalLevels ${l10n.levelsCompleted.toLowerCase()}',
+                                    style: theme.textTheme.labelSmall?.copyWith(
+                                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                '$completed / $totalLevels ${l10n.levelsCompleted.toLowerCase()}',
-                                style: theme.textTheme.labelSmall?.copyWith(
-                                  color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         );
                       }),
@@ -976,27 +1046,7 @@ class ReportsScreen extends ConsumerWidget {
                     ...analytics.operationUsage.entries.map((entry) {
                       final mode = entry.key;
                       final count = entry.value;
-                      
-                      String localizedMode = mode;
-                      if (mode.toLowerCase() == 'addition') {
-                        localizedMode = l10n.addition;
-                      } else if (mode.toLowerCase() == 'subtraction') {
-                        localizedMode = l10n.subtraction;
-                      } else if (mode.toLowerCase() == 'multiplication') {
-                        localizedMode = l10n.multiplication;
-                      } else if (mode.toLowerCase() == 'division') {
-                        localizedMode = l10n.division;
-                      } else if (mode.toLowerCase() == 'arcade') {
-                        localizedMode = l10n.arcade;
-                      } else if (mode.toLowerCase() == 'practice') {
-                        localizedMode = l10n.practice;
-                      } else if (mode.toLowerCase() == 'campaign') {
-                        localizedMode = l10n.campaign;
-                      } else if (mode.toLowerCase() == 'mathriddles') {
-                        localizedMode = l10n.mathRiddles;
-                      } else if (mode.toLowerCase() == 'cross_numbers' || mode.toLowerCase() == 'crossnumbers') {
-                        localizedMode = l10n.crossNumbers;
-                      }
+                      final localizedMode = _getLocalizedMode(mode, l10n);
                       
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6),
@@ -1055,11 +1105,20 @@ class ReportsScreen extends ConsumerWidget {
                 child: Column(
                   children: [
                     _buildInsightCard(
+                      l10n.neuralEfficiencyIndex,
+                      trends.neuralEfficiencyIndex.toStringAsFixed(2),
+                      Icons.psychology_rounded,
+                      Colors.blueAccent,
+                      l10n.performanceScore,
+                      theme,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildInsightCard(
                       l10n.bestAccuracy,
                       '${trends.peakAccuracy.toStringAsFixed(1)}%',
                       Icons.stars_rounded,
                       Colors.amber,
-                      'Your personal record across all modes.',
+                      l10n.personalRecordDesc,
                       theme,
                     ),
                     const SizedBox(height: 16),
@@ -1070,7 +1129,7 @@ class ReportsScreen extends ConsumerWidget {
                           : '0'}s',
                       Icons.bolt_rounded,
                       Colors.deepPurple,
-                      'Average time taken to solve a question.',
+                      l10n.avgResponseTimeDesc,
                       theme,
                     ),
                     if (trends.averageTimeToFirstAnswer != null) ...[
@@ -1080,7 +1139,7 @@ class ReportsScreen extends ConsumerWidget {
                         '${trends.averageTimeToFirstAnswer}s',
                         Icons.timer_outlined,
                         Colors.indigo,
-                        'Average time until your first correct answer. Lower means faster engagement.',
+                        l10n.timeToFirstAnswerDesc,
                         theme,
                       ),
                     ],
@@ -1092,7 +1151,7 @@ class ReportsScreen extends ConsumerWidget {
                           : '0%',
                       Icons.task_alt_rounded,
                       Colors.teal,
-                      'Ratio of correctly solved equations.',
+                      l10n.completionRateDesc,
                       theme,
                     ),
                   ],
@@ -1103,7 +1162,7 @@ class ReportsScreen extends ConsumerWidget {
                 _buildModeTimingBreakdown(theme, l10n, trends.averageTimeByMode),
               const SizedBox(height: 24),
               if (trends.timingTrend.length > 1)
-                _buildTimingTrendChart(theme, l10n, trends.timingTrend),
+                _buildTimingTrendChart(context, theme, l10n, trends.timingTrend),
             ],
           ),
         );
@@ -1176,7 +1235,7 @@ class ReportsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           ...averageTimeByMode.entries.map((entry) {
-            final modeName = entry.key.replaceAllMapped(RegExp(r'[A-Z]'), (match) => ' ${match.group(0)!}').trim();
+            final modeName = _getLocalizedMode(entry.key, l10n);
             final avgTime = entry.value;
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
@@ -1204,8 +1263,11 @@ class ReportsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildTimingTrendChart(ThemeData theme, AppLocalizations l10n, List<int> timingTrend) {
+  Widget _buildTimingTrendChart(BuildContext context, ThemeData theme, AppLocalizations l10n, List<int> timingTrend) {
     if (timingTrend.isEmpty) return const SizedBox.shrink();
+
+    final chartHeight = ResponsiveUtils.isMobile(context) ? 60.0 : 80.0;
+    final padding = ResponsiveUtils.getResponsivePadding(context, mobileHorizontal: 0, mobileVertical: 0);
 
     final spots = timingTrend.asMap().entries.map((e) {
       return FlSpot(e.key.toDouble(), e.value.toDouble());
@@ -1235,38 +1297,41 @@ class ReportsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          SizedBox(
-            height: 80,
-            child: LineChart(
-              LineChartData(
-                gridData: const FlGridData(show: false),
-                titlesData: const FlTitlesData(show: false),
-                borderData: FlBorderData(show: false),
-                minX: 0,
-                maxX: (timingTrend.length - 1).toDouble(),
-                minY: minTime,
-                maxY: maxTime,
-                lineBarsData: [
-                  LineChartBarData(
-                    spots: spots,
-                    isCurved: true,
-                    color: theme.colorScheme.secondary,
-                    barWidth: 2,
-                    isStrokeCapRound: true,
-                    dotData: const FlDotData(show: false),
-                    belowBarData: BarAreaData(
-                      show: true,
-                      gradient: LinearGradient(
-                        colors: [
-                          theme.colorScheme.secondary.withValues(alpha: 0.2),
-                          theme.colorScheme.secondary.withValues(alpha: 0.0),
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
+          Padding(
+            padding: padding,
+            child: SizedBox(
+              height: chartHeight,
+              child: LineChart(
+                LineChartData(
+                  gridData: const FlGridData(show: false),
+                  titlesData: const FlTitlesData(show: false),
+                  borderData: FlBorderData(show: false),
+                  minX: 0,
+                  maxX: (timingTrend.length - 1).toDouble(),
+                  minY: minTime,
+                  maxY: maxTime,
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: spots,
+                      isCurved: true,
+                      color: theme.colorScheme.secondary,
+                      barWidth: 2,
+                      isStrokeCapRound: true,
+                      dotData: const FlDotData(show: false),
+                      belowBarData: BarAreaData(
+                        show: true,
+                        gradient: LinearGradient(
+                          colors: [
+                            theme.colorScheme.secondary.withValues(alpha: 0.2),
+                            theme.colorScheme.secondary.withValues(alpha: 0.0),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -1424,53 +1489,25 @@ class ReportsScreen extends ConsumerWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(l10n.generatingImage),
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
         ),
       );
 
-      final boundaryKey = GlobalKey();
+      final screenWidth = MediaQuery.of(context).size.width;
+      final captureWidth = (screenWidth * 0.9).clamp(300.0, 400.0);
 
-      final overlayEntry = OverlayEntry(
-        builder: (context) => Material(
-          color: Colors.transparent,
-          child: Center(
-            child: Container(
-              width: 400,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).shadowColor.withValues(alpha: 0.5),
-                    blurRadius: 20,
-                  ),
-                ],
-              ),
-              child: RepaintBoundary(
-                key: boundaryKey,
-                child: _buildReportContentForImage(context, ref, l10n),
-              ),
-            ),
-          ),
-        ),
+      // Use RenderService for cleaner off-screen rendering
+      final image = await RenderService.safeCaptureWithOverlay(
+        context,
+        _buildReportContentForImage(context, ref, l10n),
+        size: Size(captureWidth, 800), // Height is flexible but we provide a base
+        pixelRatio: 2.0,
       );
 
-      Overlay.of(context).insert(overlayEntry);
+      if (image == null) throw 'Could not generate image';
 
-      await Future.delayed(const Duration(milliseconds: 500));
-
-      final renderObject = boundaryKey.currentContext!.findRenderObject();
-      if (renderObject is! RenderRepaintBoundary) {
-        overlayEntry.remove();
-        throw 'Could not find render object';
-      }
-
-      final image = await renderObject.toImage(pixelRatio: 2.0);
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       final pngBytes = byteData!.buffer.asUint8List();
-
-      overlayEntry.remove();
 
       final tempDir = await getTemporaryDirectory();
       final file = File('${tempDir.path}/mathlab_report_${DateTime.now().millisecondsSinceEpoch}.png');
@@ -1553,6 +1590,8 @@ class ReportsScreen extends ConsumerWidget {
           _buildStatCardForImage(l10n.accuracy, '${accuracy.toStringAsFixed(1)}%', Icons.trending_up, theme.colorScheme.tertiary, theme),
           const SizedBox(height: 12),
           _buildStatCardForImage(l10n.averageHeat, trends.averageHeat.toStringAsFixed(2), Icons.speed, theme.colorScheme.error, theme),
+          const SizedBox(height: 12),
+          _buildStatCardForImage(l10n.neuralEfficiencyIndex, trends.neuralEfficiencyIndex.toStringAsFixed(2), Icons.psychology_rounded, theme.colorScheme.secondary, theme),
           const SizedBox(height: 24),
           Text(
             'mathlab-math.app',
@@ -1781,6 +1820,14 @@ class ReportsScreen extends ConsumerWidget {
                     pw.Expanded(child: _buildPdfStatColumn(l10n.heatIndex, avgHeat.toStringAsFixed(2), PdfColors.red700)),
                     pw.Expanded(child: _buildPdfStatColumn(l10n.maxHeat, maxHeat.toStringAsFixed(2), PdfColors.orange700)),
                     pw.Expanded(child: _buildPdfStatColumn(l10n.streak, bestStreak.toString(), PdfColors.deepOrange700)),
+                  ],
+                ),
+                pw.SizedBox(height: 20),
+                pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Expanded(child: _buildPdfStatColumn(l10n.neuralEfficiencyIndex, trends.neuralEfficiencyIndex.toStringAsFixed(2), PdfColors.purple700)),
+                    pw.Expanded(child: _buildPdfStatColumn(l10n.bestAccuracy, '${trends.peakAccuracy.toStringAsFixed(1)}%', PdfColors.amber700)),
                   ],
                 ),
               ],

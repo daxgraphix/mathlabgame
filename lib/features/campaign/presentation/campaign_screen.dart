@@ -157,8 +157,8 @@ class _CampaignScreenState extends ConsumerState<CampaignScreen>
   Future<void> _startCampaignLevel(String subType, int level, String primaryType) async {
     ref.read(soundManagerProvider).playGameStart();
 
-    // Questions count increases from 50 to 60 after level 50
-    final totalQuestions = level > 50 ? 60 : 50;
+    // Reduced question count for better engagement (20-30 instead of 50-60)
+    final totalQuestions = level <= 50 ? 20 : 30;
 
     await ref.read(gameSessionProvider.notifier).startGame(
       mode: GameMode.campaign,

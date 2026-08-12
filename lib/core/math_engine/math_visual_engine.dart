@@ -44,13 +44,118 @@ class MathVisualEngine {
       if (type < 50) return _generateBalanceScale(difficulty);
       if (type < 80) return _generateMultiOpSystem(difficulty);
       return _generateGridLogic(difficulty);
-    } else {
-      // Levels 36-50
+    } else if (difficulty <= 40) {
       if (type < 20) return _generateMultiOpSystem(difficulty);
       if (type < 40) return _generateGridLogic(difficulty);
       if (type < 70) return _generateComplexSystem(difficulty);
       return _generateGeometricLogic(difficulty);
+    } else {
+      // Levels 41+
+      if (type < 25) return _generateVisualNumberBond(difficulty);
+      if (type < 50) return _generateMatrixLogic(difficulty);
+      if (type < 75) return _generateNestedShapeChallenge(difficulty);
+      return _generateAreaPerimeterLogic(difficulty);
     }
+  }
+
+  static LogicMathChallenge _generateVisualNumberBond(int difficulty) {
+    final s = _getRandomShapes(3);
+    final val1 = _random.nextInt(20) + 10;
+    final val2 = _random.nextInt(10) + 5;
+    final val3 = val1 - val2;
+
+    final problem = [
+      'Number Bond:',
+      '      ${s[0]} ($val1)',
+      '     /     \\',
+      '  ${s[1]} ($val2)   ${s[2]} (?)',
+      'Find the missing value.',
+    ].join('\n');
+
+    return _createChallenge(
+      problem,
+      val3.toString(),
+      difficulty,
+      ['The top shape is the sum of the bottom two.', '$val1 - $val2 = ?'],
+    );
+  }
+
+  static LogicMathChallenge _generateMatrixLogic(int difficulty) {
+    final s = _getRandomShapes(3);
+    final val1 = _random.nextInt(10) + 1;
+    final val2 = _random.nextInt(10) + 1;
+    final val3 = _random.nextInt(10) + 1;
+
+    final problem = [
+      'Matrix Sums:',
+      '| ${s[0]}  ${s[1]} | -> ${val1 + val2}',
+      '| ${s[2]}  ${s[0]} | -> ${val3 + val1}',
+      '  v    v',
+      ' ${val1 + val3}  ${val2 + val1}',
+      'Find ${s[1]} + ${s[2]}',
+    ].join('\n');
+
+    final answer = (val2 + val3).toString();
+
+    return _createChallenge(
+      problem,
+      answer,
+      difficulty,
+      ['Calculate the value of each shape from the row and column sums.', 'Subtract the known values from the totals.'],
+    );
+  }
+
+  static LogicMathChallenge _generateNestedShapeChallenge(int difficulty) {
+    final s = _getRandomShapes(2);
+    final valOuter = _random.nextInt(15) + 5;
+    final valInner = _random.nextInt(5) + 2;
+
+    final problem = [
+      'Nested Shapes:',
+      'Outer ${s[0]} = $valOuter',
+      'Inner ${s[1]} = $valInner',
+      'Result = Outer × Inner - Inner',
+      'What is the result?',
+    ].join('\n');
+
+    final answer = (valOuter * valInner - valInner).toString();
+
+    return _createChallenge(
+      problem,
+      answer,
+      difficulty,
+      ['Multiply the outer value by the inner value.', 'Don\'t forget to subtract the inner value at the end.'],
+    );
+  }
+
+  static LogicMathChallenge _generateAreaPerimeterLogic(int difficulty) {
+    final shape = ['square', 'triangle', 'pentagon'][_random.nextInt(3)];
+    final side = _random.nextInt(5) + 3;
+    
+    int value;
+    String property;
+    if (_random.nextBool()) {
+      property = 'Perimeter';
+      value = shape == 'square' ? side * 4 : shape == 'triangle' ? side * 3 : side * 5;
+    } else {
+      property = 'Area (approx)';
+      value = side * side;
+    }
+
+    final problem = [
+      'Geometric Logic:',
+      'Shape: $shape',
+      'Side length = $side',
+      'Value = $property',
+      'What is the Value?',
+    ].join('\n');
+
+    return _createChallenge(
+      problem,
+      value.toString(),
+      difficulty,
+      ['Perimeter is the sum of all sides.', 'For a square, Area = side × side.'],
+    );
   }
 
   static LogicMathChallenge _generateSubstitution(int difficulty) {

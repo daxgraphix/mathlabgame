@@ -72,6 +72,8 @@ class _MathRiddleScreenState extends ConsumerState<MathRiddleScreen> with Single
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(mathRiddleProvider);
+    // ignore: unused_local_variable
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     // Check if level is complete (after answering last question)
     if (state.isAnswered && state.questionIndex >= state.totalQuestions) {
@@ -150,6 +152,7 @@ class _MathRiddleScreenState extends ConsumerState<MathRiddleScreen> with Single
 
   Widget _buildPerformanceFeedback(MathRiddleState state, ThemeData theme) {
     if (state.questionIndex <= 1) return const SizedBox.shrink();
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     final accuracy = state.questionIndex > 1
         ? state.correctAnswers / (state.questionIndex - 1)
@@ -172,7 +175,9 @@ class _MathRiddleScreenState extends ConsumerState<MathRiddleScreen> with Single
           fontWeight: FontWeight.bold,
         ),
         textAlign: TextAlign.center,
-      ).animate(key: ValueKey(message)).fadeIn().slideY(begin: -0.2, end: 0),
+      ).animate(key: ValueKey(message), adapter: lowPerf ? ControlAdapter(value: 1) : null)
+          .fadeIn(duration: lowPerf ? 0.ms : 400.ms)
+          .slideY(begin: lowPerf ? 0 : -0.2, end: 0),
     );
   }
 
@@ -185,6 +190,7 @@ class _MathRiddleScreenState extends ConsumerState<MathRiddleScreen> with Single
         ),
       );
     }
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     if (state.currentLogic != null) {
       return _buildVisualLogic(state.currentLogic!.problem, theme);
@@ -210,7 +216,8 @@ class _MathRiddleScreenState extends ConsumerState<MathRiddleScreen> with Single
         ),
         textAlign: TextAlign.center,
         softWrap: true,
-      ).animate().fadeIn(duration: 600.ms),
+      ).animate(adapter: lowPerf ? ControlAdapter(value: 1) : null)
+          .fadeIn(duration: lowPerf ? 0.ms : 600.ms),
     );
   }
 
@@ -332,11 +339,12 @@ class _MathRiddleScreenState extends ConsumerState<MathRiddleScreen> with Single
 
   Widget _buildNumpad(MathRiddleState state) {
     final theme = Theme.of(context);
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
     return Container(
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-        boxShadow: [
+        boxShadow: lowPerf ? null : [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
@@ -357,6 +365,7 @@ class _MathRiddleScreenState extends ConsumerState<MathRiddleScreen> with Single
   }
 
   Widget _buildInputBar(MathRiddleState state, ThemeData theme) {
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       height: 72,
@@ -398,6 +407,7 @@ class _MathRiddleScreenState extends ConsumerState<MathRiddleScreen> with Single
               margin: const EdgeInsets.symmetric(vertical: 8),
               backgroundColor: theme.colorScheme.onSurface.withValues(alpha: 0.05),
               opacity: 0.1,
+              useFrostedEffect: !lowPerf,
               child: Center(
                 child: TextField(
                   controller: _answerController,
@@ -491,6 +501,8 @@ class _MathRiddleScreenState extends ConsumerState<MathRiddleScreen> with Single
 
   Widget _buildGrid() {
     final theme = Theme.of(context);
+    // ignore: unused_local_variable
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
     final keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
     return Padding(

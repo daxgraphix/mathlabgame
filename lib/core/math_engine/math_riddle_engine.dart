@@ -94,6 +94,7 @@ class MathRiddleEngine {
 
   static List<LogicMathChallenge> generateLogicChallengesSync(int count, int difficulty) {
     final challenges = _getLogicChallenges(difficulty);
+
     final unique = <String, LogicMathChallenge>{};
     for (final challenge in challenges) {
       unique[challenge.id] = challenge;
@@ -202,6 +203,23 @@ class MathRiddleEngine {
       } else {
         question = simpleContexts[_random.nextInt(4)];
       }
+    } else if (difficulty >= 15 && _random.nextBool()) {
+      // Complex multi-step arithmetic
+      final num3 = _random.nextInt(10) + 2;
+      final op2 = _random.nextBool() ? ArithmeticOperation.addition : ArithmeticOperation.subtraction;
+      final op2Str = _getOperationSymbol(op2);
+      
+      if (op2 == ArithmeticOperation.addition) {
+        question = 'Calculate: ($num1 $operatorStr $num2) $op2Str $num3';
+        answer = answer + num3;
+      } else {
+        if (answer > num3) {
+          question = 'Calculate: ($num1 $operatorStr $num2) $op2Str $num3';
+          answer = answer - num3;
+        } else {
+          question = 'Calculate: $num1 $operatorStr $num2';
+        }
+      }
     } else if (difficulty <= 5) {
       final contexts = [
         'Calculate: $num1 $operatorStr $num2 = ?',
@@ -262,6 +280,37 @@ class MathRiddleEngine {
 
   static LogicMathChallenge _generateLogicIsolate(int difficulty) {
     final challenges = _getLogicChallenges(difficulty);
+
+    // Age and Work rate problem generation for higher difficulties
+    if (difficulty >= 30) {
+      for (int i = 0; i < 5; i++) {
+        final sonAge = _random.nextInt(15) + 5; // 5-19
+        final yearsAhead = sonAge;
+        challenges.add(LogicMathChallenge(
+          id: 'logic_age_${difficulty}_$i',
+          problem: 'A father is 3 times as old as his son. In $yearsAhead years, he will be twice as old as his son. How old is the son now?',
+          options: ['$sonAge', '${sonAge + 5}', '${sonAge - 2}', '${sonAge + 10}'],
+          correctAnswer: '$sonAge',
+          explanation: 'Let son be x, father is 3x. 3x + $yearsAhead = 2(x + $yearsAhead) => 3x + $yearsAhead = 2x + ${2 * yearsAhead} => x = $yearsAhead.',
+          progressiveHints: ['Let the son\'s age be x', 'The father\'s age is 3x', 'Form an equation: 3x + $yearsAhead = 2(x + $yearsAhead)'],
+          difficulty: difficulty,
+          basePoints: 200 + difficulty * 5,
+        ));
+
+        final workPairs = [[6, 3, 2], [12, 4, 3], [10, 15, 6], [20, 5, 4], [30, 6, 5]];
+        final pair = workPairs[_random.nextInt(workPairs.length)];
+        challenges.add(LogicMathChallenge(
+          id: 'logic_work_${difficulty}_$i',
+          problem: 'Person A can finish a job in ${pair[0]} hours, and Person B can finish it in ${pair[1]} hours. How many hours will it take if they work together?',
+          options: ['${pair[2]}', '${pair[2] + 1}', '${pair[2] + 2}', '${(pair[0] + pair[1]) / 2}'],
+          correctAnswer: '${pair[2]}',
+          explanation: 'Rate A = 1/${pair[0]}, Rate B = 1/${pair[1]}. Combined = 1/${pair[0]} + 1/${pair[1]} = ${(pair[0] + pair[1])}/${pair[0] * pair[1]} = 1/${pair[2]}.',
+          progressiveHints: ['Calculate their hourly rates', 'Add the rates together', 'The answer is the reciprocal of the combined rate'],
+          difficulty: difficulty,
+          basePoints: 220 + difficulty * 5,
+        ));
+      }
+    }
 
     // Deduplicate by id to avoid repeated entries in long challenge lists.
     final unique = <String, LogicMathChallenge>{};
@@ -1358,11 +1407,230 @@ LogicMathChallenge(
           difficulty: 6,
           basePoints: 95,
         ),
+        LogicMathChallenge(
+          id: 'logic_new_131',
+          problem: 'If A + B = 10, B + C = 12, and A = 4, what is C?',
+          options: ['6', '8', '10', '4'],
+          correctAnswer: '6',
+          explanation: 'A=4, so 4+B=10 => B=6. 6+C=12 => C=6.',
+          progressiveHints: ['Find B first using A', 'Use B to find C'],
+          difficulty: 7,
+          basePoints: 100,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_132',
+          problem: '2, 6, 12, 20, 30, ?',
+          options: ['42', '40', '36', '45'],
+          correctAnswer: '42',
+          explanation: 'Differences are 4, 6, 8, 10, 12.',
+          progressiveHints: ['Look at the increasing differences', '+4, +6, +8...'],
+          difficulty: 10,
+          basePoints: 130,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_133',
+          problem: 'If 3 * (X + 2) = 15, what is X?',
+          options: ['3', '5', '2', '4'],
+          correctAnswer: '3',
+          explanation: 'X + 2 = 5, so X = 3.',
+          progressiveHints: ['Divide by 3 first', 'Then subtract 2'],
+          difficulty: 8,
+          basePoints: 110,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_134',
+          problem: 'Square + Triangle = 10\nSquare - Triangle = 2\nSquare * Triangle = ?',
+          options: ['24', '15', '20', '30'],
+          correctAnswer: '24',
+          explanation: 'Square=6, Triangle=4. 6*4=24.',
+          progressiveHints: ['Find Square and Triangle values', '6+4=10 and 6-4=2'],
+          difficulty: 12,
+          basePoints: 150,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_135',
+          problem: 'Next in series: 100, 90, 81, 73, ?',
+          options: ['66', '65', '64', '67'],
+          correctAnswer: '66',
+          explanation: 'Subtracting 10, 9, 8, then 7.',
+          progressiveHints: ['Differences are decreasing: -10, -9, -8...'],
+          difficulty: 9,
+          basePoints: 120,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_136',
+          problem: 'If A=1, B=2, C=3, what is B * C + A?',
+          options: ['7', '6', '5', '8'],
+          correctAnswer: '7',
+          explanation: '2 * 3 + 1 = 7.',
+          progressiveHints: ['Plug in the values', 'Multiply then add'],
+          difficulty: 4,
+          basePoints: 60,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_137',
+          problem: 'Circle + Circle = Square\nSquare + Square = 16\nCircle = ?',
+          options: ['4', '2', '8', '6'],
+          correctAnswer: '4',
+          explanation: 'Square = 8, 4 + 4 = 8.',
+          progressiveHints: ['Find Square from second line', 'Square is half of 16'],
+          difficulty: 7,
+          basePoints: 90,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_138',
+          problem: '1, 8, 27, 64, ?',
+          options: ['125', '100', '81', '216'],
+          correctAnswer: '125',
+          explanation: 'Cubes: 1^3, 2^3, 3^3, 4^3, 5^3.',
+          progressiveHints: ['These are cube numbers', '5 to the power of 3'],
+          difficulty: 14,
+          basePoints: 180,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_139',
+          problem: 'If 4X = 2X + 10, what is X?',
+          options: ['5', '2', '10', '4'],
+          correctAnswer: '5',
+          explanation: '2X = 10, X = 5.',
+          progressiveHints: ['Subtract 2X from both sides'],
+          difficulty: 11,
+          basePoints: 140,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_140',
+          problem: 'Star = 5\nMoon = Star * 2\nSun = Moon + Star\nSun = ?',
+          options: ['15', '10', '20', '25'],
+          correctAnswer: '15',
+          explanation: 'Moon = 10, Sun = 10 + 5 = 15.',
+          progressiveHints: ['Step by step calculation'],
+          difficulty: 5,
+          basePoints: 70,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_141',
+          problem: '9, 18, 27, 36, ?',
+          options: ['45', '48', '54', '42'],
+          correctAnswer: '45',
+          explanation: 'Multiples of 9.',
+          progressiveHints: ['Add 9 each time'],
+          difficulty: 2,
+          basePoints: 40,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_142',
+          problem: 'If a box holds 12 eggs, how many eggs in 5 boxes?',
+          options: ['60', '50', '72', '48'],
+          correctAnswer: '60',
+          explanation: '12 * 5 = 60.',
+          progressiveHints: ['Multiplication problem'],
+          difficulty: 3,
+          basePoints: 50,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_143',
+          problem: 'X + Y = 20\nX - Y = 10\nWhat is X / Y?',
+          options: ['3', '2', '4', '5'],
+          correctAnswer: '3',
+          explanation: 'X=15, Y=5. 15/5 = 3.',
+          progressiveHints: ['Find X and Y first', '15+5=20, 15-5=10'],
+          difficulty: 13,
+          basePoints: 160,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_144',
+          problem: '81, 72, 63, 54, ?',
+          options: ['45', '46', '44', '48'],
+          correctAnswer: '45',
+          explanation: 'Subtracting 9 each time.',
+          progressiveHints: ['Counting backwards by 9'],
+          difficulty: 4,
+          basePoints: 60,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_145',
+          problem: 'If 15 + A = 3 * A, what is A?',
+          options: ['7.5', '5', '10', '15'],
+          correctAnswer: '7.5',
+          explanation: '15 = 2A, A = 7.5.',
+          progressiveHints: ['Subtract A from both sides', '15 = 2A'],
+          difficulty: 15,
+          basePoints: 200,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_146',
+          problem: 'Triangle has 3 sides. How many sides in 4 triangles and 2 squares?',
+          options: ['20', '18', '24', '16'],
+          correctAnswer: '20',
+          explanation: '4*3 + 2*4 = 12 + 8 = 20.',
+          progressiveHints: ['Calculate triangle sides', 'Calculate square sides', 'Sum them up'],
+          difficulty: 8,
+          basePoints: 110,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_147',
+          problem: '2, 3, 5, 7, 11, ?',
+          options: ['13', '12', '15', '17'],
+          correctAnswer: '13',
+          explanation: 'Prime numbers sequence.',
+          progressiveHints: ['These are prime numbers'],
+          difficulty: 10,
+          basePoints: 130,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_148',
+          problem: 'If A=10, B=A+5, C=B*2, what is C-A?',
+          options: ['20', '15', '25', '10'],
+          correctAnswer: '20',
+          explanation: 'B=15, C=30, 30-10=20.',
+          progressiveHints: ['Find B', 'Find C', 'Subtract A from C'],
+          difficulty: 7,
+          basePoints: 95,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_149',
+          problem: '100, 50, 25, ?',
+          options: ['12.5', '20', '10', '15'],
+          correctAnswer: '12.5',
+          explanation: 'Halving each time.',
+          progressiveHints: ['Divide by 2'],
+          difficulty: 6,
+          basePoints: 80,
+        ),
+        LogicMathChallenge(
+          id: 'logic_new_150',
+          problem: 'If 2x + 3x = 50, what is x?',
+          options: ['10', '5', '15', '20'],
+          correctAnswer: '10',
+          explanation: '5x = 50, x = 10.',
+          progressiveHints: ['Combine like terms'],
+          difficulty: 5,
+          basePoints: 70,
+        ),
       ]);
     }
 
     // High-level challenges (levels 11-50) with algebraic and complex patterns
     if (difficulty >= 11) {
+      // Linear patterns
+      for (int lvl = 11; lvl <= 50; lvl++) {
+        final a = _random.nextInt(5) + 2;
+        final b = _random.nextInt(10) + 1;
+        final x = _random.nextInt(10) + 1;
+        final result = a * x + b;
+        
+        challenges.add(LogicMathChallenge(
+          id: 'logic_lin_${lvl}_$x',
+          problem: 'Find X: $a * X + $b = $result',
+          options: ['$x', '${x + 1}', '${x - 1}', '${x + 2}'],
+          correctAnswer: '$x',
+          explanation: '$a * $x = ${result - b}, so X = $x',
+          progressiveHints: ['Subtract $b from both sides', 'Divide by $a'],
+          difficulty: lvl,
+          basePoints: 100 + lvl * 10,
+        ));
+      }
+
       for (int lvl = 11; lvl <= 50; lvl++) {
         challenges.addAll([
           LogicMathChallenge(

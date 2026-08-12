@@ -101,6 +101,8 @@ class GameScreen extends ConsumerWidget {
       return _buildResultsScreen(context, ref, session, theme, l10n);
     }
 
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
+
     return Scaffold(
       backgroundColor: session.feverActive ? Colors.orange.shade50 : theme.scaffoldBackgroundColor,
       appBar: AppBar(
@@ -131,6 +133,34 @@ class GameScreen extends ConsumerWidget {
       ),
       body: Stack(
         children: [
+          if (session.heatIndex > 1.5 && !lowPerf)
+            Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    colors: [
+                      Colors.orange.withValues(alpha: (0.05 * (session.heatIndex - 1.0)).clamp(0.0, 0.2)),
+                      Colors.transparent,
+                    ],
+                    radius: 1.5,
+                  ),
+                ),
+              ).animate(onPlay: (c) => c.repeat(reverse: true)).shimmer(
+                duration: (2000 / session.heatIndex).ms,
+                color: Colors.deepOrange.withValues(alpha: 0.15),
+              ),
+            ),
+          if (session.heatIndex > 1.5 && lowPerf)
+             Positioned.fill(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.orange.withValues(alpha: 0.2),
+                    width: 4,
+                  ),
+                ),
+              ),
+            ),
           SafeArea(
             child: Column(
               children: [
@@ -150,94 +180,118 @@ class GameScreen extends ConsumerWidget {
   }
 
   Widget _buildHeader(GameSession session, ThemeData theme, AppLocalizations l10n) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Stack(
-        alignment: Alignment.center,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface.withValues(alpha: 0.3),
+        border: Border(
+          bottom: BorderSide(
+            color: theme.colorScheme.outline.withValues(alpha: 0.1),
+          ),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Score
+          _buildHeaderStat(
+            label: l10n.score.toUpperCase(),
+            value: '${session.score}',
+            color: theme.colorScheme.primary,
+            crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+
+          _buildVerticalDivider(theme),
+
+          // Streak
+          _buildHeaderStat(
+            label: 'STREAK',
+            value: 'x${session.comboMultiplier}',
+            color: theme.colorScheme.secondary,
+            crossAxisAlignment: CrossAxisAlignment.center,
+          ),
+
+          _buildVerticalDivider(theme),
+
+          // Time (Center)
+          Expanded(
+            flex: 2,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (session.timeRemaining > 0 || session.mode == GameMode.scoreAttack)
+                  Semantics(
+                    label: 'Time Remaining: ${session.timeRemaining} seconds',
+                    child: const GameTimer(),
+                  ),
+                if (session.mode == GameMode.campaign && session.timeTarget != null)
+                  _buildCampaignTimer(session, theme, l10n),
+                if (session.mode == GameMode.practice)
+                  _buildPracticeTimer(session, theme, l10n),
+              ],
+            ),
+          ),
+
+          _buildVerticalDivider(theme),
+
+          // Heat
+          _buildHeaderStat(
+            label: 'HEAT',
+            value: 'x${session.heatIndex.toStringAsFixed(1)}',
+            color: session.heatIndex > 2.5 ? Colors.orange : theme.colorScheme.secondary,
+            icon: Icons.whatshot,
+            crossAxisAlignment: CrossAxisAlignment.end,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeaderStat({
+    required String label,
+    required String value,
+    required Color color,
+    IconData? icon,
+    required CrossAxisAlignment crossAxisAlignment,
+  }) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: crossAxisAlignment,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, letterSpacing: 1.0),
+          ),
+          const SizedBox(height: 2),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Semantics(
-                label: '${l10n.score}: ${session.score}',
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.score,
-                      style: theme.textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '${session.score}',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Semantics(
-                label: 'Engine Intensity: x${session.heatIndex.toStringAsFixed(1)}',
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      'HEAT',
-                      style: theme.textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.whatshot,
-                          size: 16,
-                          color: session.heatIndex > 2.5 ? Colors.orange : theme.colorScheme.secondary,
-                        ),
-                        Text(
-                          'x${session.heatIndex.toStringAsFixed(1)}',
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            color: session.heatIndex > 2.5 ? Colors.orange : theme.colorScheme.secondary,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+              if (icon != null) ...[
+                Icon(icon, size: 12, color: color),
+                const SizedBox(width: 2),
+              ],
+              Text(
+                value,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ],
           ),
-          if (session.timeRemaining > 0 || session.mode == GameMode.scoreAttack)
-            Semantics(
-              label: 'Time Remaining: ${session.timeRemaining} seconds',
-              child: const GameTimer(),
-            ),
-          if (session.mode == GameMode.campaign && session.timeTarget != null)
-            _buildCampaignTimer(session, theme, l10n),
-          if (session.mode == GameMode.practice)
-            _buildPracticeTimer(session, theme, l10n),
-          Semantics(
-            label: 'Combo Streak: x${session.comboMultiplier}',
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  'STREAK',
-                  style: theme.textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  'x${session.comboMultiplier}',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    color: theme.colorScheme.secondary,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ],
-            ),
-          ),
         ],
       ),
+    );
+  }
+
+  Widget _buildVerticalDivider(ThemeData theme) {
+    return Container(
+      height: 24,
+      width: 1,
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      color: theme.colorScheme.outline.withValues(alpha: 0.1),
     );
   }
 
@@ -328,83 +382,95 @@ class GameScreen extends ConsumerWidget {
   }
 
   Widget _buildQuestionArea(GameSession session, ThemeData theme) {
-    if (session.isVisualCounting && session.currentVisualData != null) {
-      return _buildVisualCountingArea(session, theme);
-    }
-    if (session.currentQuestion == null) return const SizedBox.shrink();
+    return Consumer(
+      builder: (context, ref, child) {
+        final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
+        
+        if (session.isVisualCounting && session.currentVisualData != null) {
+          return _buildVisualCountingArea(session, theme, lowPerf);
+        }
+        if (session.currentQuestion == null) return const SizedBox.shrink();
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: Column(
-        children: [
-          if (session.feverActive)
-            Semantics(
-              label: 'Fever Mode Active: Double Points',
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text(
-                  'FEVER x2',
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
-                ),
-              ),
-            ).animate(
-              onPlay: (controller) {
-                if (session.feverActive) {
-                  HapticManager.instance.vibrate();
-                }
-              },
-            ).scale().shake(),
-          const SizedBox(height: 8),
-          Semantics(
-            label: 'Question: ${session.currentQuestion!.displayString}',
-            child: Text(
-              session.currentQuestion!.displayString,
-              style: theme.textTheme.displayMedium?.copyWith(
-                fontWeight: FontWeight.w900,
-                color: session.feverActive ? Colors.deepOrange : theme.colorScheme.onSurface,
-              ),
-              textAlign: TextAlign.center,
+        final questionWidget = Semantics(
+          label: 'Question: ${session.currentQuestion!.displayString}',
+          child: Text(
+            session.currentQuestion!.displayString,
+            style: theme.textTheme.displayMedium?.copyWith(
+              fontWeight: FontWeight.w900,
+              color: session.feverActive ? Colors.deepOrange : theme.colorScheme.onSurface,
             ),
-          ).animate(key: ValueKey(session.currentQuestionIndex)).fadeIn().scale(),
-          const SizedBox(height: 24),
-          if (session.mode == GameMode.practice)
-            Text(
-              'Practice Session',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            )
-          else
-            Text(
-              'Question ${session.currentQuestionIndex + 1} of ${session.totalQuestions}',
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          if (session.revealedHints.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Text(
-                session.revealedHints.last,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: Colors.blueGrey,
-                  fontStyle: FontStyle.italic,
+            textAlign: TextAlign.center,
+          ),
+        );
+
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: Column(
+            children: [
+              if (session.feverActive)
+                Semantics(
+                  label: 'Fever Mode Active: Double Points',
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Text(
+                      'FEVER x2',
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                    ),
+                  ),
+                ).animate(
+                  adapter: lowPerf ? ControlAdapter(value: 1) : null,
+                  onPlay: (controller) {
+                    if (session.feverActive) {
+                      HapticManager.instance.vibrate();
+                    }
+                  },
+                ).scale(duration: lowPerf ? 0.ms : 400.ms).shake(duration: lowPerf ? 0.ms : 400.ms),
+              const SizedBox(height: 8),
+              questionWidget.animate(
+                key: ValueKey(session.currentQuestionIndex),
+                adapter: lowPerf ? ControlAdapter(value: 1) : null,
+              ).fadeIn(duration: lowPerf ? 0.ms : 400.ms).scale(duration: lowPerf ? 0.ms : 400.ms),
+              const SizedBox(height: 24),
+              if (session.mode == GameMode.practice)
+                Text(
+                  'Practice Session',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              else
+                Text(
+                  'Question ${session.currentQuestionIndex + 1} of ${session.totalQuestions}',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ).animate().fadeIn(),
-            ),
-        ],
-      ),
+              if (session.revealedHints.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text(
+                    session.revealedHints.last,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: Colors.blueGrey,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  ).animate(target: lowPerf ? 0 : 1).fadeIn(),
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildVisualCountingArea(GameSession session, ThemeData theme) {
+  Widget _buildVisualCountingArea(GameSession session, ThemeData theme, bool lowPerf) {
     final data = session.currentVisualData!;
     return GlassmorphicContainer(
       width: 320,
@@ -414,10 +480,20 @@ class GameScreen extends ConsumerWidget {
         clipBehavior: Clip.none,
         children: data.shapes.map((shape) {
           final color = Color(shape.color);
+          final shapeWidget = _buildShape(shape, lowPerf);
+          
+          if (lowPerf) {
+            return Positioned(
+              left: shape.x,
+              top: shape.y,
+              child: shapeWidget,
+            );
+          }
+
           return Positioned(
             left: shape.x,
             top: shape.y,
-            child: _buildShape(shape).animate(
+            child: shapeWidget.animate(
               onPlay: (controller) => controller.repeat(reverse: true),
             ).move(
               begin: Offset.zero,
@@ -437,7 +513,7 @@ class GameScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildShape(ShapeData shape) {
+  Widget _buildShape(ShapeData shape, bool lowPerf) {
     final color = Color(shape.color);
     final shadowColor = color.withValues(alpha: 0.4);
 
@@ -450,14 +526,14 @@ class GameScreen extends ConsumerWidget {
           decoration: BoxDecoration(
             color: color,
             shape: BoxShape.circle,
-            boxShadow: [
+            boxShadow: lowPerf ? null : [
               BoxShadow(
                 color: shadowColor,
                 blurRadius: 12,
                 spreadRadius: 2,
               ),
             ],
-            gradient: RadialGradient(
+            gradient: lowPerf ? null : RadialGradient(
               colors: [
                 color.withValues(alpha: 0.8),
                 color,
@@ -474,14 +550,14 @@ class GameScreen extends ConsumerWidget {
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(shape.size * 0.2),
-            boxShadow: [
+            boxShadow: lowPerf ? null : [
               BoxShadow(
                 color: shadowColor,
                 blurRadius: 12,
                 spreadRadius: 2,
               ),
             ],
-            gradient: LinearGradient(
+            gradient: lowPerf ? null : LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
@@ -495,7 +571,40 @@ class GameScreen extends ConsumerWidget {
       case 'triangle':
         shapeWidget = CustomPaint(
           size: Size(shape.size, shape.size),
-          painter: _TrianglePainter(color: color, shadowColor: shadowColor),
+          painter: _TrianglePainter(color: color, shadowColor: shadowColor, lowPerf: lowPerf),
+        );
+        break;
+      case 'pentagon':
+        shapeWidget = CustomPaint(
+          size: Size(shape.size, shape.size),
+          painter: _PolygonPainter(sides: 5, color: color, shadowColor: shadowColor, lowPerf: lowPerf),
+        );
+        break;
+      case 'diamond':
+        shapeWidget = Transform.rotate(
+          angle: pi / 4,
+          child: Container(
+            width: shape.size * 0.8,
+            height: shape.size * 0.8,
+            decoration: BoxDecoration(
+              color: color,
+              boxShadow: lowPerf ? null : [
+                BoxShadow(
+                  color: shadowColor,
+                  blurRadius: 12,
+                  spreadRadius: 2,
+                ),
+              ],
+              gradient: lowPerf ? null : LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  color.withValues(alpha: 0.8),
+                  color,
+                ],
+              ),
+            ),
+          ),
         );
         break;
       default:
@@ -503,7 +612,7 @@ class GameScreen extends ConsumerWidget {
           Icons.star_rounded,
           color: color,
           size: shape.size,
-          shadows: [
+          shadows: lowPerf ? null : [
             Shadow(
               color: shadowColor,
               blurRadius: 12,
@@ -511,6 +620,8 @@ class GameScreen extends ConsumerWidget {
           ],
         );
     }
+
+    if (lowPerf) return shapeWidget;
 
     return shapeWidget.animate().scale(
           duration: 600.ms,
@@ -734,15 +845,44 @@ class GameScreen extends ConsumerWidget {
                   ),
                 ),
               const SizedBox(height: 12),
+              if (session.passed && session.mode == GameMode.campaign) ...[
+                SizedBox(
+                  width: double.infinity,
+                  child: PremiumPrimaryButton(
+                    text: l10n.nextLevel.toUpperCase(),
+                    onPressed: () {
+                      final nextLevel = session.level + 1;
+                      ref.read(_inputProvider.notifier).state = '';
+                      ref.read(gameSessionProvider.notifier).startGame(
+                            mode: GameMode.campaign,
+                            operation: session.operation,
+                            level: nextLevel,
+                          );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 12),
+              ],
               SizedBox(
                 width: double.infinity,
-                child: PremiumPrimaryButton(
-                  text: l10n.continueText,
-                  onPressed: () {
-                    ref.read(gameSessionProvider.notifier).endGame();
-                    Navigator.pop(context);
-                  },
-                ),
+                child: session.passed && session.mode == GameMode.campaign
+                    ? OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 56),
+                        ),
+                        onPressed: () {
+                          ref.read(gameSessionProvider.notifier).endGame();
+                          Navigator.pop(context);
+                        },
+                        child: Text(l10n.continueText),
+                      )
+                    : PremiumPrimaryButton(
+                        text: l10n.continueText,
+                        onPressed: () {
+                          ref.read(gameSessionProvider.notifier).endGame();
+                          Navigator.pop(context);
+                        },
+                      ),
               ),
             ],
           ),
@@ -845,8 +985,9 @@ class GameScreen extends ConsumerWidget {
 class _TrianglePainter extends CustomPainter {
   final Color color;
   final Color shadowColor;
+  final bool lowPerf;
 
-  _TrianglePainter({required this.color, required this.shadowColor});
+  _TrianglePainter({required this.color, required this.shadowColor, this.lowPerf = false});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -860,7 +1001,49 @@ class _TrianglePainter extends CustomPainter {
       ..lineTo(0, size.height)
       ..close();
 
-    canvas.drawShadow(path, shadowColor, 4.0, true);
+    if (!lowPerf) {
+      canvas.drawShadow(path, shadowColor, 4.0, true);
+    }
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class _PolygonPainter extends CustomPainter {
+  final int sides;
+  final Color color;
+  final Color shadowColor;
+  final bool lowPerf;
+
+  _PolygonPainter({required this.sides, required this.color, required this.shadowColor, this.lowPerf = false});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.width / 2;
+    final path = Path();
+
+    for (int i = 0; i < sides; i++) {
+      final angle = (i * 2 * pi / sides) - pi / 2;
+      final x = center.dx + radius * cos(angle);
+      final y = center.dy + radius * sin(angle);
+      if (i == 0) {
+        path.moveTo(x, y);
+      } else {
+        path.lineTo(x, y);
+      }
+    }
+    path.close();
+
+    if (!lowPerf) {
+      canvas.drawShadow(path, shadowColor, 4.0, true);
+    }
     canvas.drawPath(path, paint);
   }
 

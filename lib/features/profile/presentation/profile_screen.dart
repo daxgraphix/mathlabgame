@@ -55,6 +55,7 @@ class ProfileScreen extends ConsumerWidget {
                     children: [
                       _buildHeader(context, ref, user, theme, l10n),
                       _buildStats(
+                        context,
                         totalStars,
                         completedLevels,
                         totalTime,
@@ -271,6 +272,7 @@ class ProfileScreen extends ConsumerWidget {
   }
 
   Widget _buildStats(
+    BuildContext context,
     int totalStars,
     int completedLevels,
     int totalTime,
@@ -278,43 +280,65 @@ class ProfileScreen extends ConsumerWidget {
     ThemeData theme,
     AppLocalizations l10n,
   ) {
+    final columns = ResponsiveUtils.getResponsiveGridColumns(context);
+    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: PremiumCard(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         borderRadius: AppDesignTokens.radiusMedium,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildStatItem(
-              l10n.stars,
-              '$totalStars',
-              Icons.star_rounded,
-              theme.colorScheme.tertiary,
-              theme,
-            ),
-            _buildStatItem(
-              l10n.level,
-              '$completedLevels',
-              Icons.task_alt_rounded,
-              theme.colorScheme.primary,
-              theme,
-            ),
-            _buildStatItem(
-              l10n.time,
-              '${totalTime}m',
-              Icons.timer_outlined,
-              theme.colorScheme.primary,
-              theme,
-            ),
-            _buildStatItem(
-              l10n.accuracy,
-              '${accuracy.toStringAsFixed(0)}%',
-              Icons.analytics_outlined,
-              theme.colorScheme.secondary,
-              theme,
-            ),
-          ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final columnsCount = ResponsiveUtils.isMobile(context) ? 2 : columns;
+            final itemWidth = (constraints.maxWidth - (columnsCount - 1) * 12) / columnsCount;
+            return Wrap(
+              spacing: 12,
+              runSpacing: 24,
+              alignment: WrapAlignment.spaceAround,
+              children: [
+                SizedBox(
+                  width: itemWidth,
+                  child: _buildStatItem(
+                    l10n.stars,
+                    '$totalStars',
+                    Icons.star_rounded,
+                    theme.colorScheme.tertiary,
+                    theme,
+                  ),
+                ),
+                SizedBox(
+                  width: itemWidth,
+                  child: _buildStatItem(
+                    l10n.level,
+                    '$completedLevels',
+                    Icons.task_alt_rounded,
+                    theme.colorScheme.primary,
+                    theme,
+                  ),
+                ),
+                SizedBox(
+                  width: itemWidth,
+                  child: _buildStatItem(
+                    l10n.time,
+                    '${totalTime}m',
+                    Icons.timer_outlined,
+                    theme.colorScheme.primary,
+                    theme,
+                  ),
+                ),
+                SizedBox(
+                  width: itemWidth,
+                  child: _buildStatItem(
+                    l10n.accuracy,
+                    '${accuracy.toStringAsFixed(0)}%',
+                    Icons.analytics_outlined,
+                    theme.colorScheme.secondary,
+                    theme,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -327,42 +351,40 @@ class ProfileScreen extends ConsumerWidget {
     Color color,
     ThemeData theme,
   ) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: color, size: 20),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.1),
+            shape: BoxShape.circle,
           ),
-          const SizedBox(height: 12),
-          Text(
-            value,
-            style: theme.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w900,
-              color: theme.colorScheme.onSurface,
-            ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+          child: Icon(icon, color: color, size: 20),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          value,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w900,
+            color: theme.colorScheme.onSurface,
           ),
-          const SizedBox(height: 2),
-          Text(
-            label.toUpperCase(),
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
-              fontSize: 8,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 1,
-            ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+        const SizedBox(height: 2),
+        Text(
+          label.toUpperCase(),
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+            fontSize: 8,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 1,
           ),
-        ],
-      ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+      ],
     );
   }
 
@@ -377,6 +399,8 @@ class ProfileScreen extends ConsumerWidget {
     AppLocalizations l10n,
   ) {
     final isMobile = ResponsiveUtils.isMobile(context);
+    final columns = isMobile ? 1 : (ResponsiveUtils.isTablet(context) ? 2 : 3);
+
     return Padding(
       padding: EdgeInsets.all(isMobile ? 20 : 24),
       child: Column(
@@ -400,143 +424,203 @@ class ProfileScreen extends ConsumerWidget {
           const SizedBox(height: 32),
           _buildSectionHeader(l10n.interface, theme),
           const SizedBox(height: 12),
-          _buildMenuCard(
-            icon: Icons.palette_outlined,
-            title: l10n.visualTheme,
-            subtitle: AppThemes.getThemeName(currentTheme).toUpperCase(),
-            color: theme.colorScheme.primary,
-            theme: theme,
-            onTap: () => _showThemeDialog(context, ref, currentTheme, theme),
-          ),
-          _buildMenuCard(
-            icon: Icons.language_outlined,
-            title: l10n.language,
-            subtitle:
-                '${currentLocale.flag} ${currentLocale.nativeName}'.toUpperCase(),
-            color: theme.colorScheme.primary,
-            theme: theme,
-            onTap: () => _showLanguageDialog(context, ref, currentLocale),
-          ),
-          _buildMenuCard(
-            icon: Icons.visibility_outlined,
-            title: l10n.focusMode,
-            subtitle: l10n.focusModeDesc,
-            color: theme.colorScheme.primary,
-            theme: theme,
-            trailing: Switch(
-              value: user.isFocusMode,
-              onChanged: (value) {
-                HapticManager.instance.selectionClick();
-                ref.read(userSessionProvider.notifier).setFocusMode(value);
-              },
-              activeThumbColor: theme.colorScheme.primary,
-            ),
-          ),
-          _buildMenuCard(
-            icon: Icons.auto_awesome_outlined,
-            title: l10n.performanceMode,
-            subtitle: l10n.performanceModeDesc,
-            color: theme.colorScheme.primary,
-            theme: theme,
-            trailing: Consumer(
-              builder: (context, ref, _) {
-                final reduceTransparency = ref.watch(
-                  accessibilitySettingsProvider.select(
-                    (s) => s.reduceTransparency,
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final itemWidth = (constraints.maxWidth - (columns - 1) * 12) / columns;
+              return Wrap(
+                spacing: 12,
+                children: [
+                  SizedBox(
+                    width: itemWidth,
+                    child: _buildMenuCard(
+                      icon: Icons.palette_outlined,
+                      title: l10n.visualTheme,
+                      subtitle: AppThemes.getThemeName(currentTheme).toUpperCase(),
+                      color: theme.colorScheme.primary,
+                      theme: theme,
+                      onTap: () => _showThemeDialog(context, ref, currentTheme, theme),
+                    ),
                   ),
-                );
-                return Switch(
-                  value: reduceTransparency,
-                  onChanged: (value) {
-                    ref
-                        .read(accessibilitySettingsProvider.notifier)
-                        .setReduceTransparency(value);
-                  },
-                  activeThumbColor: theme.colorScheme.primary,
-                );
-              },
-            ),
-          ),
-          _buildMenuCard(
-            icon: Icons.remove_red_eye_outlined,
-            title: l10n.colorBlindModeTitle,
-            subtitle: l10n.colorBlindModeDesc,
-            color: theme.colorScheme.primary,
-            theme: theme,
-            onTap: () => _showColorBlindDialog(context, ref, theme, l10n),
+                  SizedBox(
+                    width: itemWidth,
+                    child: _buildMenuCard(
+                      icon: Icons.language_outlined,
+                      title: l10n.language,
+                      subtitle:
+                          '${currentLocale.flag} ${currentLocale.nativeName}'.toUpperCase(),
+                      color: theme.colorScheme.primary,
+                      theme: theme,
+                      onTap: () => _showLanguageDialog(context, ref, currentLocale),
+                    ),
+                  ),
+                  SizedBox(
+                    width: itemWidth,
+                    child: _buildMenuCard(
+                      icon: Icons.visibility_outlined,
+                      title: l10n.focusMode,
+                      subtitle: l10n.focusModeDesc,
+                      color: theme.colorScheme.primary,
+                      theme: theme,
+                      trailing: Switch(
+                        value: user.isFocusMode,
+                        onChanged: (value) {
+                          HapticManager.instance.selectionClick();
+                          ref.read(userSessionProvider.notifier).setFocusMode(value);
+                        },
+                        activeThumbColor: theme.colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: itemWidth,
+                    child: _buildMenuCard(
+                      icon: Icons.auto_awesome_outlined,
+                      title: l10n.performanceMode,
+                      subtitle: l10n.performanceModeDesc,
+                      color: theme.colorScheme.primary,
+                      theme: theme,
+                      trailing: Consumer(
+                        builder: (context, ref, _) {
+                          final reduceTransparency = ref.watch(
+                            accessibilitySettingsProvider.select(
+                              (s) => s.reduceTransparency,
+                            ),
+                          );
+                          return Switch(
+                            value: reduceTransparency,
+                            onChanged: (value) {
+                              ref
+                                  .read(accessibilitySettingsProvider.notifier)
+                                  .setReduceTransparency(value);
+                            },
+                            activeThumbColor: theme.colorScheme.primary,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: itemWidth,
+                    child: _buildMenuCard(
+                      icon: Icons.remove_red_eye_outlined,
+                      title: l10n.colorBlindModeTitle,
+                      subtitle: l10n.colorBlindModeDesc,
+                      color: theme.colorScheme.primary,
+                      theme: theme,
+                      onTap: () => _showColorBlindDialog(context, ref, theme, l10n),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 32),
           _buildSectionHeader(l10n.audioAndHaptics, theme),
           const SizedBox(height: 12),
-          _buildMenuCard(
-            icon: Icons.notifications_none_outlined,
-            title: l10n.notifications,
-            subtitle: l10n.pushUpdates,
-            color: theme.colorScheme.secondary,
-            theme: theme,
-            trailing: Switch(
-              value: settings.notificationsEnabled,
-              onChanged: (value) {
-                HapticManager.instance.selectionClick();
-                ref.read(settingsProvider.notifier).toggleNotifications(value);
-              },
-              activeThumbColor: theme.colorScheme.secondary,
-            ),
-          ),
-          _buildMenuCard(
-            icon: Icons.volume_up_outlined,
-            title: l10n.audioOutput,
-            subtitle: l10n.sfxAndMusic,
-            color: theme.colorScheme.secondary,
-            theme: theme,
-            trailing: Switch(
-              value: settings.soundEnabled,
-              onChanged: (value) {
-                HapticManager.instance.selectionClick();
-                ref.read(settingsProvider.notifier).toggleSound(value);
-              },
-              activeThumbColor: theme.colorScheme.secondary,
-            ),
-          ),
-          _buildMenuCard(
-            icon: Icons.vibration_outlined,
-            title: l10n.hapticFeedback,
-            subtitle: l10n.tactileResponse,
-            color: theme.colorScheme.secondary,
-            theme: theme,
-            trailing: Switch(
-              value: settings.vibrationEnabled,
-              onChanged: (value) {
-                HapticManager.instance.selectionClick();
-                ref.read(settingsProvider.notifier).toggleHaptics(value);
-              },
-              activeThumbColor: theme.colorScheme.secondary,
-            ),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final itemWidth = (constraints.maxWidth - (columns - 1) * 12) / columns;
+              return Wrap(
+                spacing: 12,
+                children: [
+                  SizedBox(
+                    width: itemWidth,
+                    child: _buildMenuCard(
+                      icon: Icons.notifications_none_outlined,
+                      title: l10n.notifications,
+                      subtitle: l10n.pushUpdates,
+                      color: theme.colorScheme.secondary,
+                      theme: theme,
+                      trailing: Switch(
+                        value: settings.notificationsEnabled,
+                        onChanged: (value) {
+                          HapticManager.instance.selectionClick();
+                          ref.read(settingsProvider.notifier).toggleNotifications(value);
+                        },
+                        activeThumbColor: theme.colorScheme.secondary,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: itemWidth,
+                    child: _buildMenuCard(
+                      icon: Icons.volume_up_outlined,
+                      title: l10n.audioOutput,
+                      subtitle: l10n.sfxAndMusic,
+                      color: theme.colorScheme.secondary,
+                      theme: theme,
+                      trailing: Switch(
+                        value: settings.soundEnabled,
+                        onChanged: (value) {
+                          HapticManager.instance.selectionClick();
+                          ref.read(settingsProvider.notifier).toggleSound(value);
+                        },
+                        activeThumbColor: theme.colorScheme.secondary,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: itemWidth,
+                    child: _buildMenuCard(
+                      icon: Icons.vibration_outlined,
+                      title: l10n.hapticFeedback,
+                      subtitle: l10n.tactileResponse,
+                      color: theme.colorScheme.secondary,
+                      theme: theme,
+                      trailing: Switch(
+                        value: settings.vibrationEnabled,
+                        onChanged: (value) {
+                          HapticManager.instance.selectionClick();
+                          ref.read(settingsProvider.notifier).toggleHaptics(value);
+                        },
+                        activeThumbColor: theme.colorScheme.secondary,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: 32),
           _buildSectionHeader(l10n.systemSettings, theme),
           const SizedBox(height: 12),
-          _buildMenuCard(
-            icon: Icons.calculate_outlined,
-            title: l10n.calculator,
-            subtitle: l10n.builtInArithmeticTool,
-            color: theme.colorScheme.tertiary,
-            theme: theme,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const CalculatorScreen()),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final itemWidth = (constraints.maxWidth - (columns - 1) * 12) / columns;
+              return Wrap(
+                spacing: 12,
+                children: [
+                  SizedBox(
+                    width: itemWidth,
+                    child: _buildMenuCard(
+                      icon: Icons.calculate_outlined,
+                      title: l10n.calculator,
+                      subtitle: l10n.builtInArithmeticTool,
+                      color: theme.colorScheme.tertiary,
+                      theme: theme,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const CalculatorScreen()),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: itemWidth,
+                    child: _buildMenuCard(
+                      icon: Icons.analytics_outlined,
+                      title: l10n.reports,
+                      subtitle: l10n.performanceAnalytics,
+                      color: theme.colorScheme.tertiary,
+                      theme: theme,
+                      onTap: () {
+                        ref.read(navigationIndexProvider.notifier).state = 2;
+                      },
+                    ),
+                  ),
+                ],
               );
-            },
-          ),
-          _buildMenuCard(
-            icon: Icons.analytics_outlined,
-            title: l10n.reports,
-            subtitle: l10n.performanceAnalytics,
-            color: theme.colorScheme.tertiary,
-            theme: theme,
-            onTap: () {
-              ref.read(navigationIndexProvider.notifier).state = 2;
             },
           ),
         ],

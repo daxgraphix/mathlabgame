@@ -62,6 +62,16 @@ class PerformanceTrends {
     if (values.isEmpty) return null;
     return (values.reduce((a, b) => a + b) / values.length).round();
   }
+
+  double get neuralEfficiencyIndex {
+    if (dataPoints.isEmpty) return 0.0;
+    final avgAcc = averageAccuracy;
+    final avgTime = dataPoints.map((e) => e.averageTime).reduce((a, b) => a + b) / dataPoints.length;
+    if (avgTime == 0) return 0.0;
+    // Efficiency = (Accuracy / 100) * (10000 / (TimeMs + 500)) 
+    // This gives a score where 100% accuracy and 500ms response = 20.0
+    return (avgAcc / 100.0) * (10000.0 / (avgTime + 500.0));
+  }
 }
 
 class PerformanceTrendsNotifier extends StateNotifier<PerformanceTrends> {

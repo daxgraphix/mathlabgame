@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/providers.dart';
 import '../../core/sound_manager.dart';
+import '../../core/themes/app_themes.dart';
+import '../../core/utils/responsive_utils.dart';
 import '../../l10n/generated/app_localizations.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
@@ -105,38 +107,41 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
     final pages = _getPages(l10n, theme);
+    final lowPerformanceMode = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           // Dynamic Mesh Background
-          AnimatedBuilder(
-            animation: Listenable.merge([_backgroundController, _pageController]),
-            builder: (context, child) {
-              final page = _pageController.hasClients ? (_pageController.page ?? 0) : 0.0;
-              final index = page.floor();
-              final nextIndex = (index + 1).clamp(0, pages.length - 1);
-              final t = page - index;
+          if (!lowPerformanceMode)
+            AnimatedBuilder(
+              animation: Listenable.merge([_backgroundController, _pageController]),
+              builder: (context, child) {
+                final page = _pageController.hasClients ? (_pageController.page ?? 0) : 0.0;
+                final index = page.floor();
+                final nextIndex = (index + 1).clamp(0, pages.length - 1);
+                final t = page - index;
 
-              final color1 = Color.lerp(
-                pages[index].accentColor,
-                pages[nextIndex].accentColor,
-                t,
-              )!.withValues(alpha: 0.15);
+                final color1 = Color.lerp(
+                  pages[index].accentColor,
+                  pages[nextIndex].accentColor,
+                  t,
+                )!.withValues(alpha: 0.15);
 
-              return CustomPaint(
-                painter: _OnboardingMeshPainter(
-                  color: color1,
-                  progress: _backgroundController.value,
-                ),
-                size: Size.infinite,
-              );
-            },
-          ),
+                return CustomPaint(
+                  painter: _OnboardingMeshPainter(
+                    color: color1,
+                    progress: _backgroundController.value,
+                  ),
+                  size: Size.infinite,
+                );
+              },
+            ),
 
           // Floating Math Symbols
-          ...List.generate(6, (index) => _buildFloatingSymbol(index)),
+          if (!lowPerformanceMode)
+            ...List.generate(6, (index) => _buildFloatingSymbol(index)),
 
           PageView.builder(
             controller: _pageController,
@@ -220,15 +225,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
   Widget _buildMainButton(ThemeData theme, List<OnboardingPageData> pages) {
     final accent = pages[_currentPage].accentColor;
     final isLast = _currentPage == pages.length - 1;
+    final buttonHeight = ResponsiveUtils.getResponsiveButtonHeight(context);
 
     return GestureDetector(
       onTap: () => _nextPage(pages),
       child: AnimatedContainer(
         duration: 400.ms,
-        height: 64,
+        height: buttonHeight,
         decoration: BoxDecoration(
           color: accent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppDesignTokens.radiusMedium),
           boxShadow: [
             BoxShadow(
               color: accent.withValues(alpha: 0.4),
@@ -244,6 +250,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
               Text(
                 isLast ? 'INITIALIZE SYSTEM' : 'NEXT MODULE',
                 style: theme.textTheme.labelLarge?.copyWith(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(context, 14),
                   color: accent.computeLuminance() > 0.5 ? Colors.black : Colors.white,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 2,
@@ -252,7 +259,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
               const SizedBox(width: 12),
               Icon(
                 isLast ? Icons.power_settings_new_rounded : Icons.arrow_forward_ios_rounded,
-                size: 18,
+                size: ResponsiveUtils.getResponsiveIconSize(context, 18),
                 color: accent.computeLuminance() > 0.5 ? Colors.black : Colors.white,
               ),
             ],
@@ -292,66 +299,85 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
 
   Widget _buildPage(OnboardingPageData page, int index) {
     final theme = Theme.of(context);
+    final isMobile = ResponsiveUtils.isMobile(context);
+    final lowPerformanceMode = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
+    
+    // Calculate responsive sizes
+    final iconSize = ResponsiveUtils.getResponsiveIconSize(context, 70);
+    final containerSize = isMobile ? 220.0 : 320.0;
+    final innerContainerSize = isMobile ? 140.0 : 200.0;
+
+    Widget visualContent = Stack(
+      alignment: Alignment.center,
+      children: [
+        // Outer ring
+        if (!lowPerformanceMode)
+          AnimatedBuilder(
+            animation: _backgroundController,
+            builder: (context, child) => Transform.rotate(
+              angle: _backgroundController.value * 2 * math.pi,
+              child: Container(
+                width: containerSize,
+                height: containerSize,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: page.accentColor.withValues(alpha: 0.1),
+                    width: 2,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        // Icon with glow
+        Container(
+          width: innerContainerSize,
+          height: innerContainerSize,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: page.accentColor.withValues(alpha: 0.05),
+            boxShadow: lowPerformanceMode ? null : [
+              BoxShadow(
+                color: page.accentColor.withValues(alpha: 0.1),
+                blurRadius: 40,
+                spreadRadius: 10,
+              ),
+            ],
+          ),
+          child: Icon(
+            page.icon,
+            size: iconSize,
+            color: page.accentColor,
+          ),
+        ),
+      ],
+    );
+
+    if (!lowPerformanceMode) {
+      visualContent = visualContent
+          .animate(key: ValueKey('icon_$index'))
+          .scale(begin: const Offset(0.5, 0.5), curve: Curves.elasticOut, duration: 1200.ms)
+          .shimmer(delay: 1500.ms, duration: 2000.ms);
+    }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40),
+      padding: ResponsiveUtils.getResponsivePadding(
+        context, 
+        mobileHorizontal: 40, 
+        tabletHorizontal: 80,
+        desktopHorizontal: 120,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Visual Container
           Container(
-            height: 280,
+            height: isMobile ? 280 : 380,
             alignment: Alignment.center,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Outer ring
-                AnimatedBuilder(
-                  animation: _backgroundController,
-                  builder: (context, child) => Transform.rotate(
-                    angle: _backgroundController.value * 2 * math.pi,
-                    child: Container(
-                      width: 220,
-                      height: 220,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: page.accentColor.withValues(alpha: 0.1),
-                          width: 2,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                // Icon with glow
-                Container(
-                  width: 140,
-                  height: 140,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: page.accentColor.withValues(alpha: 0.05),
-                    boxShadow: [
-                      BoxShadow(
-                        color: page.accentColor.withValues(alpha: 0.1),
-                        blurRadius: 40,
-                        spreadRadius: 10,
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    page.icon,
-                    size: 70,
-                    color: page.accentColor,
-                  ),
-                )
-                    .animate(key: ValueKey('icon_$index'))
-                    .scale(begin: const Offset(0.5, 0.5), curve: Curves.elasticOut, duration: 1200.ms)
-                    .shimmer(delay: 1500.ms, duration: 2000.ms),
-              ],
-            ),
+            child: visualContent,
           ),
 
-          const SizedBox(height: 40),
+          SizedBox(height: ResponsiveUtils.getPlatformSpacing(context) * 4),
 
           // Text Content
           Column(
@@ -359,14 +385,16 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
               Text(
                 page.title,
                 style: theme.textTheme.displaySmall?.copyWith(
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(context, 36),
                   fontWeight: FontWeight.w900,
                   letterSpacing: 4,
                   color: theme.colorScheme.onSurface,
                 ),
-              )
-                  .animate(key: ValueKey('title_$index'))
-                  .fadeIn(duration: 600.ms)
-                  .slideY(begin: 0.3, end: 0),
+              ).animate(
+                key: ValueKey('title_$index'),
+                adapter: lowPerformanceMode ? null : null, // Not a real adapter, just to keep logic
+              ).fadeIn(duration: lowPerformanceMode ? 0.ms : 600.ms)
+               .slideY(begin: lowPerformanceMode ? 0 : 0.3, end: 0),
 
               const SizedBox(height: 12),
 
@@ -380,29 +408,29 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen>
                 child: Text(
                   page.subtitle,
                   style: theme.textTheme.labelMedium?.copyWith(
+                    fontSize: ResponsiveUtils.getResponsiveFontSize(context, 12),
                     color: page.accentColor,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 2,
                   ),
                 ),
-              )
-                  .animate(key: ValueKey('subtitle_$index'))
-                  .fadeIn(delay: 200.ms, duration: 600.ms)
-                  .scale(begin: const Offset(0.8, 0.8)),
+              ).animate(key: ValueKey('subtitle_$index'))
+               .fadeIn(delay: lowPerformanceMode ? 0.ms : 200.ms, duration: lowPerformanceMode ? 0.ms : 600.ms)
+               .scale(begin: lowPerformanceMode ? const Offset(1, 1) : const Offset(0.8, 0.8)),
 
               const SizedBox(height: 32),
 
               Text(
                 page.description,
                 style: theme.textTheme.bodyLarge?.copyWith(
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(context, 16),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                   height: 1.6,
                   letterSpacing: 0.5,
                 ),
                 textAlign: TextAlign.center,
-              )
-                  .animate(key: ValueKey('desc_$index'))
-                  .fadeIn(delay: 400.ms, duration: 600.ms),
+              ).animate(key: ValueKey('desc_$index'))
+               .fadeIn(delay: lowPerformanceMode ? 0.ms : 400.ms, duration: lowPerformanceMode ? 0.ms : 600.ms),
             ],
           ),
           

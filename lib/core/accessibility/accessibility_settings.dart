@@ -159,18 +159,30 @@ class AccessibilityTheme {
   }
 
   static HSLColor _simulateProtanopia(HSLColor hsl) {
-    final r = 0.567 * hsl.hue + 0.433 * hsl.saturation;
-    return hsl.withSaturation(r.clamp(0.0, 1.0));
+    // Protanopia: difficulty with red (adjust hue away from 0/360)
+    double newHue = hsl.hue;
+    if (newHue < 60 || newHue > 300) {
+      newHue = 60 + (newHue > 300 ? (newHue - 300) : newHue) * 0.1;
+    }
+    return hsl.withHue(newHue.clamp(0.0, 360.0)).withSaturation(hsl.saturation * 0.8);
   }
 
   static HSLColor _simulateDeuteranopia(HSLColor hsl) {
-    final r = 0.625 * hsl.hue + 0.375 * hsl.saturation;
-    return hsl.withSaturation(r.clamp(0.0, 1.0));
+    // Deuteranopia: difficulty with green (adjust hue away from 120)
+    double newHue = hsl.hue;
+    if (newHue > 60 && newHue < 180) {
+      newHue = 60 - (newHue - 60) * 0.1;
+    }
+    return hsl.withHue(newHue.clamp(0.0, 360.0)).withSaturation(hsl.saturation * 0.8);
   }
 
   static HSLColor _simulateTritanopia(HSLColor hsl) {
-    final r = 0.7 * hsl.hue + 0.3 * hsl.saturation;
-    return hsl.withSaturation(r.clamp(0.0, 1.0));
+    // Tritanopia: difficulty with blue (adjust hue away from 240)
+    double newHue = hsl.hue;
+    if (newHue > 180 && newHue < 300) {
+      newHue = 180 - (newHue - 180) * 0.1;
+    }
+    return hsl.withHue(newHue.clamp(0.0, 360.0)).withSaturation(hsl.saturation * 0.8);
   }
 
   static List<Color> getAccessiblePalette(ColorBlindMode mode) {

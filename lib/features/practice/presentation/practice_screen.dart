@@ -12,14 +12,15 @@ import '../../game/ui/game_screen.dart';
 import '../../../core/utils/game_flow_optimizer.dart';
 
 class PracticeScreen extends ConsumerStatefulWidget {
-  const PracticeScreen({super.key});
+  final String? initialOperation;
+  const PracticeScreen({super.key, this.initialOperation});
 
   @override
   ConsumerState<PracticeScreen> createState() => _PracticeScreenState();
 }
 
 class _PracticeScreenState extends ConsumerState<PracticeScreen> {
-  String _selectedOperation = 'addition';
+  late String _selectedOperation;
   int _minNumber = 1;
   int _maxNumber = 10;
   bool _useTimer = false;
@@ -28,17 +29,28 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   int _timeLimit = 60;
   int _questionCount = 15;
 
+  @override
+  void initState() {
+    super.initState();
+    _selectedOperation = widget.initialOperation ?? 'addition';
+  }
+
   final List<Map<String, dynamic>> _operations = [
     {'id': 'addition', 'name': 'ADDITION', 'symbol': '+', 'token': 'primary', 'icon': Icons.add},
-    {'id': 'subtraction', 'name': 'SUBTRACTION', 'symbol': '-', 'token': 'secondary', 'icon': Icons.add},
+    {'id': 'subtraction', 'name': 'SUBTRACTION', 'symbol': '-', 'token': 'secondary', 'icon': Icons.remove},
     {'id': 'multiplication', 'name': 'MULTIPLICATION', 'symbol': '×', 'token': 'tertiary', 'icon': Icons.close},
-    {'id': 'division', 'name': 'DIVISION', 'symbol': '÷', 'token': 'error', 'icon': Icons.call_split},
+    {'id': 'division', 'name': 'DIVISION', 'symbol': '÷', 'token': 'error', 'icon': Icons.horizontal_rule},
+    {'id': 'mixed', 'name': 'MIXED CHALLENGE', 'symbol': '?', 'token': 'primary', 'icon': Icons.shuffle},
+    {'id': 'logic', 'name': 'LOGICAL RIDDLES', 'symbol': 'L', 'token': 'secondary', 'icon': Icons.psychology},
+    {'id': 'visual', 'name': 'VISUAL COUNTING', 'symbol': 'V', 'token': 'tertiary', 'icon': Icons.visibility},
   ];
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
+    // ignore: unused_local_variable
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -168,6 +180,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   Widget _buildOperationTile(Map<String, dynamic> op, AppLocalizations l10n) {
     final isSelected = _selectedOperation == op['id'];
     final theme = Theme.of(context);
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
     
     final Color color = switch (op['token']) {
       'primary' => theme.colorScheme.primary,
@@ -183,6 +196,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
       'subtraction' => l10n.subtraction,
       'multiplication' => l10n.multiplication,
       'division' => l10n.division,
+      'mixed' => 'Mixed Challenge',
+      'logic' => 'Logical Riddles',
+      'visual' => 'Visual Counting',
       _ => op['name'] as String,
     };
     final subtitle = switch (op['id']) {
@@ -190,6 +206,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
       'subtraction' => 'Practice subtraction operations',
       'multiplication' => 'Practice multiplication operations',
       'division' => 'Practice division operations',
+      'mixed' => 'Mixed arithmetic operations',
+      'logic' => 'Solve logic-based math puzzles',
+      'visual' => 'Count shapes and objects quickly',
       _ => 'Practice this operation',
     };
 
@@ -250,13 +269,14 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                 Icons.check_circle,
                 color: color,
                 size: 20,
-              ).animate().scale(duration: 200.ms, curve: Curves.easeOutBack),
+              ).animate(adapter: lowPerf ? ControlAdapter(value: 1) : null)
+                  .scale(duration: lowPerf ? 0.ms : 200.ms, curve: Curves.easeOutBack),
           ],
         ),
       ),
-    ).animate(delay: Duration(milliseconds: _operations.indexOf(op) * 100))
-      .fadeIn(duration: 400.ms)
-      .slideX(begin: 0.1, end: 0);
+    ).animate(adapter: lowPerf ? ControlAdapter(value: 1) : null)
+      .fadeIn(duration: lowPerf ? 0.ms : 400.ms)
+      .slideX(begin: lowPerf ? 0 : 0.1, end: 0);
   }
 
   Widget _buildRangeSlider(ThemeData theme) {
@@ -473,16 +493,17 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     }
 
     final effectiveLevel = ((effectiveMin + effectiveMax) / 2).toInt();
+    final isVisualMode = _selectedOperation == 'visual' || _visualCounting;
 
     // Pre-calculate questions to eliminate micro-stutter
     await GameFlowOptimizer.preloadQuestions(
-      operation: _selectedOperation,
+      operation: _selectedOperation == 'visual' ? 'addition' : _selectedOperation,
       level: effectiveLevel,
       count: _questionCount,
     );
 
     final preloaded = GameFlowOptimizer.getPreloadedQuestions(
-      operation: _selectedOperation,
+      operation: _selectedOperation == 'visual' ? 'addition' : _selectedOperation,
       level: effectiveLevel,
       count: _questionCount,
     );
@@ -491,10 +512,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
         .read(gameSessionProvider.notifier)
         .startGame(
           mode: GameMode.practice,
-          operation: _selectedOperation,
+          operation: _selectedOperation == 'visual' ? 'addition' : _selectedOperation,
           level: effectiveLevel,
           totalQuestions: _questionCount,
-          isVisualCounting: _visualCounting,
+          isVisualCounting: isVisualMode,
           minNumber: effectiveMin,
           maxNumber: effectiveMax,
           timeLimit: _useTimer ? (_timeLimit == 0 ? null : _timeLimit) : null,

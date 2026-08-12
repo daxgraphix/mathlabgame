@@ -848,7 +848,7 @@
     "description": "",
     "placeholders": {}
   },
-  "keepItUp": "âš¡ ENDELEA!",
+  "keepItUp": "ENDELEA!",
   "@keepItUp": {
     "description": "",
     "placeholders": {}
@@ -1183,7 +1183,7 @@
     "description": "",
     "placeholders": {}
   },
-  "readyToChallenge": "ðŸŽ¯ Tayari Kupambana na Changamoto?",
+  "readyToChallenge": "Tayari Kupambana na Changamoto?",
   "@readyToChallenge": {
     "description": "",
     "placeholders": {}
@@ -1193,7 +1193,7 @@
     "description": "",
     "placeholders": {}
   },
-  "yourProgress": "ðŸ“Š Maendeleo Yako",
+  "yourProgress": "Maendeleo Yako",
   "@yourProgress": {
     "description": "",
     "placeholders": {}
@@ -1203,7 +1203,7 @@
     "description": "",
     "placeholders": {}
   },
-  "quickActions": "âš¡ Vitendo vya Haraka",
+  "quickActions": "Vitendo vya Haraka",
   "@quickActions": {
     "description": "",
     "placeholders": {}
@@ -1218,7 +1218,7 @@
     "description": "",
     "placeholders": {}
   },
-  "challengeReward": "ðŸ”¥ Matatizo 5 â€¢ Thawabu 100 XP",
+  "challengeReward": "Matatizo 5 â€¢ Thawabu 100 XP",
   "@challengeReward": {
     "description": "",
     "placeholders": {}
@@ -3052,6 +3052,36 @@
   "viewAll": "Tazama Zote",
   "@viewAll": {
     "description": "Kiungo cha kutazama vitu vyote",
+    "placeholders": {}
+  },
+  "accuracyTrend": "MWELEKEO WA USAHIHI",
+  "@accuracyTrend": {
+    "description": "",
+    "placeholders": {}
+  },
+  "progressByCategory": "MAENDELEO KWA KATEGORIA",
+  "@progressByCategory": {
+    "description": "",
+    "placeholders": {}
+  },
+  "personalRecordDesc": "Rekodi yako binafsi katika njia zote.",
+  "@personalRecordDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "avgResponseTimeDesc": "Wastani wa muda uliotumika kutatua swali.",
+  "@avgResponseTimeDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "timeToFirstAnswerDesc": "Wastani wa muda hadi jibu lako la kwanza sahihi. Chini inamaanisha ushiriki wa haraka zaidi.",
+  "@timeToFirstAnswerDesc": {
+    "description": "",
+    "placeholders": {}
+  },
+  "completionRateDesc": "Uwiano wa milinganyo iliyotatuliwa kwa usahihi.",
+  "@completionRateDesc": {
+    "description": "",
     "placeholders": {}
   }
 }

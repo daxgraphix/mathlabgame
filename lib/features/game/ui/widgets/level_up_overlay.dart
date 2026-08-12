@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/themes/app_themes.dart';
+import '../../../../core/providers.dart';
 import '../../../../l10n/generated/app_localizations.dart';
 
 class LevelUpOverlay extends ConsumerStatefulWidget {
@@ -37,17 +38,20 @@ class _LevelUpOverlayState extends ConsumerState<LevelUpOverlay> {
     final gameTheme = theme.extension<GameThemeExtension>()!;
     final l10n = AppLocalizations.of(context)!;
     
+    final lowPerf = ref.watch(settingsProvider.select((s) => s.lowPerformanceMode));
+
     return Material(
       color: Colors.black.withValues(alpha: 0.85),
       child: Stack(
         children: [
           // Background particles/glow
-          Positioned.fill(
-            child: CustomPaint(
-              painter: _LevelUpGlowPainter(gameTheme.streakColor),
-            ).animate(onPlay: (c) => c.repeat())
-             .rotate(duration: 10.seconds, begin: 0, end: 1),
-          ),
+          if (!lowPerf)
+            Positioned.fill(
+              child: CustomPaint(
+                painter: _LevelUpGlowPainter(gameTheme.streakColor),
+              ).animate(onPlay: (c) => c.repeat())
+               .rotate(duration: 10.seconds, begin: 0, end: 1),
+            ),
 
           Center(
             child: PremiumGlassOverlay(
@@ -69,7 +73,7 @@ class _LevelUpOverlayState extends ConsumerState<LevelUpOverlay> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      boxShadow: [
+                      boxShadow: lowPerf ? null : [
                         BoxShadow(
                           color: gameTheme.streakColor.withValues(alpha: 0.5),
                           blurRadius: 30,
@@ -82,7 +86,7 @@ class _LevelUpOverlayState extends ConsumerState<LevelUpOverlay> {
                       color: Colors.white,
                       size: 64,
                     ),
-                  ).animate()
+                  ).animate(target: lowPerf ? 0 : 1)
                     .scale(duration: 600.ms, curve: Curves.elasticOut)
                     .shimmer(delay: 800.ms, duration: 1.seconds),
 
@@ -95,7 +99,7 @@ class _LevelUpOverlayState extends ConsumerState<LevelUpOverlay> {
                       letterSpacing: 4,
                       color: gameTheme.streakColor,
                     ),
-                  ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
+                  ).animate(target: lowPerf ? 0 : 1).fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
 
                   const SizedBox(height: 8),
 
@@ -105,7 +109,7 @@ class _LevelUpOverlayState extends ConsumerState<LevelUpOverlay> {
                       color: theme.colorScheme.onSurface,
                       fontWeight: FontWeight.w900,
                     ),
-                  ).animate().fadeIn(delay: 400.ms).scale(begin: const Offset(0.8, 0.8)),
+                  ).animate(target: lowPerf ? 0 : 1).fadeIn(delay: 400.ms).scale(begin: const Offset(0.8, 0.8)),
 
                   const SizedBox(height: 40),
 
@@ -134,7 +138,7 @@ class _LevelUpOverlayState extends ConsumerState<LevelUpOverlay> {
                         ),
                       ],
                     ),
-                  ).animate().fadeIn(delay: 600.ms).slideX(begin: 0.1, end: 0),
+                  ).animate(target: lowPerf ? 0 : 1).fadeIn(delay: 600.ms).slideX(begin: 0.1, end: 0),
 
                   const SizedBox(height: 48),
 
@@ -142,7 +146,7 @@ class _LevelUpOverlayState extends ConsumerState<LevelUpOverlay> {
                     text: l10n.continueText,
                     onPressed: widget.onDismiss,
                     width: 200,
-                  ).animate().fadeIn(delay: 800.ms).slideY(begin: 0.2, end: 0),
+                  ).animate(target: lowPerf ? 0 : 1).fadeIn(delay: 800.ms).slideY(begin: 0.2, end: 0),
                 ],
               ),
             ),
